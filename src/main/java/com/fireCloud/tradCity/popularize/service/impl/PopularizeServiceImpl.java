@@ -30,28 +30,28 @@ public class PopularizeServiceImpl implements PopularizeService{
 	@Override
 	public Map<String, Map<String,Object>> getIndexPopularize() {
 		Map<String, Map<String,Object>> resultMap = new HashMap<String, Map<String,Object>>(16);
-//		//企业商品联合推广
-//		List<MemberProductModel> memberProductList = popularizeMapper.queryMemberProduct();
-//		if(memberProductList != null && memberProductList.size() > 0){
-//			//封装会员商品联合推广数据(区分相同的推广形式出现多个模块)
-//			packageModel(resultMap, memberProductList, MemberProductModel.class);
-//		}
-//		//首页轮播模块
-//		List<IndexBannerModel> indexBannerList = popularizeMapper.queryIndexBanner();
-//		if(indexBannerList != null && indexBannerList.size() > 0){
-//			//封装首页轮播数据
-//			packageModel(resultMap, indexBannerList, IndexBannerModel.class);
-//		}
-//		//商品推广
-//		List<ProductInfoModel> productInfoList = popularizeMapper.queryProductInfo();
-//		if(productInfoList != null && productInfoList.size() > 0){
-//			//封装商品推广数据
-//			packageModel(resultMap, productInfoList, BaseProductInfo.class);
-//		}
+		//企业商品联合推广
+		List<MemberProductModel> memberProductList = popularizeMapper.queryMemberProduct();
+		if(memberProductList != null && memberProductList.size() > 0){
+			//封装会员商品联合推广数据(区分相同的推广形式出现多个模块)
+			packageModel(resultMap, memberProductList, MemberProductModel.class);
+		}
+		//首页轮播模块
+		List<IndexBannerModel> indexBannerList = popularizeMapper.queryIndexBanner();
+		if(indexBannerList != null && indexBannerList.size() > 0){
+			//封装首页轮播数据
+			packageModel(resultMap, indexBannerList, IndexBannerModel.class);
+		}
+		//商品推广
+		List<ProductInfoModel> productInfoList = popularizeMapper.queryProductInfo();
+		if(productInfoList != null && productInfoList.size() > 0){
+			//封装商品推广数据
+			packageModel(resultMap, productInfoList, ProductInfoModel.class);
+		}
 		//推广企业
 		List<MemberModel> memberList = popularizeMapper.queryMember();
 		if(memberList != null && memberList.size() > 0){
-			//封装商品推广数据
+			//封装会员推广数据
 			packageModel(resultMap, memberList, MemberModel.class);
 		}
 		return resultMap;
