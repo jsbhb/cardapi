@@ -9,14 +9,15 @@ import java.util.Map;
  */
 public class CallBackModel {
 
-	private Boolean isSuccess; //是否成功
+	private Boolean success; //是否成功
 	private String msg; //信息
-	private Map<String,Object> map; //回传对象
-	public Boolean getIsSuccess() {
-		return isSuccess;
+	private Object obj; //回传对象
+	
+	public Boolean getSuccess() {
+		return success;
 	}
-	public void setIsSuccess(Boolean isSuccess) {
-		this.isSuccess = isSuccess;
+	public void setSuccess(Boolean success) {
+		this.success = success;
 	}
 	public String getMsg() {
 		return msg;
@@ -24,11 +25,11 @@ public class CallBackModel {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	public Map<String, Object> getMap() {
-		return map;
+	public Object getObj() {
+		return obj;
 	}
-	public void setMap(Map<String, Object> map) {
-		this.map = map;
+	public void setObj(Object obj) {
+		this.obj = obj;
 	}
 	
 }
