@@ -12,4 +12,6 @@ public class ConfigConstants {
 
 	//允许跨域的域名；*表示允许所有
 	public static final String DOMAIN_NAME = "*";
+	
+	public static final Double FIRST_VERSION = 1.0;
 }
