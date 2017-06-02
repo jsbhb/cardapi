@@ -4,7 +4,7 @@ package com.fireCloud.tradCity.popularize.model;
  * 
  * @author wqy
  * @fun 推广企业的model
- * @time 2017/05/31
+ * @date 2017/05/31
  */
 public class MemberModel {
 	

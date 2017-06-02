@@ -1,4 +1,4 @@
-package com.fireCloud.tradCity.basic.pagination.model;
+package com.fireCloud.tradCity.basic.model;
 
 /**
  * 

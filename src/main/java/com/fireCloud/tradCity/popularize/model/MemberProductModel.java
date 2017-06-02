@@ -7,7 +7,7 @@ import com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfo;
 /**
  * @author wqy
  * @fun 用来存储会员和商品联合推广的model
- * @time 2017/05/31
+ * @date 2017/05/31
  */
 public class MemberProductModel {
 

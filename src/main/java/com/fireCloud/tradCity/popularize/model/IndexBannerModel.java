@@ -4,7 +4,7 @@ package com.fireCloud.tradCity.popularize.model;
  * 
  * @author wqy
  * @fun 首页轮播model
- * @time 2017/06/01
+ * @date 2017/06/01
  */
 public class IndexBannerModel {
 

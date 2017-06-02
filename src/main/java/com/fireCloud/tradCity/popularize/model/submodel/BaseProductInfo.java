@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * 
  * @author wqy
  * @fun 推广商品的基础model
- * @time 2017/05/31
+ * @date 2017/05/31
  */
 public class BaseProductInfo {
 	

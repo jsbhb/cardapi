@@ -6,7 +6,7 @@ import com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfo;
  * 
  * @author wqy
  * @fun 推广商品model
- * @time 2017/05/31
+ * @date 2017/05/31
  */
 public class ProductInfoModel extends BaseProductInfo {
 

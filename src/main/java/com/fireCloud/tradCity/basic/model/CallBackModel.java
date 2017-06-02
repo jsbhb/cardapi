@@ -1,4 +1,4 @@
-package com.fireCloud.tradCity.basic.callback.model;
+package com.fireCloud.tradCity.basic.model;
 
 import java.util.Map;
 
