@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fireCloud.tradCity.commodity.mapper.CommdityMapper">
+	
+	<resultMap type="com.fireCloud.tradCity.commodity.model.CommoditySearchModel" id="baseMap">
+		<id column="commodityId" property="commodityId" jdbcType="INTEGER" />
+		<result column="commodityCategory1" property="commodityCategory1" jdbcType="VARCHAR" />
+		<result column="commodityCategory2" property="commodityCategory2" jdbcType="VARCHAR" />
+		<result column="commodityCategory3" property="commodityCategory3" jdbcType="VARCHAR" />
+		<result column="commodityName" property="commodityName" jdbcType="VARCHAR" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="size" property="size" jdbcType="VARCHAR" />
+		<result column="saleState" property="saleState" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="goodFlg" property="goodFlg" jdbcType="INTEGER" />
+		<result column="hotFlg" property="hotFlg" jdbcType="INTEGER" />
+		<result column="choiceFlg" property="choiceFlg" jdbcType="INTEGER" />
+		<result column="appreciateFlg" property="appreciateFlg" jdbcType="INTEGER" />
+		<result column="picture1" property="picture1" jdbcType="VARCHAR" />
+		<result column="picture2" property="picture2" jdbcType="VARCHAR" />
+		<result column="picture3" property="picture3" jdbcType="VARCHAR" />
+		<result column="picture4" property="picture4" jdbcType="VARCHAR" />
+		<result column="picture5" property="picture5" jdbcType="VARCHAR" />
+		<result column="commodityShowId" property="commodityShowId" jdbcType="INTEGER" />
+		<result column="commodityIntroduction" property="commodityIntroduction" jdbcType="VARCHAR" />
+		<result column="packingSpecification" property="packingSpecification" jdbcType="VARCHAR" />
+		<result column="instructions" property="instructions" jdbcType="VARCHAR" />
+		<result column="customerService" property="customerService" jdbcType="VARCHAR" />
+		<result column="showPagePath" property="showPagePath" jdbcType="VARCHAR" />
+		<result column="showPageSource" property="showPageSource" jdbcType="VARCHAR" />
+		<result column="memberId" property="memberId" jdbcType="INTEGER" />
+		<result column="memberName" property="memberName" jdbcType="VARCHAR" />
+		<result column="reputation" property="reputation" jdbcType="VARCHAR" />
+		<result column="guarantee" property="guarantee" jdbcType="INTEGER" />
+		<result column="highQuality" property="highQuality" jdbcType="INTEGER" />
+		<result column="sincerity" property="sincerity" jdbcType="INTEGER" />
+		<result column="returnGoods" property="returnGoods" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
+		select a.id commodityId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
+		a.quantity, a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
+		a.picture4,a.picture5,b.commodityShowId,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
+		b.showPagePath,b.showPageSource,c.memberId,c.memberName,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods
+		from commodity a
+		inner join commodity_show b on a.id = b.commodityId
+		inner join member c on a.memberId = c.id
+		where 1=1
+		<if test="commodityCategory1 != null and commodityCategory1 != ''">
+			and a.commodityCategory1 = #{commodityCategory1}
+        </if>
+		<if test="commodityCategory2 != null and commodityCategory2 != ''">
+			and a.commodityCategory2 = #{commodityCategory2}
+        </if>
+		<if test="commodityCategory3 != null and commodityCategory3 != ''">
+			and a.commodityCategory3 = #{commodityCategory3}
+        </if>
+		<if test="commodityName != null and commodityName != ''">
+			and a.commodityName like '%${commodityName}%'
+        </if>
+		<if test="brand != null and brand != ''">
+			and a.brand = #{brand}
+        </if>
+		<if test="color != null and color != ''">
+			and a.color = #{color}
+        </if>
+		<if test="size != null and size != ''">
+			and a.size = #{size}
+        </if>
+		<if test="priceMin != null and priceMin != ''">
+			and a.price &gt;= #{priceMin}
+        </if>
+		<if test="priceMax != null and priceMax != ''">
+			and a.price &lt;= #{priceMax}
+        </if>
+        order by  
+        <if test="hotUp != null and hotUp != ''">
+			a.hotFlg desc,
+        </if>
+        <if test="hotDown != null and hotDown != ''">
+			a.hotFlg asc,
+        </if>
+        <if test="priceUp != null and priceUp != ''">
+			a.price asc,
+        </if>
+        <if test="priceDown != null and priceDown != ''">
+			a.price desc,
+        </if>
+        <if test="createTimeUp != null and createTimeUp != ''">
+			a.createTime asc,
+        </if>
+        <if test="createTimeUp != null and createTimeUp != ''">
+			a.createTime desc,
+        </if>
+        c.reputation desc
+	</select>
+</mapper>

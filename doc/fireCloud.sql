@@ -64,6 +64,7 @@ drop table if exists  `member`;
 CREATE TABLE `firecloud`.`member` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '会员ID',
   `accountId` INT(11) NOT NULL COMMENT '账号ID',
+  `memberName` INT(11) NOT NULL COMMENT '会员名称',
   `product` VARCHAR(200) NULL COMMENT '主要产品',
   `notice` VARCHAR(400) NULL COMMENT '会员公告',
   `aboutUs` TEXT(1000) NULL COMMENT '会员简介',
