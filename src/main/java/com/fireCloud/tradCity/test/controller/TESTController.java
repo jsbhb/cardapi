@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fireCloud.tradCity.basic.callback.model.CallBackModel;
-import com.fireCloud.tradCity.basic.pagination.model.Pagination;
+import com.fireCloud.tradCity.basic.model.CallBackModel;
+import com.fireCloud.tradCity.basic.model.Pagination;
 import com.fireCloud.tradCity.test.model.User;
 
 

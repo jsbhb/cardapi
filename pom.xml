@@ -1,16 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.fireCloud</groupId>
-  <artifactId>cardapi</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+	<groupId>com.fireCloud</groupId>
+	<artifactId>cardapi</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>tradeCity</name>
+	<url>http://maven.apache.org</url>
 
-  <name>tradeCity</name>
-  <url>http://maven.apache.org</url>
-
-  <properties>
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.7</jdk.version>
 		<spring.version>4.0.5.RELEASE</spring.version>
@@ -27,11 +26,11 @@
 
 	<dependencies>
 		<!-- freemarker -->
-		<dependency>  
-            <groupId>org.freemarker</groupId>  
-            <artifactId>freemarker</artifactId>  
-            <version>2.3.20</version>  
-        </dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.20</version>
+		</dependency>
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -145,6 +144,13 @@
 			<version>${mysql.version}</version>
 		</dependency>
 
+		<!-- encache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+
 		<!-- dbcp -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -192,7 +198,7 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.1.0</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>

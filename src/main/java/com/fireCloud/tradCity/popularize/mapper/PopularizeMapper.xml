@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fireCloud.tradCity.popularize.mapper.PopularizeMapper">
+	<resultMap id="memberProductModel" type="com.fireCloud.tradCity.popularize.model.MemberProductModel">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="popularizeCode" property="popularizeCode" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="picPath1" property="picPath1" jdbcType="VARCHAR" />
+		<result column="picPath2" property="picPath2" jdbcType="VARCHAR" />
+		<result column="picPath3" property="picPath3" jdbcType="VARCHAR" />
+		<result column="description1" property="description1" jdbcType="VARCHAR" />
+		<result column="description2" property="description2" jdbcType="VARCHAR" />
+		<result column="description3" property="description3" jdbcType="VARCHAR" />
+		<result column="memberId" property="memberId" jdbcType="INTEGER" />
+		<collection property="generalInfoList" resultMap = "baseBroductInfo" />
+	</resultMap>
+	
+	<resultMap type="com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfo" id="baseBroductInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="shortTitle" property="shortTitle" jdbcType="VARCHAR" />
+		<result column="subdescription" property="description" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="productId" property="productId" jdbcType="VARCHAR" />
+		<result column="picPath" property="picPath" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id = "productInfoModel" type = "com.fireCloud.tradCity.popularize.model.ProductInfoModel" extends = "baseBroductInfo">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="popularizeCode" property="popularizeCode" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap type="com.fireCloud.tradCity.popularize.model.IndexBannerModel" id="indexBannerModel">
+		<result column="href" property="href" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="popularizeCode" property="popularizeCode" jdbcType="VARCHAR" />
+		<result column="picPath" property="picPath" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap type="com.fireCloud.tradCity.popularize.model.MemberModel" id="memberModel">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="popularizeCode" property="popularizeCode" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="picPath" property="picPath" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="memberId" property="memberId" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="queryMemberProduct" resultMap="memberProductModel">
+		select 
+		pd.name,pd.popularizeCode,pmp.logoPath,pmp.picPath1,pmp.picPath2,pmp.picPath3,pmp.description1,pmp.description2,
+		pmp.description3,pmp.memberId,pmps.title,pmps.shortTitle,pmps.description as subdescription,pmps.price,
+		pmps.productId,pmps.picPath,pmps.id   
+		from popularize_dict pd left join popularize_member_prod pmp on pd.id = pmp.popularizeId left join 
+		popularize_member_prod_sub pmps on pmp.id = pmps.memberprodId where pd.status = 1 and pmp.status = 1
+	</select>
+	
+	<select id="queryIndexBanner" resultMap="indexBannerModel">
+		select pd.name,pd.popularizeCode,pb.href,pb.picPath from popularize_dict pd left join popularize_banner pb on pd.id = pb.popularizeId 
+		where pd.status = 1 and pb.status = 1
+	</select>
+	
+	<select id="queryProductInfo" resultMap="productInfoModel">
+		select pd.name,pd.popularizeCode,pp.title,pp.shortTitle,pp.description as subdescription,pp.price,
+		pp.productId,pp.picPath from popularize_dict pd left join popularize_product pp on pd.id = pp.popularizeId 
+		where pd.status = 1 and pp.status = 1
+	</select>
+	
+	<select id="queryMember" resultMap="memberModel">
+		select pd.name,pd.popularizeCode, pm.logoPath, pm.picPath, pm.description, pm.memberId 
+		from popularize_dict pd left join popularize_member pm on pd.id = pm.popularizeId 
+		where pd.status = 1 and pm.status = 1
+	</select>
+</mapper>

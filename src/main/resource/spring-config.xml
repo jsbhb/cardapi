@@ -80,7 +80,7 @@
 			<tx:method name="del*" propagation="REQUIRED" />
 			<tx:method name="update*" propagation="REQUIRED" />
 			<tx:method name="add*" propagation="REQUIRED" />
-			<tx:method name="*" propagation="REQUIRED" />
+			<tx:method name="*" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
 
