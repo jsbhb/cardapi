@@ -2,31 +2,35 @@ package com.fireCloud.tradCity.member.model.submodel;
 
 import java.util.List;
 
+import com.fireCloud.tradCity.member.model.MemberClassifyModel;
+
 /**
  * @author wqy
  * @fun 会员的简单信息，用于查询是显示缩略信息，详细会员信息model继承该model
  * @date 2017年6月2日
  */
-public class SimpleMemberInfo {
+public class SimpleMemberInfoModel {
 
 	private Integer memberId;
-	// 所在行业
-	private List<String> industryList;
-	// 主营类目
-	private List<String> categoryList;
+
+	private String memberName;
+	// 会员分类
+	private List<MemberClassifyModel> memberClassify;
 	// 主营产品，逗号隔开字符串
 	private String product;
-	//商家信用
-	private String reputation;
+	// 商家信用
+	private Integer reputation;
 	//
 	private String logoPath;
-	//是否平台担保 0:否；1：是
+	//
+	private String frontPicPath;
+	// 是否平台担保 0:否；1：是
 	private Integer guarantee;
-	//是否优质商家 0:否；1：是
+	// 是否优质商家 0:否；1：是
 	private Integer highQuality;
-	//是否诚信示范 0:否；1：是
+	// 是否诚信示范 0:否；1：是
 	private Integer sincerity;
-	//是否支持退换货0:否；1：是
+	// 是否支持退换货0:否；1：是
 	private Integer returnGoods;
 	//
 	private String province;
@@ -36,98 +40,155 @@ public class SimpleMemberInfo {
 	private String area;
 	//
 	private String address;
+	//
+	private Integer popularize;
+	// 入驻时间
+	private String enterTime;
+
+	public Integer getPopularize() {
+		return popularize;
+	}
+
+	public void setPopularize(Integer popularize) {
+		this.popularize = popularize;
+	}
+
 	public Integer getMemberId() {
 		return memberId;
 	}
+
 	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
 	}
-	public List<String> getIndustryList() {
-		return industryList;
+
+	public String getFrontPicPath() {
+		return frontPicPath;
 	}
-	public void setIndustryList(List<String> industryList) {
-		this.industryList = industryList;
+
+	public void setFrontPicPath(String frontPicPath) {
+		this.frontPicPath = frontPicPath;
 	}
-	public List<String> getCategoryList() {
-		return categoryList;
+
+	public List<MemberClassifyModel> getMemberClassify() {
+		return memberClassify;
 	}
-	public void setCategoryList(List<String> categoryList) {
-		this.categoryList = categoryList;
+
+	public void setMemberClassify(List<MemberClassifyModel> memberClassify) {
+		this.memberClassify = memberClassify;
 	}
+
 	public String getProduct() {
 		return product;
 	}
+
 	public void setProduct(String product) {
 		this.product = product;
 	}
-	public String getReputation() {
+
+	public Integer getReputation() {
 		return reputation;
 	}
-	public void setReputation(String reputation) {
+
+	public void setReputation(Integer reputation) {
 		this.reputation = reputation;
 	}
+
 	public String getLogoPath() {
 		return logoPath;
 	}
+
 	public void setLogoPath(String logoPath) {
 		this.logoPath = logoPath;
 	}
+
 	public Integer getGuarantee() {
 		return guarantee;
 	}
+
 	public void setGuarantee(Integer guarantee) {
 		this.guarantee = guarantee;
 	}
+
 	public Integer getHighQuality() {
 		return highQuality;
 	}
+
 	public void setHighQuality(Integer highQuality) {
 		this.highQuality = highQuality;
 	}
+
 	public Integer getSincerity() {
 		return sincerity;
 	}
+
 	public void setSincerity(Integer sincerity) {
 		this.sincerity = sincerity;
 	}
+
 	public Integer getReturnGoods() {
 		return returnGoods;
 	}
+
 	public void setReturnGoods(Integer returnGoods) {
 		this.returnGoods = returnGoods;
 	}
+
 	public String getProvince() {
 		return province;
 	}
+
 	public void setProvince(String province) {
 		this.province = province;
 	}
+
 	public String getCity() {
 		return city;
 	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 	public String getArea() {
 		return area;
 	}
+
 	public void setArea(String area) {
 		this.area = area;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	@Override
-	public String toString() {
-		return "SimpleMemberInfo [memberId=" + memberId + ", industryList=" + industryList + ", categoryList="
-				+ categoryList + ", product=" + product + ", reputation=" + reputation + ", logoPath=" + logoPath
-				+ ", guarantee=" + guarantee + ", highQuality=" + highQuality + ", sincerity=" + sincerity
-				+ ", returnGoods=" + returnGoods + ", province=" + province + ", city=" + city + ", area=" + area
-				+ ", address=" + address + "]";
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 	
+	public String getEnterTime() {
+		return enterTime;
+	}
+
+	public void setEnterTime(String enterTime) {
+		this.enterTime = enterTime;
+	}
+
+	@Override
+	public String toString() {
+		return "SimpleMemberInfoModel [memberId=" + memberId + ", memberName=" + memberName + ", memberClassify="
+				+ memberClassify + ", product=" + product + ", reputation=" + reputation + ", logoPath=" + logoPath
+				+ ", frontPicPath=" + frontPicPath + ", guarantee=" + guarantee + ", highQuality=" + highQuality
+				+ ", sincerity=" + sincerity + ", returnGoods=" + returnGoods + ", province=" + province + ", city="
+				+ city + ", area=" + area + ", address=" + address + ", popularize=" + popularize + ", enterTime="
+				+ enterTime + "]";
+	}
+
 }

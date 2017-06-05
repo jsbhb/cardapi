@@ -1,6 +1,6 @@
 package com.fireCloud.tradCity.popularize.model;
 
-import com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfo;
+import com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfoModel;
 
 /**
  * 
@@ -8,7 +8,7 @@ import com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfo;
  * @fun 推广商品model
  * @date 2017/05/31
  */
-public class ProductInfoModel extends BaseProductInfo {
+public class ProductInfoModel extends BaseProductInfoModel {
 
 	// 推广名称用于显示头部
 	private String name;

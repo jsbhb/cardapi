@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fireCloud.tradCity.member.mapper.MemberMapper">
+
+	<resultMap type="com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel" id="simpleMemberInfo">
+		<id column="memberId" property="memberId" jdbcType="INTEGER" />
+		<result column="memberName" property="memberName" jdbcType="VARCHAR" />
+		<result column="product" property="product" jdbcType="VARCHAR" />
+		<result column="reputation" property="reputation" jdbcType="INTEGER" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="frontPicPath" property="frontPicPath" jdbcType="VARCHAR" />
+		<result column="guarantee" property="guarantee" jdbcType="INTEGER" />
+		<result column="highQuality" property="highQuality" jdbcType="INTEGER" />
+		<result column="sincerity" property="sincerity" jdbcType="INTEGER" />
+		<result column="returnGoods" property="returnGoods" jdbcType="INTEGER" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="popularize" property="popularize" jdbcType="INTEGER" />
+		<collection property="memberClassify" ofType = "com.fireCloud.tradCity.member.model.MemberClassifyModel">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="industry" property="industry" jdbcType="VARCHAR" />
+			<result column="category" property="category" jdbcType="VARCHAR" />
+			<result column="industryName" property="industryName" jdbcType="VARCHAR" />
+			<result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+
+	<select id="querySimpleMember" resultMap="simpleMemberInfo"
+		parameterType="java.util.Map">
+		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
+		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.industry,mc.category,mc.industryName,mc.categoryName 
+		from member m left join member_category mc on m.id = mc.memberId where 1=1
+		<if test="member != null">
+			<if test="memberName != null and memberName != ''">
+				and LOCATE (#{memberName}, m.memberName) > 0
+			</if>
+			<if test="industryList != null and industryList.size > 0">
+				and mc.industry in
+				<foreach collection="industryList" item="industry" open="("
+					separator="," close=")">
+					#{industry}
+				</foreach>
+			</if>
+			<if test="categoryList != null and categoryList.size > 0">
+				and mc.category in
+				<foreach collection="categoryList" item="category" open="("
+					separator="," close=")">
+					#{category}
+				</foreach>
+			</if>
+			<if test="guarantee != null and guarantee != ''">
+				and m.guarantee = #{guarantee}
+			</if>
+			<if test="highQuality != null and highQuality != ''">
+				and m.highQuality = #{highQuality}
+			</if>
+			<if test="sincerity != null and sincerity != ''">
+				and m.sincerity = #{sincerity}
+			</if>
+			<if test="returnGoods != null and returnGoods != ''">
+				and m.returnGoods = #{returnGoods}
+			</if>
+			<if test="province != null and province != ''">
+				and m.province = #{province}
+			</if>
+			<if test="city != null and city != ''">
+				and m.city = #{city}
+			</if>
+			<if test="area != null and area != ''">
+				and m.area = #{area}
+			</if>
+			<if test="area != null and area != ''">
+				and m.area = #{area}
+			</if>
+		</if>
+		<if test="sortList != null and sortList.size > 0">
+			order by 
+			<foreach collection="sortList" item="sortRule" open="("
+					separator="," close=")">
+					#{sortRule.sortField} #{sortRule.sortRule}
+			</foreach>
+		</if>
+	</select>
+</mapper>

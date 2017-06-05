@@ -15,7 +15,7 @@
 		<collection property="generalInfoList" resultMap = "baseBroductInfo" />
 	</resultMap>
 	
-	<resultMap type="com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfo" id="baseBroductInfo">
+	<resultMap type="com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfoModel" id="baseBroductInfo">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="shortTitle" property="shortTitle" jdbcType="VARCHAR" />

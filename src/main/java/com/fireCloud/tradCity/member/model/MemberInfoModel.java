@@ -1,17 +1,18 @@
 package com.fireCloud.tradCity.member.model;
 
-import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfo;
+import java.util.List;
+
+import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 
 /**
  * @author wqy
  * @fun 会员实体类
  * @date 2017年6月2日
  */
-public class MemberInfo extends SimpleMemberInfo {
+public class MemberInfoModel extends SimpleMemberInfoModel {
 
 	// 会员对应的账号
 	private Integer accountId;
-
 	// 企业公告
 	private String notice;
 	// 企业简介
@@ -29,9 +30,7 @@ public class MemberInfo extends SimpleMemberInfo {
 	// 多客服以逗号分开
 	private String qq;
 	//
-	private String frontPicPath;
-	// 入驻时间
-	private String enterTime;
+	private List<String> picPathList;
 
 	public Integer getAccountId() {
 		return accountId;
@@ -105,28 +104,19 @@ public class MemberInfo extends SimpleMemberInfo {
 		this.qq = qq;
 	}
 
-	public String getFrontPicPath() {
-		return frontPicPath;
+	public List<String> getPicPathList() {
+		return picPathList;
 	}
 
-	public void setFrontPicPath(String frontPicPath) {
-		this.frontPicPath = frontPicPath;
-	}
-
-	public String getEnterTime() {
-		return enterTime;
-	}
-
-	public void setEnterTime(String enterTime) {
-		this.enterTime = enterTime;
+	public void setPicPathList(List<String> picPathList) {
+		this.picPathList = picPathList;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "MemberInfo [accountId=" + accountId + ", notice=" + notice + ", aboutUs=" + aboutUs
-				+ ", licensePath=" + licensePath + ", operator=" + operator + ", mobile=" + mobile + ", email=" + email
-				+ ", phone=" + phone + ", qq=" + qq + ", frontPicPath=" + frontPicPath + ", enterTime=" + enterTime
-				+ "]";
+		return "MemberInfo [accountId=" + accountId + ", notice=" + notice + ", aboutUs=" + aboutUs + ", licensePath="
+				+ licensePath + ", operator=" + operator + ", mobile=" + mobile + ", email=" + email + ", phone="
+				+ phone + ", qq=" + qq + ", picPathList=" + picPathList + "]";
 	}
 
 }

@@ -19,11 +19,16 @@ import com.fireCloud.tradCity.popularize.model.MemberProductModel;
 import com.fireCloud.tradCity.popularize.model.ProductInfoModel;
 import com.fireCloud.tradCity.popularize.service.PopularizeService;
 
+/**
+ * @author wqy
+ * @fun PopularizeService接口实现类
+ * @date 2017年6月5日
+ */
 @Service
 public class PopularizeServiceImpl implements PopularizeService {
 
-	private static final String POPULARIZE_NAME = "popularizeName";
-	private static final String MODEL_LIST = "modelList";
+	private final String POPULARIZE_NAME = "popularizeName";
+	private final String MODEL_LIST = "modelList";
 
 	@Resource
 	PopularizeMapper popularizeMapper;

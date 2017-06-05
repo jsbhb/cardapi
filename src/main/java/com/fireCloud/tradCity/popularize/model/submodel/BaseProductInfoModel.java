@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * @fun 推广商品的基础model
  * @date 2017/05/31
  */
-public class BaseProductInfo {
+public class BaseProductInfoModel {
 	
 	private Integer id;
 

@@ -2,7 +2,7 @@ package com.fireCloud.tradCity.popularize.model;
 
 import java.util.List;
 
-import com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfo;
+import com.fireCloud.tradCity.popularize.model.submodel.BaseProductInfoModel;
 
 /**
  * @author wqy
@@ -20,7 +20,7 @@ public class MemberProductModel {
 	//
 	private Integer memberId;
 	//普通图片显示
-	private List<BaseProductInfo> generalInfoList;
+	private List<BaseProductInfoModel> generalInfoList;
 	//
 	private String picPath1;
 	//
@@ -94,10 +94,10 @@ public class MemberProductModel {
 	public void setDescription3(String description3) {
 		this.description3 = description3;
 	}
-	public List<BaseProductInfo> getGeneralInfoList() {
+	public List<BaseProductInfoModel> getGeneralInfoList() {
 		return generalInfoList;
 	}
-	public void setGeneralInfoList(List<BaseProductInfo> generalInfoList) {
+	public void setGeneralInfoList(List<BaseProductInfoModel> generalInfoList) {
 		this.generalInfoList = generalInfoList;
 	}
 	@Override

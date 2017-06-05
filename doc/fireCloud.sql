@@ -64,7 +64,7 @@ drop table if exists  `member`;
 CREATE TABLE `firecloud`.`member` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '会员ID',
   `accountId` INT(11) NOT NULL COMMENT '账号ID',
-  `memberName` INT(11) NOT NULL COMMENT '会员名称',
+  `memberName` varchar(100) NOT NULL COMMENT '会员名称',
   `product` VARCHAR(200) NULL COMMENT '主要产品',
   `notice` VARCHAR(400) NULL COMMENT '会员公告',
   `aboutUs` TEXT(1000) NULL COMMENT '会员简介',
@@ -74,13 +74,14 @@ CREATE TABLE `firecloud`.`member` (
   `phone` VARCHAR(20) NULL COMMENT '公司电话',
   `email` VARCHAR(50) NULL COMMENT '联系邮箱',
   `qq` VARCHAR(30) NULL COMMENT 'QQ客服',
-  `reputation` VARCHAR(30) NULL COMMENT '商家信誉度',
+  `reputation` int(11) NULL COMMENT '商家信誉度',
   `logoPath` VARCHAR(200) NULL COMMENT 'Logo图片地址',
   `frontPicPath` VARCHAR(200) NULL COMMENT '正面照图片地址',
   `guarantee` INT(1) NULL DEFAULT 0 COMMENT '是否平台担保',
   `highQuality` INT(1) NULL DEFAULT 0 COMMENT '是否优质商家',
   `sincerity` INT(1) NULL DEFAULT 0 COMMENT '是否诚信示范',
   `returnGoods` INT(1) NULL DEFAULT 0 COMMENT '是否支持退换货',
+  `popularize` INT(1) NULL DEFAULT 0 COMMENT '是否推广（搜索时靠前）',
   `province` VARCHAR(20) NULL COMMENT '省',
   `city` VARCHAR(20) NULL COMMENT '市',
   `area` VARCHAR(20) NULL COMMENT '区',
@@ -98,6 +99,8 @@ CREATE TABLE `firecloud`.`member` (
   INDEX `member_province` (`province`),
   INDEX `member_city` (`city`),
   INDEX `member_area` (`area`),
+  INDEX `member_name` (`memberName`),
+  INDEX `popularize` (`popularize`),
   INDEX `member_enterTime` (`enterTime`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '会员表';
 
@@ -135,6 +138,8 @@ CREATE TABLE `firecloud`.`member_category` (
   `memberId` INT(11) NOT NULL COMMENT '会员ID',
   `industry` VARCHAR(30) NULL COMMENT '所在行业',
   `category` VARCHAR(30) NULL COMMENT '行业类目',
+  `industryName` VARCHAR(50) NULL COMMENT '行业类目名称',
+  `categoryName` VARCHAR(50) NULL COMMENT '行业类目名称',
   PRIMARY KEY (`id`),
   INDEX `member_category_memberId` (`memberId`),
   INDEX `member_category_industry` (`industry`),
