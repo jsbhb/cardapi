@@ -7,8 +7,8 @@ package com.fireCloud.tradCity.basic.model;
  */
 public class Pagination {
 
-	private Integer numPerPage; //每页几条
-	private Integer currentPage; //当前页
+	private Integer numPerPage = 20; //每页几条
+	private Integer currentPage = 1; //当前页
 	public Integer getNumPerPage() {
 		return numPerPage;
 	}

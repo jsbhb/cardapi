@@ -8,7 +8,7 @@ package com.fireCloud.tradCity.basic.model;
 public class CallBackModel {
 
 	private Boolean success = false; //是否成功
-	private String msg = "初始化对象，信息为空"; //信息
+	private String msg; //信息
 	private Object obj; //回传对象
 	
 	public Boolean getSuccess() {

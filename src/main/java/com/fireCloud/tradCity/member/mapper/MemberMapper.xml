@@ -33,53 +33,52 @@
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.industry,mc.category,mc.industryName,mc.categoryName 
 		from member m left join member_category mc on m.id = mc.memberId where 1=1
 		<if test="member != null">
-			<if test="memberName != null and memberName != ''">
-				and LOCATE (#{memberName}, m.memberName) > 0
+			<if test="member.memberName != null and member.memberName != ''">
+				and m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%')
 			</if>
-			<if test="industryList != null and industryList.size > 0">
+			<if test="member.memberClassify != null and member.memberClassify.size > 0">
 				and mc.industry in
-				<foreach collection="industryList" item="industry" open="("
+				<foreach collection="member.memberClassify" item="item" open="("
 					separator="," close=")">
-					#{industry}
+					<if test="item.industry != null and item.industry != ''">
+						#{item.industry}
+					</if>
+				</foreach>
+				and mc.category in 
+				<foreach collection="member.memberClassify" item="item" open="("
+					separator="," close=")">
+					<if test="item.category != null and item.category != ''">
+						#{item.category}
+					</if>
 				</foreach>
 			</if>
-			<if test="categoryList != null and categoryList.size > 0">
-				and mc.category in
-				<foreach collection="categoryList" item="category" open="("
-					separator="," close=")">
-					#{category}
-				</foreach>
+			<if test="member.guarantee != null and member.guarantee != ''">
+				and m.guarantee = #{member.guarantee}
 			</if>
-			<if test="guarantee != null and guarantee != ''">
-				and m.guarantee = #{guarantee}
+			<if test="member.highQuality != null and member.highQuality != ''">
+				and m.highQuality = #{member.highQuality}
 			</if>
-			<if test="highQuality != null and highQuality != ''">
-				and m.highQuality = #{highQuality}
+			<if test="member.sincerity != null and member.sincerity != ''">
+				and m.sincerity = #{member.sincerity}
 			</if>
-			<if test="sincerity != null and sincerity != ''">
-				and m.sincerity = #{sincerity}
+			<if test="member.returnGoods != null and member.returnGoods != ''">
+				and m.returnGoods = #{member.returnGoods}
 			</if>
-			<if test="returnGoods != null and returnGoods != ''">
-				and m.returnGoods = #{returnGoods}
+			<if test="member.province != null and member.province != ''">
+				and m.province = #{member.province}
 			</if>
-			<if test="province != null and province != ''">
-				and m.province = #{province}
+			<if test="member.city != null and member.city != ''">
+				and m.city = #{member.city}
 			</if>
-			<if test="city != null and city != ''">
-				and m.city = #{city}
-			</if>
-			<if test="area != null and area != ''">
-				and m.area = #{area}
-			</if>
-			<if test="area != null and area != ''">
-				and m.area = #{area}
+			<if test="member.area != null and member.area != ''">
+				and m.area = #{member.area}
 			</if>
 		</if>
 		<if test="sortList != null and sortList.size > 0">
-			order by 
-			<foreach collection="sortList" item="sortRule" open="("
-					separator="," close=")">
-					#{sortRule.sortField} #{sortRule.sortRule}
+			order by popularize desc 
+			<foreach collection="sortList" item="sort" open=""
+					separator="," close="">
+					${sort.sortField} ${sort.sortRule}
 			</foreach>
 		</if>
 	</select>

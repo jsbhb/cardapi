@@ -1,8 +1,9 @@
 package com.fireCloud.tradCity.member.mapper;
 
-import java.util.List;
 import java.util.Map;
+
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
+import com.github.pagehelper.Page;
 
 
 /**
@@ -12,5 +13,5 @@ import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
  */
 public interface MemberMapper {
 	
-	List<SimpleMemberInfoModel> querySimpleMember(Map<String, Object> searchItems);
+	Page<SimpleMemberInfoModel> querySimpleMember(Map<String, Object> searchItems);
 }
