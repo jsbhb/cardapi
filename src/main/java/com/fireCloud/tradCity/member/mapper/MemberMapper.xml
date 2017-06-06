@@ -74,12 +74,13 @@
 				and m.area = #{member.area}
 			</if>
 		</if>
+		order by
 		<if test="sortList != null and sortList.size > 0">
-			order by popularize desc 
 			<foreach collection="sortList" item="sort" open=""
-					separator="," close="">
-					${sort.sortField} ${sort.sortRule}
+					separator="" close="">
+					${sort.sortField} ${sort.sortRule},
 			</foreach>
 		</if>
+		popularize desc 
 	</select>
 </mapper>
