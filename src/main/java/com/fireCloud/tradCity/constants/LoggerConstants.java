@@ -25,6 +25,8 @@ public class LoggerConstants {
 	
 	public static final String SEARCH_COMMODITY_SIZE = "检索商品数量";
 	
+	public static final String SEARCH_COMMODITY_SIZE_SORT = "检索商品排序";
+	
 	//======会员类日志常量=======//
 	public static final String SEARCH_MEMBER = "检索会员服务";
 }
