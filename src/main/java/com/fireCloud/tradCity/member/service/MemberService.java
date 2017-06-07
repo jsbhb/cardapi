@@ -4,11 +4,14 @@ import java.util.Map;
 
 import com.fireCloud.tradCity.basic.model.Pagination;
 import com.fireCloud.tradCity.basic.model.SortModelList;
+import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 
 /**
  * @author wqy
- * @fun 会员服务类service 1、根据会员名称、行业、主营类目、地区、是否优质商家，是否平台担保等信息查询；根据入驻时间、信誉度排序
+ * @fun 会员服务类service 
+ * 		1、根据会员名称、行业、主营类目、地区、是否优质商家，是否平台担保等信息查询；根据入驻时间、信誉度排序
+ * 		2、根据memberId搜索会员详细信息
  * @date 2017年6月5日
  */
 public interface MemberService {
@@ -23,4 +26,11 @@ public interface MemberService {
 	 */
 	Map<String, Object> queryMember(SimpleMemberInfoModel memberInfo, SortModelList sortList, Pagination pagination,
 			boolean flag);
+	
+	/**
+	 * @fun 根据memberId搜索会员详细信息
+	 * @param memberId
+	 * @return 会员详细信息
+	 */
+	MemberInfoModel queryMemberDetail(Integer memberId);
 }

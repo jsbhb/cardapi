@@ -2,6 +2,7 @@ package com.fireCloud.tradCity.member.model;
 
 import java.util.List;
 
+import com.fireCloud.tradCity.filemng.model.FileModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 
 /**
@@ -30,7 +31,7 @@ public class MemberInfoModel extends SimpleMemberInfoModel {
 	// 多客服以逗号分开
 	private String qq;
 	//
-	private List<String> picPathList;
+	private List<FileModel> fileList;
 
 	public Integer getAccountId() {
 		return accountId;
@@ -104,19 +105,19 @@ public class MemberInfoModel extends SimpleMemberInfoModel {
 		this.qq = qq;
 	}
 
-	public List<String> getPicPathList() {
-		return picPathList;
+	public List<FileModel> getFileList() {
+		return fileList;
 	}
 
-	public void setPicPathList(List<String> picPathList) {
-		this.picPathList = picPathList;
+	public void setFileList(List<FileModel> fileList) {
+		this.fileList = fileList;
 	}
 
 	@Override
 	public String toString() {
-		return "MemberInfo [accountId=" + accountId + ", notice=" + notice + ", aboutUs=" + aboutUs + ", licensePath="
-				+ licensePath + ", operator=" + operator + ", mobile=" + mobile + ", email=" + email + ", phone="
-				+ phone + ", qq=" + qq + ", picPathList=" + picPathList + "]";
+		return "MemberInfoModel [accountId=" + accountId + ", notice=" + notice + ", aboutUs=" + aboutUs
+				+ ", licensePath=" + licensePath + ", operator=" + operator + ", mobile=" + mobile + ", email=" + email
+				+ ", phone=" + phone + ", qq=" + qq + ", fileList=" + fileList + "]";
 	}
 
 }

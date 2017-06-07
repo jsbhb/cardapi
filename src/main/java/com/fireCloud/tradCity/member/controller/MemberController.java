@@ -17,6 +17,7 @@ import com.fireCloud.tradCity.basic.model.SortModelList;
 import com.fireCloud.tradCity.constants.ConfigConstants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
+import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
 
@@ -58,14 +59,16 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/{version}/members/{id}", method = RequestMethod.GET)
-	public CallBackModel getMemberInfo(@PathVariable("version") Double version, @PathVariable("id") Integer id,
+	public CallBackModel getMemberInfo(@PathVariable("version") Double version, @PathVariable("id") Integer memberId,
 			HttpServletRequest req, HttpServletResponse res) {
 		
 		CallBackModel model = new CallBackModel();
 		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 		try {
 			if (ConfigConstants.FIRST_VERSION.equals(version)) {
-				
+				MemberInfoModel memberInfo = memberService.queryMemberDetail(memberId);
+				model.setObj(memberInfo);
+				model.setSuccess(true);
 			}
 		} catch (Exception e) {
 			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "根据ID查询会员信息出错！！！！！！", e);

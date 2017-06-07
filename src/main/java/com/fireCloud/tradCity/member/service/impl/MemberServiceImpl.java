@@ -1,5 +1,6 @@
 package com.fireCloud.tradCity.member.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,11 @@ import org.springframework.stereotype.Service;
 import com.fireCloud.tradCity.basic.model.Pagination;
 import com.fireCloud.tradCity.basic.model.SortModel;
 import com.fireCloud.tradCity.basic.model.SortModelList;
+import com.fireCloud.tradCity.filemng.model.FileModel;
+import com.fireCloud.tradCity.filemng.service.FileService;
 import com.fireCloud.tradCity.member.mapper.MemberMapper;
 import com.fireCloud.tradCity.member.model.MemberClassifyModel;
+import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.SearchFilterModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
@@ -35,6 +39,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Resource
 	MemberMapper memberMapper;
+	
+	@Resource
+	FileService fileService;
 
 	@Override
 	public Map<String, Object> queryMember(SimpleMemberInfoModel memberInfo, SortModelList sortList,
@@ -79,6 +86,22 @@ public class MemberServiceImpl implements MemberService {
 		searchFilterModel.setCategoryMap(categoryMap);
 		searchFilterModel.setIndustryMap(industryMap);
 
+	}
+
+	@Override
+	public MemberInfoModel queryMemberDetail(Integer memberId) {
+		MemberInfoModel model = new MemberInfoModel();
+		model = memberMapper.queryMemberDetail(memberId);
+		
+		List<String> fileList = memberMapper.queryMemberFileId(memberId);
+		
+		List<FileModel> fielModelList = new ArrayList<FileModel>();
+		if(fileList != null && fileList.size() > 0){
+			fielModelList = fileService.queryFileById(fileList);
+		}
+		
+		model.setFileList(fielModelList);
+		return model;
 	}
 
 }

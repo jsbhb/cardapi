@@ -26,6 +26,17 @@
 			<result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
 		</collection>
 	</resultMap>
+	
+	<resultMap type="com.fireCloud.tradCity.member.model.MemberInfoModel" id="memberInfo" extends = "simpleMemberInfo">
+		<result column="notice" property="notice" jdbcType="VARCHAR" />
+		<result column="aboutUs" property="aboutUs" jdbcType="VARCHAR" />
+		<result column="licensePath" property="licensePath" jdbcType="VARCHAR" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="qq" property="qq" jdbcType="VARCHAR" />
+	</resultMap>
 
 	<select id="querySimpleMember" resultMap="simpleMemberInfo"
 		parameterType="java.util.Map">
@@ -81,6 +92,16 @@
 					,${sort.sortField} ${sort.sortRule}
 			</foreach>
 		</if>
-		
+	</select>
+	
+	<select id="queryMemberDetail" parameterType="java.lang.Integer" resultMap="memberInfo">
+		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
+		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.industry,mc.category,mc.industryName,
+		mc.categoryName,m.notice,m.aboutUs,m.licensePath,m.operator,m.mobile,m.email,m.phone,m.qq 
+		from member m left join member_category mc on m.id = mc.memberId where m.id = #{id}
+	</select>
+	
+	<select id="queryMemberFileId" resultType="java.lang.String" parameterType="java.lang.Integer">
+		select fileId from member_pic where memberId = #{memberId}
 	</select>
 </mapper>
