@@ -440,3 +440,48 @@ CREATE TABLE `firecloud`.`product_pic` (
   `createTime` DATETIME NULL COMMENT '创建时间',
   INDEX `product_pic_productId` (`productId`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 
 COMMENT = '商品图片';
+
+
+drop table if exists  `commodityCategoryA`;
+
+CREATE TABLE `firecloud`.`commodityCategoryA` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
+  `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
+  `status` INT(1) NULL COMMENT '类目状态',
+  `createTime` DATETIME NULL COMMENT '创建时间',
+  `createOpt` VARCHAR(50) NULL COMMENT '创建者',
+  `updateTime` DATETIME NULL COMMENT '更新时间',
+  `updateOpt` VARCHAR(50) NULL COMMENT '更新者',
+  PRIMARY KEY (`id`),
+  INDEX `commodityCategoryA_id` (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
+COMMENT = '商品一级类目表';
+
+drop table if exists  `commodityCategoryB`;
+
+CREATE TABLE `firecloud`.`commodityCategoryB` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
+  `categoryAId` INT(11) NOT NULL AUTO_INCREMENT COMMENT '一级类目ID',
+  `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
+  `status` INT(1) NULL COMMENT '类目状态',
+  `createTime` DATETIME NULL COMMENT '创建时间',
+  `createOpt` VARCHAR(50) NULL COMMENT '创建者',
+  `updateTime` DATETIME NULL COMMENT '更新时间',
+  `updateOpt` VARCHAR(50) NULL COMMENT '更新者',
+  PRIMARY KEY (`id`),
+  INDEX `commodityCategoryB_id` (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
+COMMENT = '商品二级类目表';
+
+drop table if exists  `commodityCategoryC`;
+
+CREATE TABLE `firecloud`.`commodityCategoryC` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
+  `categoryBId` INT(11) NOT NULL AUTO_INCREMENT COMMENT '二级类目ID',
+  `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
+  `status` INT(1) NULL COMMENT '类目状态',
+  `createTime` DATETIME NULL COMMENT '创建时间',
+  `createOpt` VARCHAR(50) NULL COMMENT '创建者',
+  `updateTime` DATETIME NULL COMMENT '更新时间',
+  `updateOpt` VARCHAR(50) NULL COMMENT '更新者',
+  PRIMARY KEY (`id`),
+  INDEX `commodityCategoryC_id` (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
+COMMENT = '商品三级类目表';
