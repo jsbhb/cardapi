@@ -50,7 +50,25 @@ public class MemberController {
 				model.setObj(resultMap);
 			}
 		} catch (Exception e) {
-			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "出错！！！！！！", e);
+			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "模糊查询会员信息出错！！！！！！", e);
+			model.setSuccess(false);
+			model.setMsg(ERROR_MSG);
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/{version}/members/{id}", method = RequestMethod.GET)
+	public CallBackModel getMemberInfo(@PathVariable("version") Double version, @PathVariable("id") Integer id,
+			HttpServletRequest req, HttpServletResponse res) {
+		
+		CallBackModel model = new CallBackModel();
+		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		try {
+			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+				
+			}
+		} catch (Exception e) {
+			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "根据ID查询会员信息出错！！！！！！", e);
 			model.setSuccess(false);
 			model.setMsg(ERROR_MSG);
 		}

@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
 	private final String SORT_LIST = "sortList";
 	private final String MEMBER_LIST = "memberList";
 	private final String SEARCH_FILTER = "searchFilter";
-	private final String PAGINATION = "Pagination";
+	private final String PAGINATION = "pagination";
 
 	@Resource
 	MemberMapper memberMapper;
