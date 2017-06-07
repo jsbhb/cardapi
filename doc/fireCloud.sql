@@ -460,7 +460,7 @@ drop table if exists  `commodityCategoryB`;
 
 CREATE TABLE `firecloud`.`commodityCategoryB` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
-  `categoryAId` INT(11) NOT NULL AUTO_INCREMENT COMMENT '一级类目ID',
+  `categoryAId` INT(11) NOT NULL COMMENT '一级类目ID',
   `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
   `status` INT(1) NULL COMMENT '类目状态',
   `createTime` DATETIME NULL COMMENT '创建时间',
@@ -475,7 +475,7 @@ drop table if exists  `commodityCategoryC`;
 
 CREATE TABLE `firecloud`.`commodityCategoryC` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
-  `categoryBId` INT(11) NOT NULL AUTO_INCREMENT COMMENT '二级类目ID',
+  `categoryBId` INT(11) NOT NULL COMMENT '二级类目ID',
   `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
   `status` INT(1) NULL COMMENT '类目状态',
   `createTime` DATETIME NULL COMMENT '创建时间',
