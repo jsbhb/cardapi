@@ -31,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
 	private final String SORT_LIST = "sortList";
 	private final String MEMBER_LIST = "memberList";
 	private final String SEARCH_FILTER = "searchFilter";
+	private final String PAGINATION = "Pagination";
 
 	@Resource
 	MemberMapper memberMapper;
@@ -53,11 +54,17 @@ public class MemberServiceImpl implements MemberService {
 			extractFilterCondition(infoPage, searchFilterModel);
 			resultMap.put(MEMBER_LIST, infoPage);
 			resultMap.put(SEARCH_FILTER, searchFilterModel);
+			resultMap.put(PAGINATION, pagination.webPageConverter(infoPage));
 		}
 
 		return resultMap;
 	}
 
+	/**
+	 * @fun 将会员的行业和分类抽离出来，以便给前台更详细的查询条件,其他优质商家等通用信息前台直接写死
+	 * @param infoPage
+	 * @param searchFilterModel
+	 */
 	private void extractFilterCondition(Page<SimpleMemberInfoModel> infoPage, SearchFilterModel searchFilterModel) {
 		Map<String, String> industryMap = new HashMap<String, String>();
 		Map<String, String> categoryMap = new HashMap<String, String>();
