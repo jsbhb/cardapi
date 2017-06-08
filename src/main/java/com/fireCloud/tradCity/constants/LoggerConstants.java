@@ -29,4 +29,7 @@ public class LoggerConstants {
 	
 	//======会员类日志常量=======//
 	public static final String SEARCH_MEMBER = "检索会员服务";
+	
+	//======公共服务类日志常量=======//
+	public static final String COMMON_MEMBER_CATEGORY = "公共服务获取会员分类";
 }
