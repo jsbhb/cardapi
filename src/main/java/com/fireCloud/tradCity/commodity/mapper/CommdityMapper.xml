@@ -41,12 +41,18 @@
 	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
 		select a.id commodityId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
 		a.quantity, a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
-		a.picture4,a.picture5,b.commodityShowId,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
-		b.showPagePath,b.showPageSource,c.memberId,c.memberName,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods
+		a.picture4,a.picture5,b.id commodityShowId,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
+		b.showPagePath,b.showPageSource,a.memberId,c.memberName,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods
 		from commodity a
 		inner join commodity_show b on a.id = b.commodityId
 		inner join member c on a.memberId = c.id
 		where 1=1
+		<if test="commodityId != null and commodityId != ''">
+			and a.id = #{commodityId}
+		</if>
+		<if test="memberId != null and memberId != ''">
+			and a.memberId = #{memberId}
+		</if>
 		<if test="commodityCategory1 != null and commodityCategory1 != ''">
 			and a.commodityCategory1 = #{commodityCategory1}
         </if>
@@ -90,7 +96,7 @@
         <if test="createTimeUp != null and createTimeUp != ''">
 			a.createTime asc,
         </if>
-        <if test="createTimeUp != null and createTimeUp != ''">
+        <if test="createTimeDown != null and createTimeDown != ''">
 			a.createTime desc,
         </if>
         c.reputation desc

@@ -10,5 +10,15 @@ import java.util.Map;
  */
 public interface CommodityService {
 
-	Map<String,Object> getCommodityBySearch(Map<String, Object> searchItems);
+	//首页上的按分类和按名称检索接口
+ 	Map<String,Object> getCommodityBySearch(Map<String, Object> searchItems);
+	
+	//根据查询的结果进行排序
+	Map<String,Object> getCommodityBySearchSort(Map<String, Object> searchItems);
+	
+	//根据查询的结果进行排序
+	Map<String,Object> getCommodityByCommodityId(Map<String, Object> searchItems);
+	
+	//根据查询的结果进行排序
+	Map<String,Object> getCommodityByMemberId(Map<String, Object> searchItems);
 }
