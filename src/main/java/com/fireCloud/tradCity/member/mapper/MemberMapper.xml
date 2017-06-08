@@ -53,20 +53,24 @@
 				and m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%')
 			</if>
 			<if test="member.memberClassify != null and member.memberClassify.size > 0">
-				and mc.industry in
-				<foreach collection="member.memberClassify" item="item" open="("
+				<if test="member.memberClassify.get(0).categoryDict != null and member.memberClassify.get(0).categoryDict != ''">
+					and mc.categoryDict in
+					<foreach collection="member.memberClassify" item="item" open="("
 					separator="," close=")">
 					<if test="item.categoryDict != null and item.categoryDict != ''">
-						#{item.industry, jdbcType=INTEGER}
+						#{item.categoryDict, jdbcType=INTEGER}
 					</if>
 				</foreach>
-				and mc.category in 
-				<foreach collection="member.memberClassify" item="item" open="("
-					separator="," close=")">
-					<if test="item.categoryEntry != null and item.categoryEntry != ''">
-						#{item.categoryEntry, jdbcType=INTEGER}
-					</if>
-				</foreach>
+				</if>
+				<if test="member.memberClassify.get(0).categoryEntry != null and member.memberClassify.get(0).categoryEntry != ''">
+					and mc.categoryEntry in 
+					<foreach collection="member.memberClassify" item="item" open="("
+						separator="," close=")">
+						<if test="item.categoryEntry != null and item.categoryEntry != ''">
+							#{item.categoryEntry, jdbcType=INTEGER}
+						</if>
+					</foreach>
+				</if>
 			</if>
 			<if test="member.guarantee != null and member.guarantee != ''">
 				and m.guarantee = #{member.guarantee, jdbcType=INTEGER}
