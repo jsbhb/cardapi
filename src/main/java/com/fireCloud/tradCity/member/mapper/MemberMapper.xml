@@ -56,15 +56,15 @@
 				and mc.industry in
 				<foreach collection="member.memberClassify" item="item" open="("
 					separator="," close=")">
-					<if test="item.industry != null and item.industry != ''">
+					<if test="item.categoryDict != null and item.categoryDict != ''">
 						#{item.industry, jdbcType=INTEGER}
 					</if>
 				</foreach>
 				and mc.category in 
 				<foreach collection="member.memberClassify" item="item" open="("
 					separator="," close=")">
-					<if test="item.category != null and item.category != ''">
-						#{item.category, jdbcType=INTEGER}
+					<if test="item.categoryEntry != null and item.categoryEntry != ''">
+						#{item.categoryEntry, jdbcType=INTEGER}
 					</if>
 				</foreach>
 			</if>
