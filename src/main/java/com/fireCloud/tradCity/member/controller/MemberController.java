@@ -46,7 +46,7 @@ public class MemberController {
 		try {
 			// 增加版本控制，后期版本升级可以兼容
 			if (ConfigConstants.FIRST_VERSION.equals(version)) {
-				Map<String, Object> resultMap = memberService.queryMember(memberInfo, sortList, pagination, true);
+				Map<String, Object> resultMap = memberService.queryMember(memberInfo, sortList, pagination);
 				model.setSuccess(true);
 				model.setObj(resultMap);
 			}

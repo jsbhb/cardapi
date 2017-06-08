@@ -38,11 +38,16 @@
 		<result column="qq" property="qq" jdbcType="VARCHAR" />
 	</resultMap>
 
+	<select id = "queryCount" resultType = "java.lang.Integer">
+		select count(*) from member
+	</select>
+
 	<select id="querySimpleMember" resultMap="simpleMemberInfo"
 		parameterType="java.util.Map">
 		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.industry,mc.category,mc.industryName,mc.categoryName 
-		from member m left join member_category mc on m.id = mc.memberId where 1=1
+		from (select * from member limit #{pagination.startRow} , #{pagination.endRow}) m left join 
+		member_category mc on m.id = mc.memberId where 1=1
 		<if test="member != null">
 			<if test="member.memberName != null and member.memberName != ''">
 				and m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%')

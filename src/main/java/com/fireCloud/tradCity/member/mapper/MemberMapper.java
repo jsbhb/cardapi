@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
-import com.github.pagehelper.Page;
 
 
 /**
@@ -15,9 +14,11 @@ import com.github.pagehelper.Page;
  */
 public interface MemberMapper {
 	
-	Page<SimpleMemberInfoModel> querySimpleMember(Map<String, Object> searchItems);
+	List<SimpleMemberInfoModel> querySimpleMember(Map<String, Object> searchItems);
 	
 	MemberInfoModel queryMemberDetail(Integer memberId);
 	
 	List<String> queryMemberFileId(Integer memberId);
+	
+	Integer queryCount();
 }

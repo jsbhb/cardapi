@@ -21,11 +21,9 @@ public interface MemberService {
 	 * @param memberInfo 搜索会员信息参数
 	 * @param sortList 排序对象
 	 * @param pagination 分页对象
-	 * @param flag 是否需要分页 
 	 * @return 会员对象List和前台筛选条件对象SearchFilterModel
 	 */
-	Map<String, Object> queryMember(SimpleMemberInfoModel memberInfo, SortModelList sortList, Pagination pagination,
-			boolean flag);
+	Map<String, Object> queryMember(SimpleMemberInfoModel memberInfo, SortModelList sortList, Pagination pagination);
 	
 	/**
 	 * @fun 根据memberId搜索会员详细信息

@@ -39,29 +39,34 @@ public class MemberServiceImpl implements MemberService {
 
 	@Resource
 	MemberMapper memberMapper;
-	
+
 	@Resource
 	FileService fileService;
 
 	@Override
 	public Map<String, Object> queryMember(SimpleMemberInfoModel memberInfo, SortModelList sortList,
-			Pagination pagination, boolean flag) {
+			Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>(16);
 		Map<String, Object> parmsMap = new HashMap<String, Object>();
-		PageHelper.startPage(pagination.getCurrentPage(), pagination.getNumPerPage(), flag);
+		//pagehelper不支持连表查询分页，所以采用传统方法
+		Integer total = memberMapper.queryCount();
+		pagination.setTotalRows((long)total);
 		parmsMap.put(MEMBER, memberInfo);
 		List<SortModel> sortListEntity = sortList.getSortList();
 		if (sortListEntity != null && sortListEntity.size() > 0) {
 			parmsMap.put(SORT_LIST, sortListEntity);
 		}
-		Page<SimpleMemberInfoModel> infoPage = memberMapper.querySimpleMember(parmsMap);
+		//计算startRow和endRow
+		pagination.init();
+		parmsMap.put(PAGINATION, pagination);
+		List<SimpleMemberInfoModel> infoPage = memberMapper.querySimpleMember(parmsMap);
 		if (infoPage != null && infoPage.size() > 0) {
 			SearchFilterModel searchFilterModel = new SearchFilterModel();
 			// 抽取前台搜索过滤条件
 			extractFilterCondition(infoPage, searchFilterModel);
 			resultMap.put(MEMBER_LIST, infoPage);
 			resultMap.put(SEARCH_FILTER, searchFilterModel);
-			resultMap.put(PAGINATION, pagination.webPageConverter(infoPage));
+			resultMap.put(PAGINATION, pagination.webListConverter());
 		}
 
 		return resultMap;
@@ -72,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
 	 * @param infoPage
 	 * @param searchFilterModel
 	 */
-	private void extractFilterCondition(Page<SimpleMemberInfoModel> infoPage, SearchFilterModel searchFilterModel) {
+	private void extractFilterCondition(List<SimpleMemberInfoModel> infoPage, SearchFilterModel searchFilterModel) {
 		Map<String, String> industryMap = new HashMap<String, String>();
 		Map<String, String> categoryMap = new HashMap<String, String>();
 		List<MemberClassifyModel> temp = null;
@@ -92,14 +97,14 @@ public class MemberServiceImpl implements MemberService {
 	public MemberInfoModel queryMemberDetail(Integer memberId) {
 		MemberInfoModel model = new MemberInfoModel();
 		model = memberMapper.queryMemberDetail(memberId);
-		
+
 		List<String> fileList = memberMapper.queryMemberFileId(memberId);
-		
+
 		List<FileModel> fielModelList = new ArrayList<FileModel>();
-		if(fileList != null && fileList.size() > 0){
+		if (fileList != null && fileList.size() > 0) {
 			fielModelList = fileService.queryFileById(fileList);
 		}
-		
+
 		model.setFileList(fielModelList);
 		return model;
 	}
