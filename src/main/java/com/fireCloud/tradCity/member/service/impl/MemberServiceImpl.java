@@ -84,8 +84,8 @@ public class MemberServiceImpl implements MemberService {
 		for (SimpleMemberInfoModel info : infoPage) {
 			temp = info.getMemberClassify();
 			for (MemberClassifyModel model : temp) {
-				industryMap.put(model.getIndustry(), model.getIndustryName());
-				categoryMap.put(model.getCategory(), model.getCategoryName());
+				industryMap.put(model.getCategoryDict() + "", model.getDictName());
+				categoryMap.put(model.getCategoryEntry() + "", model.getEntryName());
 			}
 		}
 		searchFilterModel.setCategoryMap(categoryMap);

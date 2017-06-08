@@ -136,14 +136,14 @@ drop table if exists  `member_category`;
 CREATE TABLE `firecloud`.`member_category` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '会员类目ID',
   `memberId` INT(11) NOT NULL COMMENT '会员ID',
-  `industry` VARCHAR(30) NULL COMMENT '所在行业',
-  `category` VARCHAR(30) NULL COMMENT '行业类目',
-  `industryName` VARCHAR(50) NULL COMMENT '行业类目名称',
-  `categoryName` VARCHAR(50) NULL COMMENT '行业类目名称',
+  `categoryDict` INT(11) NULL COMMENT '所在行业',
+  `categoryEntry` INT(11) NULL COMMENT '行业类目',
+  `dictName` VARCHAR(50) NULL COMMENT '行业类目名称',
+  `entryName` VARCHAR(50) NULL COMMENT '行业类目名称',
   PRIMARY KEY (`id`),
   INDEX `member_category_memberId` (`memberId`),
-  INDEX `member_category_industry` (`industry`),
-  INDEX `member_category_category` (`category`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
+  INDEX `member_category_industry` (`categoryDict`),
+  INDEX `member_category_category` (`categoryEntry`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '会员类目表';
 
 
@@ -160,8 +160,8 @@ CREATE TABLE `firecloud`.`popularize_dict` (
   `pitNum` INT(2) NULL COMMENT '推广坑位数',
   `subPitNum` INT(2) NULL COMMENT '企业+商品类型的商品坑位',
   `sort` INT(2) NULL COMMENT '字典排序',
-  `industry` VARCHAR(30) NULL COMMENT '所在行业',
-  `category` VARCHAR(30) NULL COMMENT '行业类目',
+  `categoryDict` INT(11) NULL COMMENT '所在行业',
+  `categoryEntry` INT(11) NULL COMMENT '行业类目',
   `createTime` DATETIME NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '推广字典';
@@ -440,3 +440,25 @@ CREATE TABLE `firecloud`.`product_pic` (
   `createTime` DATETIME NULL COMMENT '创建时间',
   INDEX `product_pic_productId` (`productId`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 
 COMMENT = '商品图片';
+
+drop table if exists  `member_category_dict`;
+CREATE TABLE `firecloud`.`member_category_dict` (
+  `id` INT(11) NOT NULL,
+  `dictName` VARCHAR(50) NULL,
+  `createTime` DATETIME NULL,
+  `opt` INT(11) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `dictName_UNIQUE` (`dictName` ASC))ENGINE=InnoDB DEFAULT CHARSET=utf8 
+COMMENT = '行业名称';
+
+drop table if exists  `member_category_entry`;
+CREATE TABLE `firecloud`.`member_category_entry` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `dictId` INT(11) NULL,
+  `entryName` VARCHAR(50) NULL,
+  `createTime` DATETIME NULL,
+  `opt` INT(11) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `dictId_Name` (`dictId` , `entryName`)
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8 
+COMMENT = '行业分类细分';

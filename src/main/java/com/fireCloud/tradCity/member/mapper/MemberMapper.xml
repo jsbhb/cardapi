@@ -20,10 +20,10 @@
 		<result column="popularize" property="popularize" jdbcType="INTEGER" />
 		<collection property="memberClassify" ofType = "com.fireCloud.tradCity.member.model.MemberClassifyModel">
 			<id column="id" property="id" jdbcType="INTEGER" />
-			<result column="industry" property="industry" jdbcType="VARCHAR" />
-			<result column="category" property="category" jdbcType="VARCHAR" />
-			<result column="industryName" property="industryName" jdbcType="VARCHAR" />
-			<result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
+			<result column="categoryDict" property="categoryDict" jdbcType="INTEGER" />
+			<result column="categoryEntry" property="categoryEntry" jdbcType="INTEGER" />
+			<result column="dictName" property="dictName" jdbcType="VARCHAR" />
+			<result column="entryName" property="entryName" jdbcType="VARCHAR" />
 		</collection>
 	</resultMap>
 	
@@ -45,7 +45,7 @@
 	<select id="querySimpleMember" resultMap="simpleMemberInfo"
 		parameterType="java.util.Map">
 		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
-		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.industry,mc.category,mc.industryName,mc.categoryName 
+		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,mc.entryName 
 		from (select * from member limit #{pagination.startRow} , #{pagination.endRow}) m left join 
 		member_category mc on m.id = mc.memberId where 1=1
 		<if test="member != null">
@@ -57,28 +57,28 @@
 				<foreach collection="member.memberClassify" item="item" open="("
 					separator="," close=")">
 					<if test="item.industry != null and item.industry != ''">
-						#{item.industry}
+						#{item.industry, jdbcType=INTEGER}
 					</if>
 				</foreach>
 				and mc.category in 
 				<foreach collection="member.memberClassify" item="item" open="("
 					separator="," close=")">
 					<if test="item.category != null and item.category != ''">
-						#{item.category}
+						#{item.category, jdbcType=INTEGER}
 					</if>
 				</foreach>
 			</if>
 			<if test="member.guarantee != null and member.guarantee != ''">
-				and m.guarantee = #{member.guarantee}
+				and m.guarantee = #{member.guarantee, jdbcType=INTEGER}
 			</if>
 			<if test="member.highQuality != null and member.highQuality != ''">
-				and m.highQuality = #{member.highQuality}
+				and m.highQuality = #{member.highQuality, jdbcType=INTEGER}
 			</if>
 			<if test="member.sincerity != null and member.sincerity != ''">
-				and m.sincerity = #{member.sincerity}
+				and m.sincerity = #{member.sincerity, jdbcType=INTEGER}
 			</if>
 			<if test="member.returnGoods != null and member.returnGoods != ''">
-				and m.returnGoods = #{member.returnGoods}
+				and m.returnGoods = #{member.returnGoods, jdbcType=INTEGER}
 			</if>
 			<if test="member.province != null and member.province != ''">
 				and m.province = #{member.province}
@@ -101,12 +101,12 @@
 	
 	<select id="queryMemberDetail" parameterType="java.lang.Integer" resultMap="memberInfo">
 		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
-		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.industry,mc.category,mc.industryName,
-		mc.categoryName,m.notice,m.aboutUs,m.licensePath,m.operator,m.mobile,m.email,m.phone,m.qq 
-		from member m left join member_category mc on m.id = mc.memberId where m.id = #{id}
+		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,
+		mc.entryName,m.notice,m.aboutUs,m.licensePath,m.operator,m.mobile,m.email,m.phone,m.qq 
+		from member m left join member_category mc on m.id = mc.memberId where m.id = #{id, jdbcType=INTEGER}
 	</select>
 	
 	<select id="queryMemberFileId" resultType="java.lang.String" parameterType="java.lang.Integer">
-		select fileId from member_pic where memberId = #{memberId}
+		select fileId from member_pic where memberId = #{memberId, jdbcType=INTEGER}
 	</select>
 </mapper>

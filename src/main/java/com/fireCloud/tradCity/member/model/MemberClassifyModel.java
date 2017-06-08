@@ -9,28 +9,29 @@ public class MemberClassifyModel {
 	
 	private Integer id;
 
-	private String industry;
+	private Integer categoryDict;
 	
-	private String industryName;
+	private String dictName;
 	
-	private String category;
+	private Integer categoryEntry;
 	
-	private String categoryName;
+	private String entryName;
 
-	public String getIndustry() {
-		return industry;
+
+	public Integer getCategoryDict() {
+		return categoryDict;
 	}
 
-	public void setIndustry(String industry) {
-		this.industry = industry;
+	public void setCategoryDict(Integer categoryDict) {
+		this.categoryDict = categoryDict;
 	}
 
-	public String getCategory() {
-		return category;
+	public Integer getCategoryEntry() {
+		return categoryEntry;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setCategoryEntry(Integer categoryEntry) {
+		this.categoryEntry = categoryEntry;
 	}
 
 	public Integer getId() {
@@ -41,26 +42,26 @@ public class MemberClassifyModel {
 		this.id = id;
 	}
 
-	public String getIndustryName() {
-		return industryName;
+	public String getDictName() {
+		return dictName;
 	}
 
-	public void setIndustryName(String industryName) {
-		this.industryName = industryName;
+	public void setDictName(String dictName) {
+		this.dictName = dictName;
 	}
 
-	public String getCategoryName() {
-		return categoryName;
+	public String getEntryName() {
+		return entryName;
 	}
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+	public void setEntryName(String entryName) {
+		this.entryName = entryName;
 	}
 
 	@Override
 	public String toString() {
-		return "MemberClassifyModel [id=" + id + ", industry=" + industry + ", industryName=" + industryName
-				+ ", category=" + category + ", categoryName=" + categoryName + "]";
+		return "MemberClassifyModel [id=" + id + ", categoryDict=" + categoryDict + ", dictName=" + dictName
+				+ ", categoryEntry=" + categoryEntry + ", entryName=" + entryName + "]";
 	}
-	
+
 }

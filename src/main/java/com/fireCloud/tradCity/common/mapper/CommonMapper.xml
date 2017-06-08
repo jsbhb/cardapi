@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fireCloud.tradCity.common.mapper.CommonMapper">
+
+	<resultMap type="com.fireCloud.tradCity.common.model.MemberCategoryModel" id="memberCategory">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="dictName" property="dictName" jdbcType="VARCHAR" />
+		<collection property="entryList" ofType = "com.fireCloud.tradCity.common.model.MemberCategoryEnteryModel">
+			<id column="entryId" property="id" jdbcType="INTEGER" />
+			<result column="id" property="dictId" jdbcType="INTEGER" />
+			<result column="entryName" property="entryName" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	
+	<select id = "queryMemberCategory" resultMap = "memberCategory">
+		select mcd.id,mcd.dictName,mce.id as entryId,mce.entryName 
+		from member_category_dict mcd left join member_category_entry mce on mcd.id = mce.dictId
+	</select>
+
+</mapper>
