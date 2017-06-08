@@ -10,12 +10,14 @@
 		<input type="button" value = "PUT" onclick="put()"/>
 		<input type="button" value = "POST" onclick="post()"/>
 		<input type="button" value = "DELETE" onclick="del()"/>
+		<input type="button" value = "MAP" onclick="map()"/>
 		<div>
 			<p id="get"></p>
 			<p id="getall"></p>
 			<p id="put"></p>
 			<p id="post"></p>
 			<p id="del"></p>
+			<p id="map"></p>
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -82,6 +84,21 @@
 				scriptCharset:"utf-8",
 				success:function(data){
 					$("#getall").html(data.msg);
+				}
+			})
+		}
+		function map(){
+			var map = new Object();
+			map['status']=1;
+			map['age']="12";
+			$.ajax({
+				url : "http://127.0.0.1:8080/cardapi/1.0/commoditys/maintain",
+				type:"PUT",
+				dataType:"json",
+				data:{"items":map},
+				scriptCharset:"utf-8",
+				success:function(data){
+					$("#map").html(data.msg);
 				}
 			})
 		}
