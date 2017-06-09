@@ -1,6 +1,8 @@
 package com.fireCloud.tradCity.commodity.controller;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -144,8 +146,8 @@ public class CommodityController {
 	}
 	
 	//根据商品ID进行数据查询
-	@RequestMapping(value = "/{version}/commoditys/id", method = RequestMethod.GET)
-	public CallBackModel getCommoditysById(@PathVariable("version") Double version, HttpServletRequest req,
+	@RequestMapping(value = "/{version}/commoditys/{id}", method = RequestMethod.GET)
+	public CallBackModel getCommoditysById(@PathVariable("version") Double version, @PathVariable("id") Integer id, HttpServletRequest req,
 			HttpServletResponse res) {
 		//定义返回结果的model
 		CallBackModel model = new CallBackModel();
@@ -155,10 +157,9 @@ public class CommodityController {
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
-				String commodityId = req.getParameter("commodityId");
 				
 				//将查询条件放入map
-				searchItems.put("commodityId", commodityId);
+				searchItems.put("commodityId", id);
 				
 				//封装查询结果
 				Map<String, Object> resultMap = commodityService.getCommodityByCommodityId(searchItems);
@@ -175,8 +176,8 @@ public class CommodityController {
 	}
 	
 	//根据商家ID进行数据查询
-	@RequestMapping(value = "/{version}/commoditys/memberid", method = RequestMethod.GET)
-	public CallBackModel getCommoditysByMemberId(@PathVariable("version") Double version, HttpServletRequest req,
+	@RequestMapping(value = "/{version}/{memberId}/commoditys", method = RequestMethod.GET)
+	public CallBackModel getCommoditysByMemberId(@PathVariable("version") Double version, @PathVariable("memberId") Integer memberId, HttpServletRequest req,
 			HttpServletResponse res) {
 		//定义返回结果的model
 		CallBackModel model = new CallBackModel();
@@ -186,7 +187,6 @@ public class CommodityController {
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
-				String memberId = req.getParameter("memberId");
 				
 				//将查询条件放入map
 				searchItems.put("memberId", memberId);
@@ -203,5 +203,137 @@ public class CommodityController {
 			}
 		}
 		return model;
+	}
+	
+	//新增商品一级类目
+	@RequestMapping(value = "/{version}/commoditys/addCategoryA", method = RequestMethod.POST)
+	public CallBackModel addCategoryA(@PathVariable("version") Double version, HttpServletRequest req,
+			HttpServletResponse res) {
+		//定义返回结果的model
+		CallBackModel model = new CallBackModel();
+		//增加版本控制，后期版本升级可以兼容
+		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+			try {
+				//获取前台传递过来的参数
+				Map<String, Object> addItems = new HashMap<String, Object>();
+				String categoryName = req.getParameter("categoryName");
+				String status = req.getParameter("status");
+
+				//将条件放入map
+				addItems.put("categoryName", categoryName);
+				addItems.put("status", status);
+				addItems.put("createOpt", status);
+				addItems.put("updateOpt", status);
+				
+			    //执行更新操作
+			    
+				//封装返回结果
+				
+			} catch (Exception e) {
+				sysLogger.error(LoggerConstants.SEARCH_COMMODITY, "出错！！！！！！", e);
+				model.setSuccess(false);
+				model.setMsg(ERROR_MSG);
+			}
+		}
+		return model;
+	}
+	
+	//新增商品
+	@RequestMapping(value = "/{version}/commoditys/addCommodity", method = RequestMethod.POST)
+	public CallBackModel addCommodity(@PathVariable("version") Double version, HttpServletRequest req,
+			HttpServletResponse res) {
+		//定义返回结果的model
+		CallBackModel model = new CallBackModel();
+		//增加版本控制，后期版本升级可以兼容
+		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+			try {
+				//获取前台传递过来的参数
+				Map<String, Object> addItems = new HashMap<String, Object>();
+				String categoryName = req.getParameter("categoryName");
+
+				//将条件放入map
+				addItems.put("categoryName", categoryName);
+				
+			    //执行更新操作
+			    
+				//封装返回结果
+				
+			} catch (Exception e) {
+				sysLogger.error(LoggerConstants.SEARCH_COMMODITY, "出错！！！！！！", e);
+				model.setSuccess(false);
+				model.setMsg(ERROR_MSG);
+			}
+		}
+		return model;
+	}
+	
+	//根据前台参数进行商品维护
+	@RequestMapping(value = "/{version}/commoditys/maintain", method = RequestMethod.GET)
+	public CallBackModel updCommoditysMaintain(@PathVariable("version") Double version, HttpServletRequest req,
+			HttpServletResponse res) {
+		//定义返回结果的model
+		CallBackModel model = new CallBackModel();
+		//增加版本控制，后期版本升级可以兼容
+		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+			try {
+				//获取前台传递过来的参数形成map
+			    Map<String, Object> updItems = retConverMap(req.getParameterMap());
+				
+			    //执行更新操作
+			    
+				//封装返回结果
+//				Map<String, Object> resultMap = commodityService.getCommodityByMemberId(updItems);
+//				model.setSuccess(true);
+//				model.setObj(resultMap);
+				
+			} catch (Exception e) {
+				sysLogger.error(LoggerConstants.SEARCH_COMMODITY, "出错！！！！！！", e);
+				model.setSuccess(false);
+				model.setMsg(ERROR_MSG);
+			}
+		}
+		return model;
+	}
+	
+	//将前台传递的json串转换成查询需要的map
+	@SuppressWarnings({ "unchecked", "rawtypes" })  
+	public static Map<String, Object> retConverMap(Map properties) {
+		Map<String, Object> items = new HashMap<String, Object>();
+	    Map returnMap = new HashMap();  
+	    Iterator entries = properties.entrySet().iterator();  
+	    Map.Entry entry;  
+	    String name = "";  
+	    String value = "";  
+	    while (entries.hasNext()) {  
+	        entry = (Map.Entry) entries.next();  
+	        name = (String) entry.getKey();  
+	        Object valueObj = entry.getValue();  
+	        if(null == valueObj){  
+	            value = "";  
+	        }else if(valueObj instanceof String[]){  
+	            String[] values = (String[])valueObj;  
+	            for(int i=0;i<values.length;i++){  
+	                value = values[i] + ",";  
+	            }  
+	            value = value.substring(0, value.length()-1);  
+	        }else{  
+	            value = valueObj.toString();  
+	        }  
+	        returnMap.put(name, value);  
+	    }
+	    
+	    //将结果放入map中
+	    for (Object obj : returnMap.values()) {
+	    	String tmpStr = obj.toString().substring(1, obj.toString().length()-1).replace("\"", "");
+	    	String[] tmpArray = tmpStr.split(",");
+	    	for (String index : tmpArray) {
+	    		items.put(index.split(":")[0], index.split(":")[1]);
+	        }
+	    }
+	    
+	    return items;
 	}
 }

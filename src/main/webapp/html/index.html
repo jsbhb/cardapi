@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="http://127.0.0.1:8080/tradeCity/js/jquery.min.js"></script>
+		<script type="text/javascript" src="http://localhost:8080/cardapi/js/jquery.min.js"></script>
 	</head>
 	<body>
 		<input type="button" value = "GET" onclick="get()"/>
@@ -92,10 +92,10 @@
 			map['status']=1;
 			map['age']="12";
 			$.ajax({
-				url : "http://127.0.0.1:8080/cardapi/1.0/commoditys/maintain",
-				type:"PUT",
+				url : "http://localhost:8080/cardapi/1.0/commoditys/maintain",
+				type:"GET",
 				dataType:"json",
-				data:{"items":map},
+				data:{"items":"{\"status\":\"1\",\"age\":\"12\"}"},
 				scriptCharset:"utf-8",
 				success:function(data){
 					$("#map").html(data.msg);
