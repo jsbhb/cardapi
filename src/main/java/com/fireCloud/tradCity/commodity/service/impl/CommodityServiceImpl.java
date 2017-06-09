@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.fireCloud.tradCity.basic.model.Pagination;
 import com.fireCloud.tradCity.commodity.mapper.CommdityMapper;
+import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
 import com.fireCloud.tradCity.commodity.model.CommoditySearchModel;
 import com.fireCloud.tradCity.commodity.service.CommodityService;
 import com.fireCloud.tradCity.constants.LoggerConstants;
@@ -25,7 +27,7 @@ public class CommodityServiceImpl implements CommodityService {
 	SysLogger sysLogger;
 
 	@Override
-	public Map<String, Object> getCommodityBySearch(Map<String, Object> searchItems) {
+	public Map<String, Object> getCommodityBySearch(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		//调用sql获取查询结果
@@ -33,6 +35,8 @@ public class CommodityServiceImpl implements CommodityService {
 		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
 				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
 
+		pagination.setTotalRows((long)commoditySearchList.size());
+		pagination.init();
 		//定义前台展示的数组
 		ArrayList<String> commodityCategory2 = new ArrayList<String>();
 		ArrayList<String> commodityCategory3 = new ArrayList<String>();
@@ -75,21 +79,7 @@ public class CommodityServiceImpl implements CommodityService {
 			resultMap.put("commodityCategory3", null);
 		}
 		resultMap.put("commoditySearchList", commoditySearchList);
-		
-		return resultMap;
-	}
-	
-	@Override
-	public Map<String, Object> getCommodityBySearchSort(Map<String, Object> searchItems) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		
-		//调用sql获取查询结果
-		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
-		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
-				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
-
-		//将显示信息拼装好
-		resultMap.put("commoditySearchList", commoditySearchList);
+		resultMap.put("pagination", pagination.webListConverter());
 		
 		return resultMap;
 	}
@@ -120,6 +110,43 @@ public class CommodityServiceImpl implements CommodityService {
 
 		//将显示信息拼装好
 		resultMap.put("commoditySearchList", commoditySearchList);
+		
+		return resultMap;
+	}
+	
+	@Override
+	public Map<String, Object> addCommodityCategoryA(CommodityCategoryAModel commodityCategoryA) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		boolean InsertFlg = false;
+
+		//调用sql获取查询结果
+		Map<String, Object> searchItems = new HashMap<String, Object>();
+		searchItems.put("categoryName", commodityCategoryA.getCategoryName());
+		searchItems.put("status", commodityCategoryA.getStatus());
+		List<CommodityCategoryAModel> commodityCategoryASearchList = commdityMapper.queryCommodityCategoryA(searchItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_CATEGORY_A_SIZE,
+				commodityCategoryASearchList == null ? "=====0" : "=====" + commodityCategoryASearchList.size());
+		
+		//判断新增的记录是否已经存在
+		if (commodityCategoryASearchList.size() <= 0) {
+			//执行新增操作
+			sysLogger.info(LoggerConstants.ADD_COMMODITY_CATEGORY_A,LoggerConstants.OPEARTION_START);
+			commdityMapper.insCommodityCategoryA(commodityCategoryA);
+			sysLogger.info(LoggerConstants.ADD_COMMODITY_CATEGORY_A,LoggerConstants.OPEARTION_END);
+			InsertFlg = true;
+		}
+		
+		//调用sql获取查询结果
+		List<CommodityCategoryAModel> commodityCategoryASearchList2 = commdityMapper.queryCommodityCategoryA(searchItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_CATEGORY_A_SIZE,
+				commodityCategoryASearchList2 == null ? "=====0" : "=====" + commodityCategoryASearchList2.size());
+
+		//将显示信息拼装好
+		if (InsertFlg) {
+			resultMap.put("commodityCategoryASearchList", commodityCategoryASearchList2);
+		} else {
+			resultMap.put("commodityCategoryASearchList", commodityCategoryASearchList);
+		}
 		
 		return resultMap;
 	}

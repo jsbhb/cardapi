@@ -38,6 +38,16 @@
 		<result column="returnGoods" property="returnGoods" jdbcType="INTEGER" />
 	</resultMap>
 	
+	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" id="commodityCategoryAMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="createOpt" property="createOpt" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="updateOpt" property="updateOpt" jdbcType="VARCHAR" />
+	</resultMap>
+	
 	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
 		select a.id commodityId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
 		a.quantity, a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
@@ -100,5 +110,27 @@
 			a.createTime desc,
         </if>
         c.reputation desc
+	</select>
+	
+	<insert id="insCommodityCategoryA" parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID()  
+	    </selectKey>
+	    insert into commoditycategorya (categoryName,status,createTime,createOpt,updateTime,updateOpt)
+		values (#{categoryName},#{status},now(),#{createOpt},now(),#{updateOpt})
+	</insert>
+	
+	<select id="queryCommodityCategoryA" resultMap="commodityCategoryAMap" parameterType="java.util.Map">
+		select * from commoditycategorya
+		where 1=1
+		<if test="categoryName != null and categoryName != ''">
+			and categoryName = #{categoryName}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+        order by  
+        createTime
 	</select>
 </mapper>
