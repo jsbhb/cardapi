@@ -15,13 +15,12 @@ import com.fireCloud.tradCity.basic.model.SortModelList;
 import com.fireCloud.tradCity.filemng.model.FileModel;
 import com.fireCloud.tradCity.filemng.service.FileService;
 import com.fireCloud.tradCity.member.mapper.MemberMapper;
-import com.fireCloud.tradCity.member.model.MemberClassifyModel;
+import com.fireCloud.tradCity.member.model.CategoryDictModel;
+import com.fireCloud.tradCity.member.model.CategoryEntryModel;
 import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.SearchFilterModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 
 /**
  * @author wqy
@@ -80,12 +79,20 @@ public class MemberServiceImpl implements MemberService {
 	private void extractFilterCondition(List<SimpleMemberInfoModel> infoPage, SearchFilterModel searchFilterModel) {
 		Map<String, String> industryMap = new HashMap<String, String>();
 		Map<String, String> categoryMap = new HashMap<String, String>();
-		List<MemberClassifyModel> temp = null;
+		List<CategoryDictModel> temp = null;
+		List<CategoryEntryModel> tempEntry = null;
 		for (SimpleMemberInfoModel info : infoPage) {
-			temp = info.getMemberClassify();
-			for (MemberClassifyModel model : temp) {
-				industryMap.put(model.getCategoryDict() + "", model.getDictName());
-				categoryMap.put(model.getCategoryEntry() + "", model.getEntryName());
+			temp = info.getDictList();
+			for (CategoryDictModel model : temp) {
+				if(!industryMap.containsKey(model.getCategoryDict() + "")){
+					industryMap.put(model.getCategoryDict() + "", model.getDictName());
+				}
+			}
+			tempEntry = info.getEntryList();
+			for (CategoryEntryModel model : tempEntry) {
+				if(!categoryMap.containsKey(model.getCategoryEntry() + "")){
+					categoryMap.put(model.getCategoryEntry() + "", model.getEntryName());
+				}
 			}
 		}
 		searchFilterModel.setCategoryMap(categoryMap);

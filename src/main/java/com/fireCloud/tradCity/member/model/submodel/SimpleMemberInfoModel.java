@@ -2,7 +2,8 @@ package com.fireCloud.tradCity.member.model.submodel;
 
 import java.util.List;
 
-import com.fireCloud.tradCity.member.model.MemberClassifyModel;
+import com.fireCloud.tradCity.member.model.CategoryDictModel;
+import com.fireCloud.tradCity.member.model.CategoryEntryModel;
 
 /**
  * @author wqy
@@ -15,7 +16,9 @@ public class SimpleMemberInfoModel {
 
 	private String memberName;
 	// 会员分类
-	private List<MemberClassifyModel> memberClassify;
+	private List<CategoryDictModel> dictList;
+	// 会员分类
+	private List<CategoryEntryModel> entryList;
 	// 主营产品，逗号隔开字符串
 	private String product;
 	// 商家信用
@@ -69,12 +72,20 @@ public class SimpleMemberInfoModel {
 		this.frontPicPath = frontPicPath;
 	}
 
-	public List<MemberClassifyModel> getMemberClassify() {
-		return memberClassify;
+	public List<CategoryDictModel> getDictList() {
+		return dictList;
 	}
 
-	public void setMemberClassify(List<MemberClassifyModel> memberClassify) {
-		this.memberClassify = memberClassify;
+	public void setDictList(List<CategoryDictModel> dictList) {
+		this.dictList = dictList;
+	}
+
+	public List<CategoryEntryModel> getEntryList() {
+		return entryList;
+	}
+
+	public void setEntryList(List<CategoryEntryModel> entryList) {
+		this.entryList = entryList;
 	}
 
 	public String getProduct() {
@@ -183,12 +194,12 @@ public class SimpleMemberInfoModel {
 
 	@Override
 	public String toString() {
-		return "SimpleMemberInfoModel [memberId=" + memberId + ", memberName=" + memberName + ", memberClassify="
-				+ memberClassify + ", product=" + product + ", reputation=" + reputation + ", logoPath=" + logoPath
-				+ ", frontPicPath=" + frontPicPath + ", guarantee=" + guarantee + ", highQuality=" + highQuality
-				+ ", sincerity=" + sincerity + ", returnGoods=" + returnGoods + ", province=" + province + ", city="
-				+ city + ", area=" + area + ", address=" + address + ", popularize=" + popularize + ", enterTime="
-				+ enterTime + "]";
+		return "SimpleMemberInfoModel [memberId=" + memberId + ", memberName=" + memberName + ", dictList=" + dictList
+				+ ", entryList=" + entryList + ", product=" + product + ", reputation=" + reputation + ", logoPath="
+				+ logoPath + ", frontPicPath=" + frontPicPath + ", guarantee=" + guarantee + ", highQuality="
+				+ highQuality + ", sincerity=" + sincerity + ", returnGoods=" + returnGoods + ", province=" + province
+				+ ", city=" + city + ", area=" + area + ", address=" + address + ", popularize=" + popularize
+				+ ", enterTime=" + enterTime + "]";
 	}
 
 }

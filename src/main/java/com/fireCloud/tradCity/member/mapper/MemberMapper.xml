@@ -18,11 +18,14 @@
 		<result column="area" property="area" jdbcType="VARCHAR" />
 		<result column="address" property="address" jdbcType="VARCHAR" />
 		<result column="popularize" property="popularize" jdbcType="INTEGER" />
-		<collection property="memberClassify" ofType = "com.fireCloud.tradCity.member.model.MemberClassifyModel">
+		<collection property="dictList" ofType = "com.fireCloud.tradCity.member.model.CategoryDictModel">
 			<id column="id" property="id" jdbcType="INTEGER" />
 			<result column="categoryDict" property="categoryDict" jdbcType="INTEGER" />
-			<result column="categoryEntry" property="categoryEntry" jdbcType="INTEGER" />
 			<result column="dictName" property="dictName" jdbcType="VARCHAR" />
+		</collection>
+		<collection property="entryList" ofType = "com.fireCloud.tradCity.member.model.CategoryEntryModel">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="categoryEntry" property="categoryEntry" jdbcType="INTEGER" />
 			<result column="entryName" property="entryName" jdbcType="VARCHAR" />
 		</collection>
 	</resultMap>
@@ -52,25 +55,19 @@
 			<if test="member.memberName != null and member.memberName != ''">
 				and m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%')
 			</if>
-			<if test="member.memberClassify != null and member.memberClassify.size > 0">
-				<if test="member.memberClassify.get(0).categoryDict != null and member.memberClassify.get(0).categoryDict != ''">
-					and mc.categoryDict in
-					<foreach collection="member.memberClassify" item="item" open="("
-					separator="," close=")">
-					<if test="item.categoryDict != null and item.categoryDict != ''">
-						#{item.categoryDict, jdbcType=INTEGER}
-					</if>
+			<if test="member.dictList != null and member.dictList.size > 0">
+				and mc.categoryDict in
+				<foreach collection="member.dictList" item="item" open="("
+				separator="," close=")">
+					#{item.categoryDict, jdbcType=INTEGER}
 				</foreach>
-				</if>
-				<if test="member.memberClassify.get(0).categoryEntry != null and member.memberClassify.get(0).categoryEntry != ''">
-					and mc.categoryEntry in 
-					<foreach collection="member.memberClassify" item="item" open="("
-						separator="," close=")">
-						<if test="item.categoryEntry != null and item.categoryEntry != ''">
-							#{item.categoryEntry, jdbcType=INTEGER}
-						</if>
-					</foreach>
-				</if>
+			</if>
+			<if test="member.entryList != null and member.entryList.size > 0">
+				and mc.categoryEntry in 
+				<foreach collection="member.entryList" item="item" open="("
+					separator="," close=")">
+					#{item.categoryEntry, jdbcType=INTEGER}
+				</foreach>
 			</if>
 			<if test="member.guarantee != null and member.guarantee != ''">
 				and m.guarantee = #{member.guarantee, jdbcType=INTEGER}
