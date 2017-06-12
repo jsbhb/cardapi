@@ -57,6 +57,22 @@ public class CommodityModel {
 	private String updateTime;
 	
 	private String updateOpt;
+	
+	private Double priceMin;
+	
+	private Double priceMax;
+	
+	private String hotUp;
+	
+	private String hotDown;
+	
+	private String priceUp;
+	
+	private String priceDown;
+	
+	private String createTimeUp;
+	
+	private String createTimeDown;
 
 	public Integer getId() {
 		return id;
@@ -257,4 +273,69 @@ public class CommodityModel {
 	public void setUpdateOpt(String updateOpt) {
 		this.updateOpt = updateOpt;
 	}
+
+	public Double getPriceMin() {
+		return priceMin;
+	}
+
+	public void setPriceMin(Double priceMin) {
+		this.priceMin = priceMin;
+	}
+
+	public Double getPriceMax() {
+		return priceMax;
+	}
+
+	public void setPriceMax(Double priceMax) {
+		this.priceMax = priceMax;
+	}
+
+	public String getHotUp() {
+		return hotUp;
+	}
+
+	public void setHotUp(String hotUp) {
+		this.hotUp = hotUp;
+	}
+
+	public String getHotDown() {
+		return hotDown;
+	}
+
+	public void setHotDown(String hotDown) {
+		this.hotDown = hotDown;
+	}
+
+	public String getPriceUp() {
+		return priceUp;
+	}
+
+	public void setPriceUp(String priceUp) {
+		this.priceUp = priceUp;
+	}
+
+	public String getPriceDown() {
+		return priceDown;
+	}
+
+	public void setPriceDown(String priceDown) {
+		this.priceDown = priceDown;
+	}
+
+	public String getCreateTimeUp() {
+		return createTimeUp;
+	}
+
+	public void setCreateTimeUp(String createTimeUp) {
+		this.createTimeUp = createTimeUp;
+	}
+
+	public String getCreateTimeDown() {
+		return createTimeDown;
+	}
+
+	public void setCreateTimeDown(String createTimeDown) {
+		this.createTimeDown = createTimeDown;
+	}
+	
 }

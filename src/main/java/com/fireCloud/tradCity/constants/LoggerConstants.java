@@ -21,11 +21,21 @@ public class LoggerConstants {
 	public static final String SYS_INIT = "系统初始化";
 	
 	//======商品类日志常量=======//
+	public static final String OPEARTION_START = "操作开始";
+	
+	public static final String OPEARTION_END = "操作结束";
+	
 	public static final String SEARCH_COMMODITY = "检索商品服务";
 	
 	public static final String SEARCH_COMMODITY_SIZE = "检索商品数量";
 	
 	public static final String SEARCH_COMMODITY_SIZE_SORT = "检索商品排序";
+	
+	public static final String SEARCH_COMMODITY_CATEGORY_A_SIZE = "检索商品一级分类数量";
+	
+	public static final String ADD_COMMODITY_CATEGORY = "新增商品分类服务";
+	
+	public static final String ADD_COMMODITY_CATEGORY_A = "新增商品一级分类";
 	
 	//======会员类日志常量=======//
 	public static final String SEARCH_MEMBER = "检索会员服务";
