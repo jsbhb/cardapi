@@ -2,7 +2,7 @@ package com.fireCloud.tradCity.common.mapper;
 
 import java.util.List;
 
-import com.fireCloud.tradCity.common.model.MemberCategoryModel;
+import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 
 /**
  * @author wqy
@@ -11,5 +11,5 @@ import com.fireCloud.tradCity.common.model.MemberCategoryModel;
  */
 public interface CommonMapper {
 
-	List<MemberCategoryModel> queryMemberCategory();
+	List<MemberIndustryModel> queryMemberCategory();
 }

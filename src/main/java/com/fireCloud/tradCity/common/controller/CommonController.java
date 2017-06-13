@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fireCloud.tradCity.basic.SysCache;
 import com.fireCloud.tradCity.basic.model.CallBackModel;
-import com.fireCloud.tradCity.common.model.MemberCategoryModel;
-import com.fireCloud.tradCity.common.service.CommonService;
+import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 import com.fireCloud.tradCity.constants.CacheConstants;
 import com.fireCloud.tradCity.constants.ConfigConstants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
@@ -40,7 +39,7 @@ public class CommonController {
 		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 		try {
 			if (ConfigConstants.FIRST_VERSION.equals(version)) {
-				List<MemberCategoryModel> list = (List<MemberCategoryModel>) sysCache
+				List<MemberIndustryModel> list = (List<MemberIndustryModel>) sysCache
 						.get(CacheConstants.INDEX_NAVIGATION_CACHE);
 				model.setObj(list);
 				model.setSuccess(true);

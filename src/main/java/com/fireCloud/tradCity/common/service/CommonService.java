@@ -2,7 +2,7 @@ package com.fireCloud.tradCity.common.service;
 
 import java.util.List;
 
-import com.fireCloud.tradCity.common.model.MemberCategoryModel;
+import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 
 /**
  * @author wqy
@@ -16,5 +16,5 @@ public interface CommonService {
 	 * @fun 获取行业分类
 	 * @return
 	 */
-	List<MemberCategoryModel> queryMemberCategory();
+	List<MemberIndustryModel> queryMemberCategory();
 }

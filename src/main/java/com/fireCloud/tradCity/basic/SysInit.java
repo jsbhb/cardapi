@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.fireCloud.tradCity.common.model.MemberCategoryModel;
+import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 import com.fireCloud.tradCity.common.service.CommonService;
 import com.fireCloud.tradCity.constants.CacheConstants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
@@ -63,7 +64,7 @@ public class SysInit {
 	}
 	
 	private void loadIndexNavigation(){
-		List<MemberCategoryModel> list = new ArrayList<MemberCategoryModel>();
+		List<MemberIndustryModel> list = new ArrayList<MemberIndustryModel>();
 		try {
 			list = commonService.queryMemberCategory();
 		} catch (Exception e) {

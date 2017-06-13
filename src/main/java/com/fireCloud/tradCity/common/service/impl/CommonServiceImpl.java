@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fireCloud.tradCity.common.mapper.CommonMapper;
 import com.fireCloud.tradCity.common.model.MemberCategoryModel;
+import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 import com.fireCloud.tradCity.common.service.CommonService;
 
 @Service
@@ -18,8 +19,8 @@ public class CommonServiceImpl implements CommonService{
 	CommonMapper commonMapper;
 	
 	@Override
-	public List<MemberCategoryModel> queryMemberCategory() {
-		List<MemberCategoryModel> categoryList = new ArrayList<MemberCategoryModel>();
+	public List<MemberIndustryModel> queryMemberCategory() {
+		List<MemberIndustryModel> categoryList = new ArrayList<MemberIndustryModel>();
 		categoryList = commonMapper.queryMemberCategory();
 		return categoryList;
 	}
