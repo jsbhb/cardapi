@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fireCloud.tradCity.member.model.CategoryDictModel;
 import com.fireCloud.tradCity.member.model.CategoryEntryModel;
+import com.fireCloud.tradCity.member.model.IndustryModel;
 
 /**
  * @author wqy
@@ -15,6 +16,8 @@ public class SimpleMemberInfoModel {
 	private Integer memberId;
 
 	private String memberName;
+	
+	private List<IndustryModel> industryList;
 	// 会员分类
 	private List<CategoryDictModel> dictList;
 	// 会员分类
@@ -192,14 +195,22 @@ public class SimpleMemberInfoModel {
 		this.enterTime = enterTime;
 	}
 
+	public List<IndustryModel> getIndustryList() {
+		return industryList;
+	}
+
+	public void setIndustryList(List<IndustryModel> industryList) {
+		this.industryList = industryList;
+	}
+
 	@Override
 	public String toString() {
-		return "SimpleMemberInfoModel [memberId=" + memberId + ", memberName=" + memberName + ", dictList=" + dictList
-				+ ", entryList=" + entryList + ", product=" + product + ", reputation=" + reputation + ", logoPath="
-				+ logoPath + ", frontPicPath=" + frontPicPath + ", guarantee=" + guarantee + ", highQuality="
-				+ highQuality + ", sincerity=" + sincerity + ", returnGoods=" + returnGoods + ", province=" + province
-				+ ", city=" + city + ", area=" + area + ", address=" + address + ", popularize=" + popularize
-				+ ", enterTime=" + enterTime + "]";
+		return "SimpleMemberInfoModel [memberId=" + memberId + ", memberName=" + memberName + ", industryList="
+				+ industryList + ", dictList=" + dictList + ", entryList=" + entryList + ", product=" + product
+				+ ", reputation=" + reputation + ", logoPath=" + logoPath + ", frontPicPath=" + frontPicPath
+				+ ", guarantee=" + guarantee + ", highQuality=" + highQuality + ", sincerity=" + sincerity
+				+ ", returnGoods=" + returnGoods + ", province=" + province + ", city=" + city + ", area=" + area
+				+ ", address=" + address + ", popularize=" + popularize + ", enterTime=" + enterTime + "]";
 	}
 
 }

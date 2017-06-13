@@ -17,8 +17,8 @@
 	
 	<select id = "queryMemberCategory" resultMap = "memberIndustry">
 		select mi.id,mi.industryName,mcd.id as dictid,mcd.dictName,mce.id as entryId,mce.entryName 
-		from member_industry mi left join member_category_dict mcd on mi.id = mc.industryid 
-		left join member_category_entry mce on mcd.id = mce.dictId
+		from member_industry mi left join member_category_dict mcd on mi.id = mcd.industryid 
+		left join member_category_entry mce on mcd.id = mce.dictId order by mi.id
 	</select>
 
 </mapper>

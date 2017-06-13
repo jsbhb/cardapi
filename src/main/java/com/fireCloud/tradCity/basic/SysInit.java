@@ -1,6 +1,8 @@
 package com.fireCloud.tradCity.basic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +10,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.fireCloud.tradCity.common.model.MemberCategoryModel;
+import com.fireCloud.tradCity.common.service.CommonService;
 import com.fireCloud.tradCity.constants.CacheConstants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
@@ -26,6 +30,9 @@ public class SysInit {
 	PopularizeService popularizeService;
 	
 	@Resource
+	CommonService commonService;
+	
+	@Resource
 	SysCache sysCache;
 	
 	@Resource
@@ -36,6 +43,9 @@ public class SysInit {
 		sysLogger.info(LoggerConstants.SYS_INIT, "开始！！！！！！");
 		//加载首页推广缓存
 		loadIndexPopularize();
+		
+		//加载导航类缓存
+		loadIndexNavigation();
 		
 		sysLogger.info(LoggerConstants.SYS_INIT, "结束！！！！！！");
 	}
@@ -50,5 +60,16 @@ public class SysInit {
 		}
 		
 		sysCache.put(CacheConstants.POPULARIZE_CACHE, resultMap);
+	}
+	
+	private void loadIndexNavigation(){
+		List<MemberCategoryModel> list = new ArrayList<MemberCategoryModel>();
+		try {
+			list = commonService.queryMemberCategory();
+		} catch (Exception e) {
+			sysLogger.error(LoggerConstants.SYS_INIT, "获取行业分类出错！！！！！！", e);
+		}
+		sysCache.put(CacheConstants.INDEX_NAVIGATION_CACHE, list);
+		
 	}
 }

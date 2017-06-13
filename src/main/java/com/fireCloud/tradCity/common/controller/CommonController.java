@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fireCloud.tradCity.basic.SysCache;
 import com.fireCloud.tradCity.basic.model.CallBackModel;
 import com.fireCloud.tradCity.common.model.MemberCategoryModel;
 import com.fireCloud.tradCity.common.service.CommonService;
+import com.fireCloud.tradCity.constants.CacheConstants;
 import com.fireCloud.tradCity.constants.ConfigConstants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
@@ -22,13 +24,14 @@ import com.fireCloud.tradCity.log.SysLogger;
 public class CommonController {
 
 	private final String ERROR_MSG = "公共后台出现错误，请联系客服或管理员";
-	
-	@Resource
-	CommonService commonService;
-	
+
 	@Resource
 	SysLogger sysLogger;
-	
+
+	@Resource
+	SysCache sysCache;
+
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/{version}/commons/memberCategory", method = RequestMethod.GET)
 	public CallBackModel getMemberCategory(@PathVariable("version") Double version, HttpServletRequest req,
 			HttpServletResponse res) {
@@ -36,8 +39,9 @@ public class CommonController {
 		CallBackModel model = new CallBackModel();
 		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 		try {
-			if (ConfigConstants.FIRST_VERSION.equals(version)){
-				List<MemberCategoryModel> list = commonService.queryMemberCategory();
+			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+				List<MemberCategoryModel> list = (List<MemberCategoryModel>) sysCache
+						.get(CacheConstants.INDEX_NAVIGATION_CACHE);
 				model.setObj(list);
 				model.setSuccess(true);
 			}

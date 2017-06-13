@@ -13,22 +13,33 @@ public class SearchFilterModel {
 	// 所在行业
 	private Map<String,String> industryMap;
 	// 主营类目
-	private Map<String,String> categoryMap;
+	private Map<String,String> entryMap;
+	//
+	private Map<String,String> dictMap;
+	
+	public Map<String, String> getDictMap() {
+		return dictMap;
+	}
+	public void setDictMap(Map<String, String> dictMap) {
+		this.dictMap = dictMap;
+	}
 	public Map<String, String> getIndustryMap() {
 		return industryMap;
 	}
 	public void setIndustryMap(Map<String, String> industryMap) {
 		this.industryMap = industryMap;
 	}
-	public Map<String, String> getCategoryMap() {
-		return categoryMap;
+	
+	public Map<String, String> getEntryMap() {
+		return entryMap;
 	}
-	public void setCategoryMap(Map<String, String> categoryMap) {
-		this.categoryMap = categoryMap;
+	public void setEntryMap(Map<String, String> entryMap) {
+		this.entryMap = entryMap;
 	}
 	@Override
 	public String toString() {
-		return "SearchFilterModel [industryMap=" + industryMap + ", categoryMap=" + categoryMap + "]";
+		return "SearchFilterModel [industryMap=" + industryMap + ", entryMap=" + entryMap + ", dictMap=" + dictMap
+				+ "]";
 	}
 	
 }

@@ -17,6 +17,7 @@ import com.fireCloud.tradCity.filemng.service.FileService;
 import com.fireCloud.tradCity.member.mapper.MemberMapper;
 import com.fireCloud.tradCity.member.model.CategoryDictModel;
 import com.fireCloud.tradCity.member.model.CategoryEntryModel;
+import com.fireCloud.tradCity.member.model.IndustryModel;
 import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.SearchFilterModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
@@ -78,25 +79,34 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	private void extractFilterCondition(List<SimpleMemberInfoModel> infoPage, SearchFilterModel searchFilterModel) {
 		Map<String, String> industryMap = new HashMap<String, String>();
-		Map<String, String> categoryMap = new HashMap<String, String>();
+		Map<String, String> entryMap = new HashMap<String, String>();
+		Map<String, String> dictMap = new HashMap<String, String>();
 		List<CategoryDictModel> temp = null;
 		List<CategoryEntryModel> tempEntry = null;
+		List<IndustryModel> tempDict = null;
 		for (SimpleMemberInfoModel info : infoPage) {
 			temp = info.getDictList();
 			for (CategoryDictModel model : temp) {
-				if(!industryMap.containsKey(model.getCategoryDict() + "")){
-					industryMap.put(model.getCategoryDict() + "", model.getDictName());
+				if(!dictMap.containsKey(model.getCategoryDict() + "")){
+					dictMap.put(model.getCategoryDict() + "", model.getDictName());
 				}
 			}
 			tempEntry = info.getEntryList();
 			for (CategoryEntryModel model : tempEntry) {
-				if(!categoryMap.containsKey(model.getCategoryEntry() + "")){
-					categoryMap.put(model.getCategoryEntry() + "", model.getEntryName());
+				if(!entryMap.containsKey(model.getCategoryEntry() + "")){
+					entryMap.put(model.getCategoryEntry() + "", model.getEntryName());
+				}
+			}
+			tempDict = info.getIndustryList();
+			for (IndustryModel model : tempDict) {
+				if(!industryMap.containsKey(model.getIndustry() + "")){
+					industryMap.put(model.getIndustry() + "", model.getIndustryName());
 				}
 			}
 		}
-		searchFilterModel.setCategoryMap(categoryMap);
+		searchFilterModel.setEntryMap(entryMap);
 		searchFilterModel.setIndustryMap(industryMap);
+		searchFilterModel.setDictMap(dictMap);
 
 	}
 
