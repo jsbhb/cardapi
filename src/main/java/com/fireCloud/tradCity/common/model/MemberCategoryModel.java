@@ -13,10 +13,6 @@ public class MemberCategoryModel {
 	
 	private String dictName;
 	
-	private String createTime;
-	
-	private Integer opt;
-	
 	private List<MemberCategoryEnteryModel> entryList;
 
 	public Integer getId() {
@@ -35,21 +31,6 @@ public class MemberCategoryModel {
 		this.dictName = dictName;
 	}
 
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	public Integer getOpt() {
-		return opt;
-	}
-
-	public void setOpt(Integer opt) {
-		this.opt = opt;
-	}
 
 	public List<MemberCategoryEnteryModel> getEntryList() {
 		return entryList;
@@ -61,8 +42,7 @@ public class MemberCategoryModel {
 
 	@Override
 	public String toString() {
-		return "MemberCategoryModel [id=" + id + ", dictName=" + dictName + ", createTime=" + createTime + ", opt="
-				+ opt + ", entryList=" + entryList + "]";
+		return "MemberCategoryModel [id=" + id + ", dictName=" + dictName + ", entryList=" + entryList + "]";
 	}
 	
 }

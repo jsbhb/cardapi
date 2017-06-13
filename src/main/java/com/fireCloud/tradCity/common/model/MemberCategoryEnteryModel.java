@@ -9,28 +9,14 @@ public class MemberCategoryEnteryModel {
 
 	private Integer id;
 	
-	private Integer dictId;
-	
 	private String entryName;
 	
-	private String createTime;
-	
-	private Integer opt;
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getDictId() {
-		return dictId;
-	}
-
-	public void setDictId(Integer dictId) {
-		this.dictId = dictId;
 	}
 
 	public String getEntryName() {
@@ -41,26 +27,10 @@ public class MemberCategoryEnteryModel {
 		this.entryName = entryName;
 	}
 
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	public Integer getOpt() {
-		return opt;
-	}
-
-	public void setOpt(Integer opt) {
-		this.opt = opt;
-	}
 
 	@Override
 	public String toString() {
-		return "MemberCategoryEnteryModel [id=" + id + ", dictId=" + dictId + ", entryName=" + entryName
-				+ ", createTime=" + createTime + ", opt=" + opt + "]";
+		return "MemberCategoryEnteryModel [id=" + id + ", entryName=" + entryName + "]";
 	}
 	
 }
