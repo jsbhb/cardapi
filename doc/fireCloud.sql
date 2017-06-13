@@ -471,7 +471,7 @@ CREATE TABLE `firecloud`.`member_category_dict` (
   `updateTime` DATETIME NULL,
   `updateOpt` INT(11) NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `dictName_UNIQUE` (`dictName` ASC))ENGINE=InnoDB DEFAULT CHARSET=utf8 
+  UNIQUE INDEX `dictName_UNIQUE` (`industryId`,`dictName` ASC))ENGINE=InnoDB DEFAULT CHARSET=utf8 
 COMMENT = '行业名称';
 
 drop table if exists  `member_category_entry`;
