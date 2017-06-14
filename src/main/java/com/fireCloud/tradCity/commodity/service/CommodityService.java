@@ -2,6 +2,11 @@ package com.fireCloud.tradCity.commodity.service;
 
 import java.util.Map;
 
+import com.fireCloud.tradCity.basic.model.Pagination;
+import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
+import com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel;
+import com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel;
+
 /**
  * 
  * @author wqy
@@ -11,14 +16,29 @@ import java.util.Map;
 public interface CommodityService {
 
 	//首页上的按分类和按名称检索接口
- 	Map<String,Object> getCommodityBySearch(Map<String, Object> searchItems);
+ 	Map<String,Object> getCommodityBySearch(Map<String, Object> searchItems, Pagination pagination);
 	
-	//根据查询的结果进行排序
-	Map<String,Object> getCommodityBySearchSort(Map<String, Object> searchItems);
-	
-	//根据查询的结果进行排序
+	//根据商品ID进行查询
 	Map<String,Object> getCommodityByCommodityId(Map<String, Object> searchItems);
 	
-	//根据查询的结果进行排序
+	//根据商家ID进行查询
 	Map<String,Object> getCommodityByMemberId(Map<String, Object> searchItems);
+	
+	//新增商品的一级类目
+	Map<String,Object> addCommodityCategoryA(CommodityCategoryAModel commodityCategoryA);
+	
+	//根据一级类目ID进行查询
+	Map<String,Object> getCommodityCategoryAById(Map<String, Object> searchItems);
+	
+	//新增商品的二级类目
+	Map<String,Object> addCommodityCategoryB(CommodityCategoryBModel commodityCategoryB);
+	
+	//根据二级类目ID进行查询
+	Map<String,Object> getCommodityCategoryBById(Map<String, Object> searchItems);
+	
+	//新增商品的三级类目
+	Map<String,Object> addCommodityCategoryC(CommodityCategoryCModel commodityCategoryC);
+	
+	//根据三级类目ID进行查询
+	Map<String,Object> getCommodityCategoryCById(Map<String, Object> searchItems);
 }
