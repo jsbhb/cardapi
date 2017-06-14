@@ -33,9 +33,17 @@ public class LoggerConstants {
 	
 	public static final String SEARCH_COMMODITY_CATEGORY_A_SIZE = "检索商品一级分类数量";
 	
+	public static final String SEARCH_COMMODITY_CATEGORY_B_SIZE = "检索商品二级分类数量";
+	
+	public static final String SEARCH_COMMODITY_CATEGORY_C_SIZE = "检索商品三级分类数量";
+	
 	public static final String ADD_COMMODITY_CATEGORY = "新增商品分类服务";
 	
 	public static final String ADD_COMMODITY_CATEGORY_A = "新增商品一级分类";
+	
+	public static final String ADD_COMMODITY_CATEGORY_B = "新增商品二级分类";
+	
+	public static final String ADD_COMMODITY_CATEGORY_C = "新增商品三级分类";
 	
 	//======会员类日志常量=======//
 	public static final String SEARCH_MEMBER = "检索会员服务";
