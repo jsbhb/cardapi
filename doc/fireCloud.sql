@@ -383,6 +383,7 @@ CREATE TABLE `firecloud`.`commodity` (
   `brand` VARCHAR(100) NULL COMMENT '品牌',
   `price` DECIMAL(10,2) NULL COMMENT '价格',
   `quantity` INT(11) NULL COMMENT '数量',
+  `uom` VARCHAR(30) NULL COMMENT '单位',
   `color` VARCHAR(30) NULL COMMENT '颜色',
   `size` VARCHAR(30) NULL COMMENT '尺寸',
   `saleState` VARCHAR(10) NULL COMMENT '销售状态',
