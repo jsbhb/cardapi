@@ -110,8 +110,27 @@ public class CommodityServiceImpl implements CommodityService {
 		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
 				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
 
+		//定义前台展示的数组
+		ArrayList<String> commodityCategory2 = new ArrayList<String>();
+		ArrayList<String> commodityCategory3 = new ArrayList<String>();
+		
+		//如果查询结果不为空
+		if (commoditySearchList != null && commoditySearchList.size() > 0) {
+			for (CommoditySearchModel commodity : commoditySearchList) {
+				//去重记录前台展示的信息
+				if (!commodityCategory2.contains(commodity.getCommodityCategory2())) {
+					commodityCategory2.add(commodity.getCommodityCategory2());
+				}
+				if (!commodityCategory3.contains(commodity.getCommodityCategory3())) {
+					commodityCategory3.add(commodity.getCommodityCategory3());
+				}
+			}
+		}
+		
 		//将显示信息拼装好
 		resultMap.put("commoditySearchList", commoditySearchList);
+		resultMap.put("commodityCategory2", commodityCategory2);
+		resultMap.put("commodityCategory3", commodityCategory3);
 		
 		return resultMap;
 	}

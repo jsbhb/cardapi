@@ -74,8 +74,8 @@ public class CommodityController {
 	
 	//根据商品ID进行数据查询
 	@RequestMapping(value = "/{version}/commoditys/{id}", method = RequestMethod.GET)
-	public CallBackModel getCommoditysById(@PathVariable("version") Double version, @PathVariable("id") Integer id, HttpServletRequest req,
-			HttpServletResponse res) {
+	public CallBackModel getCommoditysById(@PathVariable("version") Double version, @PathVariable("id") Integer id, CommodityModel commodity,
+			HttpServletRequest req,	HttpServletResponse res) {
 		//定义返回结果的model
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
@@ -87,6 +87,7 @@ public class CommodityController {
 				
 				//将查询条件放入map
 				searchItems.put("commodityId", id);
+				searchItems.put("commodity", commodity);
 				
 				//封装查询结果
 				Map<String, Object> resultMap = commodityService.getCommodityByCommodityId(searchItems);
@@ -104,8 +105,8 @@ public class CommodityController {
 	
 	//根据商家ID进行数据查询
 	@RequestMapping(value = "/{version}/{memberId}/commoditys", method = RequestMethod.GET)
-	public CallBackModel getCommoditysByMemberId(@PathVariable("version") Double version, @PathVariable("memberId") Integer memberId, HttpServletRequest req,
-			HttpServletResponse res) {
+	public CallBackModel getCommoditysByMemberId(@PathVariable("version") Double version, @PathVariable("memberId") Integer memberId, CommodityModel commodity,
+			HttpServletRequest req,	HttpServletResponse res) {
 		//定义返回结果的model
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
@@ -117,6 +118,7 @@ public class CommodityController {
 				
 				//将查询条件放入map
 				searchItems.put("memberId", memberId);
+				searchItems.put("commodity", commodity);
 				
 				//封装查询结果
 				Map<String, Object> resultMap = commodityService.getCommodityByMemberId(searchItems);
