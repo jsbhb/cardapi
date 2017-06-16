@@ -50,7 +50,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -80,7 +79,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -111,7 +109,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -142,7 +139,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryA.getCategoryName() != null) {
 				    //执行新增操作&封装返回结果
@@ -171,7 +167,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryA.getId() != null) {
 					Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -204,7 +199,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryB.getCategoryName() != null) {
 				    //执行新增操作&封装返回结果
@@ -233,7 +227,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryB.getId() != null) {
 					Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -266,7 +259,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryC.getCategoryName() != null) {
 				    //执行新增操作&封装返回结果
@@ -295,7 +287,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryC.getId() != null) {
 					Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -328,7 +319,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> addItems = new HashMap<String, Object>();
@@ -358,7 +348,6 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
-			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数形成map
 			    Map<String, Object> updItems = retConverMap(req.getParameterMap());

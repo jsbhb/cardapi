@@ -533,3 +533,16 @@ CREATE TABLE `firecloud`.`commodityCategoryC` (
   PRIMARY KEY (`id`),
   INDEX `commodityCategoryC_id` (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '商品三级类目表';
+
+
+
+ CREATE TABLE `firecloud`.`apiprivilege` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userName` VARCHAR(45) NOT NULL,
+  `publicKey` TEXT(1024) NULL,
+  `status` INT(2) NULL DEFAULT 1 COMMENT '0:失效；1：正常',
+  `opt` INT(2) NULL,
+  `createTime` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `userName_UNIQUE` (`userName` ASC)
+  )ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT = '调用API权限表';

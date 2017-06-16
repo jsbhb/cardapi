@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fireCloud.tradCity.apiprivilege.mapper.PrivilegeMapper">
+
+	<resultMap type="com.fireCloud.tradCity.apiprivilege.model.ApiPrivilege" id="apiPrivilege">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="publicKey" property="publicKey" jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<select id = "queryAll" resultMap = "apiPrivilege">
+		select id,userName,publicKey from apiprivilege where status = 1
+	</select>
+
+</mapper>

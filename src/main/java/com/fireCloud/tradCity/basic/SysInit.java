@@ -10,7 +10,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.fireCloud.tradCity.common.model.MemberCategoryModel;
+import com.fireCloud.tradCity.apiprivilege.ApiPrivilegeComponent;
+import com.fireCloud.tradCity.apiprivilege.model.ApiPrivilege;
 import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 import com.fireCloud.tradCity.common.service.CommonService;
 import com.fireCloud.tradCity.constants.CacheConstants;
@@ -37,6 +38,9 @@ public class SysInit {
 	SysCache sysCache;
 	
 	@Resource
+	ApiPrivilegeComponent apiPrivilegeComponent;
+	
+	@Resource
 	SysLogger sysLogger;
 	
 	@PostConstruct
@@ -47,6 +51,9 @@ public class SysInit {
 		
 		//加载导航类缓存
 		loadIndexNavigation();
+		
+		//加载API权限缓存
+		loadApiPrivilege();
 		
 		sysLogger.info(LoggerConstants.SYS_INIT, "结束！！！！！！");
 	}
@@ -72,5 +79,19 @@ public class SysInit {
 		}
 		sysCache.put(CacheConstants.INDEX_NAVIGATION_CACHE, list);
 		
+	}
+	
+	private void loadApiPrivilege(){
+		List<ApiPrivilege> list = new ArrayList<ApiPrivilege>();
+		Map<String,String> apiMap = new HashMap<String,String>();
+		try {
+			list = apiPrivilegeComponent.queryAll();
+			for(ApiPrivilege model : list){
+				apiMap.put(model.getUserName(), model.getPublicKey());
+			}
+		} catch (Exception e) {
+			sysLogger.error(LoggerConstants.SYS_INIT, "获取API权限出错！！！！！！", e);
+		}
+		sysCache.put(CacheConstants.API_PRIVILEGE, apiMap);
 	}
 }

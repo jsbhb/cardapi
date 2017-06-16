@@ -42,7 +42,6 @@ public class MemberController {
 			Pagination pagination, SortModelList sortList, HttpServletRequest req, HttpServletResponse res) {
 
 		CallBackModel model = new CallBackModel();
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 		try {
 			// 增加版本控制，后期版本升级可以兼容
 			if (ConfigConstants.FIRST_VERSION.equals(version)) {
@@ -63,7 +62,6 @@ public class MemberController {
 			HttpServletRequest req, HttpServletResponse res) {
 		
 		CallBackModel model = new CallBackModel();
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 		try {
 			if (ConfigConstants.FIRST_VERSION.equals(version)) {
 				MemberInfoModel memberInfo = memberService.queryMemberDetail(memberId);

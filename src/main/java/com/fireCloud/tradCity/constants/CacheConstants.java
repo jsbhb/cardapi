@@ -12,4 +12,7 @@ public class CacheConstants {
 	
 	// 首页导航类缓存
 	public static final String INDEX_NAVIGATION_CACHE = "Navigation";
+	
+	//API权限类缓存
+	public static final String API_PRIVILEGE = "api_privilege";
 }
