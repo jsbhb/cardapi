@@ -41,4 +41,7 @@ public interface CommodityService {
 	
 	//根据三级类目ID进行查询
 	Map<String,Object> getCommodityCategoryCById(Map<String, Object> searchItems);
+	
+	//新增商品
+	String addCommodityInfo(Map<String, Object> addItems);
 }

@@ -45,6 +45,10 @@ public class LoggerConstants {
 	
 	public static final String ADD_COMMODITY_CATEGORY_C = "新增商品三级分类";
 	
+	public static final String ADD_COMMODITY = "新增商品";
+	
+	public static final String ADD_COMMODITY_SHOW = "新增商品展示";
+	
 	//======会员类日志常量=======//
 	public static final String SEARCH_MEMBER = "检索会员服务";
 	

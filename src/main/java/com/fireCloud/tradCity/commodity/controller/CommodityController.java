@@ -19,6 +19,7 @@ import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel;
 import com.fireCloud.tradCity.commodity.model.CommodityModel;
+import com.fireCloud.tradCity.commodity.model.CommodityShowModel;
 import com.fireCloud.tradCity.commodity.service.CommodityService;
 import com.fireCloud.tradCity.constants.ConfigConstants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
@@ -50,6 +51,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -79,6 +81,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -109,6 +112,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -139,6 +143,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryA.getCategoryName() != null) {
 				    //执行新增操作&封装返回结果
@@ -167,6 +172,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryA.getId() != null) {
 					Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -199,6 +205,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryB.getCategoryName() != null) {
 				    //执行新增操作&封装返回结果
@@ -227,6 +234,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryB.getId() != null) {
 					Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -259,6 +267,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryC.getCategoryName() != null) {
 				    //执行新增操作&封装返回结果
@@ -287,6 +296,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				if(commodityCategoryC.getId() != null) {
 					Map<String, Object> searchItems = new HashMap<String, Object>();
@@ -313,23 +323,31 @@ public class CommodityController {
 	
 	//新增商品
 	@RequestMapping(value = "/{version}/commoditys/addCommodity", method = RequestMethod.POST)
-	public CallBackModel addCommodity(@PathVariable("version") Double version, HttpServletRequest req,
+	public CallBackModel addCommodity(@PathVariable("version") Double version, HttpServletRequest req, CommodityModel commodity, CommodityShowModel commodityShow,
 			HttpServletResponse res) {
 		//定义返回结果的model
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数
 				Map<String, Object> addItems = new HashMap<String, Object>();
-				String categoryName = req.getParameter("categoryName");
 
 				//将条件放入map
-				addItems.put("categoryName", categoryName);
+				addItems.put("commodity", commodity);
+				addItems.put("commodityShow", commodityShow);
 				
-			    //执行更新操作
+			    //执行新增操作
+				String id = commodityService.addCommodityInfo(addItems);
 			    
 				//封装返回结果
+				Map<String, Object> searchItems = new HashMap<String, Object>();
+				searchItems.put("commodityId", id);
+				searchItems.put("commodity", commodity);
+				Map<String, Object> resultMap = commodityService.getCommodityByCommodityId(searchItems);
+				model.setSuccess(true);
+				model.setObj(resultMap);
 				
 			} catch (Exception e) {
 				sysLogger.error(LoggerConstants.SEARCH_COMMODITY, "出错！！！！！！", e);
@@ -348,6 +366,7 @@ public class CommodityController {
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
 		if(ConfigConstants.FIRST_VERSION.equals(version)){
+			res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
 			try {
 				//获取前台传递过来的参数形成map
 			    Map<String, Object> updItems = retConverMap(req.getParameterMap());

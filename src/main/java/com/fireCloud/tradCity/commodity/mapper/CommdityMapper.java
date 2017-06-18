@@ -6,7 +6,9 @@ import java.util.Map;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel;
+import com.fireCloud.tradCity.commodity.model.CommodityModel;
 import com.fireCloud.tradCity.commodity.model.CommoditySearchModel;
+import com.fireCloud.tradCity.commodity.model.CommodityShowModel;
 /**
  * 
  * @author wqy
@@ -27,4 +29,8 @@ public interface CommdityMapper {
 	void insCommodityCategoryC(CommodityCategoryCModel commodityCategoryC);
 	
 	List<CommodityCategoryCModel> queryCommodityCategoryC(Map<String, Object> searchItems);
+	
+	void insCommodity(CommodityModel commodity);
+	
+	void insCommodityShow(CommodityShowModel commodityShow);
 }

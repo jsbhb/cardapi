@@ -14,7 +14,9 @@ import com.fireCloud.tradCity.commodity.mapper.CommdityMapper;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel;
+import com.fireCloud.tradCity.commodity.model.CommodityModel;
 import com.fireCloud.tradCity.commodity.model.CommoditySearchModel;
+import com.fireCloud.tradCity.commodity.model.CommodityShowModel;
 import com.fireCloud.tradCity.commodity.service.CommodityService;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
@@ -288,5 +290,53 @@ public class CommodityServiceImpl implements CommodityService {
 		resultMap.put("commodityCategoryCSearchList", commodityCategoryCSearchList);
 		
 		return resultMap;
+	}
+	
+	@Override
+	public String addCommodityInfo(Map<String, Object> addItems) {
+		String resultId = null;
+		boolean InsertFlg = false;
+		
+		//调用sql获取查询结果
+		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(addItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
+				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
+		
+		//判断新增的记录是否已经存在
+		if (commoditySearchList.size() <= 0) {
+			//执行新增操作
+			sysLogger.info(LoggerConstants.ADD_COMMODITY,LoggerConstants.OPEARTION_START);
+			commdityMapper.insCommodity((CommodityModel)addItems.get("commodity"));
+			sysLogger.info(LoggerConstants.ADD_COMMODITY,LoggerConstants.OPEARTION_END);
+			InsertFlg = true;
+		}
+		
+		//调用sql获取查询结果
+		List<CommoditySearchModel> commoditySearchList2 = commdityMapper.queryCommodity(addItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
+				commoditySearchList2 == null ? "=====0" : "=====" + commoditySearchList2.size());
+		
+		CommodityShowModel insShow = (CommodityShowModel)addItems.get("commodityShow");
+		if (insShow.getCommodityIntroduction() != null) {
+			//执行新增操作
+			insShow.setCommodityId(commoditySearchList2.get(0).getCommodityId());
+			sysLogger.info(LoggerConstants.ADD_COMMODITY_SHOW,LoggerConstants.OPEARTION_START);
+			commdityMapper.insCommodityShow(insShow);
+			sysLogger.info(LoggerConstants.ADD_COMMODITY_SHOW,LoggerConstants.OPEARTION_END);
+			
+			//调用sql获取查询结果
+			commoditySearchList2 = commdityMapper.queryCommodity(addItems);
+			sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
+					commoditySearchList2 == null ? "=====0" : "=====" + commoditySearchList2.size());
+		}
+
+		//将返回信息拼装好
+		if (InsertFlg) {
+			resultId = commoditySearchList2.get(0).getCommodityId().toString();
+		} else {
+			resultId = commoditySearchList.get(0).getCommodityId().toString();
+		}
+		
+		return resultId;
 	}
 }

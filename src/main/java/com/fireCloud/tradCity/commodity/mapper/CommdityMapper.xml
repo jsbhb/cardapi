@@ -82,6 +82,9 @@
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id}
 		</if>
+		<if test="commodity.memberId != null and commodity.memberId != ''">
+			and a.memberId = #{commodity.memberId}
+		</if>
 		<if test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
 			and a.commodityCategory1 = #{commodity.commodityCategory1}
 		</if>
@@ -292,4 +295,22 @@
         order by  
         createTime
 	</select>
+	
+	<insert id="insCommodity" parameterType="com.fireCloud.tradCity.commodity.model.CommodityModel" useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID()  
+	    </selectKey>
+	    insert into commodity (memberId,commodityCategory1,commodityCategory2,commodityCategory3,commodityName,brand,price,quantity,color,size,saleState,picture1,picture2,picture3,picture4,picture5,createTime,createOpt,updateTime,updateOpt)
+		values (#{memberId},#{commodityCategory1},#{commodityCategory2},#{commodityCategory3},#{commodityName},#{brand},#{price},#{quantity},#{color},#{size},#{saleState},#{picture1},#{picture2},#{picture3},#{picture4},#{picture5},now(),#{createOpt},now(),#{updateOpt})
+	</insert>
+	
+	<insert id="insCommodityShow" parameterType="com.fireCloud.tradCity.commodity.model.CommodityShowModel" useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID()  
+	    </selectKey>
+	    insert into commodity_show (commodityId,commodityIntroduction,packingSpecification,instructions,customerService,showPagePath,showPageSource,createTime,createOpt,updateTime,updateOpt)
+		values (#{commodityId},#{commodityIntroduction},#{packingSpecification},#{instructions},#{customerService},#{showPagePath},#{showPageSource},now(),#{createOpt},now(),#{updateOpt})
+	</insert>
 </mapper>
