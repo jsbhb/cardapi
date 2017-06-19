@@ -33,9 +33,9 @@ public class UserLoginInterceptor extends HandlerInterceptorAdapter{
 	}
 
 	
-	private void writerError(HttpServletResponse response,String msg) throws IOException {
+	private void writerError(HttpServletResponse response, String msg) throws IOException {
 		PrintWriter pw = response.getWriter();
-		pw.println("{\"msg\":\""+ msg +"\"}");
+		pw.println("{\"success\":\"false\",\"msg\":\""+ msg +"\"}");
 		if (pw != null) {
 			pw.close();
 		}
