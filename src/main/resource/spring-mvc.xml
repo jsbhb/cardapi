@@ -11,34 +11,12 @@
     http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
 
-	<!-- 上传文件 -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding" value="UTF-8"></property>
-		<property name="maxUploadSize" value="5400000"></property>
-		<property name="uploadTempDir" value="fileUpload/temp"></property>
-	</bean>
-
-	<!-- 拦截器 -->
-	<mvc:interceptors>
-		<!-- API调用拦截器 -->
-		<mvc:interceptor>
-			<mvc:mapping path="/**" />
-			<bean class="com.fireCloud.tradCity.interceptor.ApiPrivilegeInterceptor" />
-		</mvc:interceptor>
-		<!-- 登录拦截器 -->
-		<mvc:interceptor>
-			<mvc:mapping path="/*/user/**" />
-			<bean class="com.fireCloud.tradCity.interceptor.UserLoginInterceptor" />
-		</mvc:interceptor>
-	</mvc:interceptors>
-
 	<!-- 扫描控制器类 -->
 	<context:component-scan base-package="com.fireCloud.tradCity/**/controller/**" />
 
 	<!-- 配置静态资源 用来测试的 -->
-	<mvc:resources mapping="/html/**" location="/html/" />
-	<mvc:resources mapping="/js/**" location="/js/" />
+<!-- 	<mvc:resources mapping="/html/**" location="/html/" /> -->
+<!-- 	<mvc:resources mapping="/js/**" location="/js/" /> -->
 
 	<!-- @controler等mvc注解驱动 -->
 	<mvc:annotation-driven />

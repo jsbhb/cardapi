@@ -53,7 +53,7 @@ public class SysInit {
 		loadIndexNavigation();
 		
 		//加载API权限缓存
-		loadApiPrivilege();
+//		loadApiPrivilege();
 		
 		sysLogger.info(LoggerConstants.SYS_INIT, "结束！！！！！！");
 	}
