@@ -27,7 +27,6 @@ CREATE TABLE `firecloud`.`account` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `account_UNIQUE` (`account` ASC),
-  UNIQUE INDEX `nickName_UNIQUE` (`nickName` ASC),
   UNIQUE INDEX `mobile_UNIQUE` (`mobile` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   UNIQUE INDEX `cardNum_UNIQUE` (`cardNum` ASC)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
