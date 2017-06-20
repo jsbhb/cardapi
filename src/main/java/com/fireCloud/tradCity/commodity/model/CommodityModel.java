@@ -26,6 +26,8 @@ public class CommodityModel {
 	
 	private Integer quantity;
 	
+	private String uom;
+	
 	private String color;
 	
 	private String size;
@@ -336,6 +338,14 @@ public class CommodityModel {
 
 	public void setCreateTimeDown(String createTimeDown) {
 		this.createTimeDown = createTimeDown;
+	}
+
+	public String getUom() {
+		return uom;
+	}
+
+	public void setUom(String uom) {
+		this.uom = uom;
 	}
 	
 }

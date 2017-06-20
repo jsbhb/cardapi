@@ -24,6 +24,8 @@ public class CommoditySearchModel {
 	
 	private Integer quantity;
 	
+	private String uom;
+	
 	private String color;
 	
 	private String size;
@@ -65,6 +67,8 @@ public class CommoditySearchModel {
 	private Integer memberId;
 	
 	private String memberName;
+	
+	private String logoPath;
 	//商家信用
 	private String reputation;
 	//是否平台担保 0:否；1：是
@@ -280,4 +284,17 @@ public class CommoditySearchModel {
 	public void setReturnGoods(Integer returnGoods) {
 		this.returnGoods = returnGoods;
 	}
+	public String getLogoPath() {
+		return logoPath;
+	}
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
+	}
+	public String getUom() {
+		return uom;
+	}
+	public void setUom(String uom) {
+		this.uom = uom;
+	}
+	
 }
