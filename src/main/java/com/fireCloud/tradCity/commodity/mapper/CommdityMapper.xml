@@ -9,6 +9,8 @@
 		<result column="commodityCategory3" property="commodityCategory3" jdbcType="VARCHAR" />
 		<result column="commodityName" property="commodityName" jdbcType="VARCHAR" />
 		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="uom" property="uom" jdbcType="VARCHAR" />
 		<result column="color" property="color" jdbcType="VARCHAR" />
 		<result column="size" property="size" jdbcType="VARCHAR" />
 		<result column="saleState" property="saleState" jdbcType="VARCHAR" />
@@ -31,6 +33,7 @@
 		<result column="showPageSource" property="showPageSource" jdbcType="VARCHAR" />
 		<result column="memberId" property="memberId" jdbcType="INTEGER" />
 		<result column="memberName" property="memberName" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
 		<result column="reputation" property="reputation" jdbcType="VARCHAR" />
 		<result column="guarantee" property="guarantee" jdbcType="INTEGER" />
 		<result column="highQuality" property="highQuality" jdbcType="INTEGER" />
@@ -72,12 +75,12 @@
 	
 	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
 		select a.id commodityId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
-		a.quantity, a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
+		a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
 		a.picture4,a.picture5,b.id commodityShowId,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
-		b.showPagePath,b.showPageSource,a.memberId,c.memberName,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods
+		b.showPagePath,b.showPageSource,a.memberId,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods
 		from commodity a
 		inner join commodity_show b on a.id = b.commodityId
-		inner join member c on a.memberId = c.id
+		left join member c on a.memberId = c.id
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id}
@@ -177,10 +180,10 @@
 		</if>
         order by  
         <if test="commodity.hotUp != null and commodity.hotUp != ''">
-			a.hotFlg desc,
+			a.hotFlg asc,
         </if>
         <if test="commodity.hotDown != null and commodity.hotDown != ''">
-			a.hotFlg asc,
+			a.hotFlg desc,
         </if>
         <if test="commodity.priceUp != null and commodity.priceUp != ''">
 			a.price asc,
@@ -195,10 +198,10 @@
 			a.createTime desc,
         </if>
         <if test="hotUp != null and hotUp != ''">
-			a.hotFlg desc,
+			a.hotFlg asc,
         </if>
         <if test="hotDown != null and hotDown != ''">
-			a.hotFlg asc,
+			a.hotFlg desc,
         </if>
         <if test="priceUp != null and priceUp != ''">
 			a.price asc,

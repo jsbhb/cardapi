@@ -33,6 +33,7 @@ public class CommodityServiceImpl implements CommodityService {
 	@Override
 	public Map<String, Object> getCommodityBySearch(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		int retRows = 1;
 		
 		//调用sql获取查询结果
 		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
@@ -82,7 +83,11 @@ public class CommodityServiceImpl implements CommodityService {
 			resultMap.put("commodityCategory2", null);
 			resultMap.put("commodityCategory3", null);
 		}
-		resultMap.put("commoditySearchList", commoditySearchList);
+		if (commoditySearchList.size() <= 0) {
+			resultMap.put("commoditySearchList", null);
+		} else {
+			resultMap.put("commoditySearchList", commoditySearchList);
+		}
 		resultMap.put("pagination", pagination.webListConverter());
 		
 		return resultMap;
@@ -111,6 +116,13 @@ public class CommodityServiceImpl implements CommodityService {
 		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
 		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
 				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
+		
+
+		//调用sql获取查询结果
+		searchItems.put("goodFlg", "1");
+		List<CommoditySearchModel> memberGoodCommodityList = commdityMapper.queryCommodity(searchItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
+				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
 
 		//定义前台展示的数组
 		ArrayList<String> commodityCategory2 = new ArrayList<String>();
@@ -133,6 +145,7 @@ public class CommodityServiceImpl implements CommodityService {
 		resultMap.put("commoditySearchList", commoditySearchList);
 		resultMap.put("commodityCategory2", commodityCategory2);
 		resultMap.put("commodityCategory3", commodityCategory3);
+		resultMap.put("memberGoodCommodityList", memberGoodCommodityList);
 		
 		return resultMap;
 	}
