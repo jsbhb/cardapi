@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.fireCloud.tradCity.account.model.LoginModel;
+import com.fireCloud.tradCity.account.model.UserModel;
 import com.fireCloud.tradCity.util.CookieUtils;
 import com.fireCloud.tradCity.util.JwtUtils;
 
@@ -23,7 +23,7 @@ public class UserLoginInterceptor extends HandlerInterceptorAdapter{
 		
 		String token = CookieUtils.getValue(req, KEY);
 		
-		LoginModel model = JwtUtils.unsign(token, LoginModel.class);
+		UserModel model = JwtUtils.unsign(token, UserModel.class);
 		
 		if(model == null){
 			writerError(res, "token 非法或已经过期，请重新登录");

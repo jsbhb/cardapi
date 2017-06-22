@@ -54,4 +54,7 @@ public class LoggerConstants {
 	
 	//======公共服务类日志常量=======//
 	public static final String COMMON_MEMBER_CATEGORY = "公共服务获取会员分类";
+	
+	//======账号服务类日志常量=======//
+	public static final String ACCOUNT_SERVICE = "账号服务";
 }

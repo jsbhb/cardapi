@@ -6,7 +6,7 @@ import java.util.Map;
 import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.internal.com.fasterxml.jackson.databind.ObjectMapper;
-import com.fireCloud.tradCity.account.model.LoginModel;
+import com.fireCloud.tradCity.account.model.UserModel;
 
 public class JwtUtils {
 
@@ -65,14 +65,14 @@ public class JwtUtils {
     }  
     
     public static void main(String[] args) {
-    	LoginModel model = new LoginModel();
+    	UserModel model = new UserModel();
     	model.setId(1);
-    	model.setPassWord("1234");
-    	model.setUserName("test");
+    	model.setPwd("1234");
+    	model.setAccount("test");
 		String token = sign(model,1*3600*1000L);
 		System.out.println(token);
-		LoginModel model1 = new LoginModel();
-		model1 = unsign(token, LoginModel.class);
+		UserModel model1 = new UserModel();
+		model1 = unsign(token, UserModel.class);
 		System.out.println(model1);
 	}
     

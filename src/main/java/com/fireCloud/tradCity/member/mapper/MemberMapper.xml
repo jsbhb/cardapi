@@ -116,7 +116,7 @@
 	<select id="queryMemberDetail" parameterType="java.lang.Integer" resultMap="memberInfo">
 		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,
-		mc.entryName,m.notice,m.aboutUs,m.licensePath,m.operator,m.mobile,m.email,m.phone,m.qq 
+		mc.entryName,mc.industry,mc.industryName,m.notice,m.aboutUs,m.licensePath,m.operator,m.mobile,m.email,m.phone,m.qq 
 		from member m left join member_category mc on m.id = mc.memberId where m.id = #{id, jdbcType=INTEGER}
 	</select>
 	

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fireCloud.tradCity.account.mapper.UserMapper">
+
+	<resultMap type="com.fireCloud.tradCity.account.model.UserModel" id="userModel">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+		<result column="nickName" property="nickName" jdbcType="VARCHAR" />
+		<result column="mobileValidate" property="mobileValidate" jdbcType="INTEGER" />
+		<result column="emailValidate" property="emailValidate" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="certificates" property="certificates" jdbcType="INTEGER" />
+		<result column="cardNum" property="cardNum" jdbcType="VARCHAR" />
+		<result column="lastLoginIP" property="lastLoginIP" jdbcType="VARCHAR" />
+		<result column="lastLoginTime" property="lastLoginTime" jdbcType="VARCHAR" />
+		<result column="IPCity" property="IPCity" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="isExist" parameterType="Object" resultType="java.lang.Integer">
+		select count(*) from account where 1=1 
+		<foreach collection="parma" index="key"  item="item" separator=" ">
+			and ${key} = #{item}
+		</foreach>
+	</select>
+	
+	<select id="queryUser" parameterType="Object" resultMap="userModel">
+		select account, nickName, mobileValidate, emailValidate, name, certificates, cardNum, lastLoginIP, lastLoginTime,
+		IPCity, mobile, email from account where 1=1
+		<foreach collection="parma" index="key"  item="item" separator=" ">
+			and #{key} = #{item}
+		</foreach>
+	</select>
+	
+	<insert id="addUser" parameterType="Object">
+		insert into account (account, pwd, lastLoginIP, lastLoginTime, IPCity createTime) 
+		values (#{account}, #{pwd}, #{lastLoginIP}, now(), #{IPCity}, now())
+	</insert>
+	
+
+
+</mapper>
