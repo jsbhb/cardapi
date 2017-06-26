@@ -28,10 +28,20 @@ public class MemberInfoModel extends SimpleMemberInfoModel {
 	private String email;
 	//
 	private String phone;
+	//
+	private String fax;
 	// 多客服以逗号分开
 	private String qq;
 	//
 	private List<FileModel> fileList;
+
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
 
 	public Integer getAccountId() {
 		return accountId;

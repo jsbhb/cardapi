@@ -71,6 +71,7 @@ CREATE TABLE `firecloud`.`member` (
   `operator` VARCHAR(30) NULL COMMENT '经营者',
   `mobile` VARCHAR(20) NULL COMMENT '手机',
   `phone` VARCHAR(20) NULL COMMENT '公司电话',
+  `fax` VARCHAR(20) NULL COMMENT '传真',
   `email` VARCHAR(50) NULL COMMENT '联系邮箱',
   `qq` VARCHAR(30) NULL COMMENT 'QQ客服',
   `reputation` int(11) NULL COMMENT '商家信誉度',
