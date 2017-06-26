@@ -47,7 +47,7 @@
 	</resultMap>
 
 	<select id = "queryCount" resultType = "java.lang.Integer">
-		select count(*) from member
+		select count(*) from member where isDel = 0
 	</select>
 
 	<select id="querySimpleMember" resultMap="simpleMemberInfo"
@@ -56,7 +56,7 @@
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,
 		mc.entryName,mc.industry,mc.industryName 
 		from (select * from member limit #{pagination.startRow} , #{pagination.endRow}) m left join 
-		member_category mc on m.id = mc.memberId where 1=1
+		member_category mc on m.id = mc.memberId where m.isDel = 0
 		<if test="member != null">
 			<if test="member.memberName != null and member.memberName != ''">
 				and m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%')
@@ -117,10 +117,10 @@
 		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,
 		mc.entryName,mc.industry,mc.industryName,m.notice,m.aboutUs,m.licensePath,m.operator,m.mobile,m.email,m.phone,m.qq 
-		from member m left join member_category mc on m.id = mc.memberId where m.id = #{id, jdbcType=INTEGER}
+		from member m left join member_category mc on m.id = mc.memberId where m.id = #{id, jdbcType=INTEGER} and m.isDel = 0
 	</select>
 	
 	<select id="queryMemberFileId" resultType="java.lang.String" parameterType="java.lang.Integer">
-		select fileId from member_pic where memberId = #{memberId, jdbcType=INTEGER}
+		select fileId from member_pic where memberId = #{memberId, jdbcType=INTEGER} and m.isDel = 0
 	</select>
 </mapper>
