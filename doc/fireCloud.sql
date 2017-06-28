@@ -123,8 +123,8 @@ COMMENT = '会员图片';
 drop table if exists  `file`;
 CREATE TABLE `firecloud`.`file` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '文件ID',
-  `origialName` VARCHAR(50) NULL COMMENT '原始名称',
-  `finalName` VARCHAR(50) NULL COMMENT '最终名称',
+  `origialName` VARCHAR(500) NULL COMMENT '原始名称',
+  `finalName` VARCHAR(500) NULL COMMENT '最终名称',
   `suffix` VARCHAR(20) NULL COMMENT '后缀',
   `rule` INT(2) NOT NULL COMMENT '名称加密方式',
   `type` INT(2) NOT NULL COMMENT '文档类型',
