@@ -39,6 +39,7 @@
 		<result column="notice" property="notice" jdbcType="VARCHAR" />
 		<result column="aboutUs" property="aboutUs" jdbcType="VARCHAR" />
 		<result column="licensePath" property="licensePath" jdbcType="VARCHAR" />
+		<result column="topPicPath" property="topPicPath" jdbcType="VARCHAR" />
 		<result column="operator" property="operator" jdbcType="VARCHAR" />
 		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
 		<result column="email" property="email" jdbcType="VARCHAR" />
@@ -115,7 +116,7 @@
 	</select>
 	
 	<select id="queryMemberDetail" parameterType="java.lang.Integer" resultMap="memberInfo">
-		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
+		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,m.topPicPath,
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,
 		mc.entryName,mc.industry,mc.industryName,m.notice,m.aboutUs,m.licensePath,m.operator,m.fax,m.mobile,m.email,m.phone,m.qq 
 		from member m left join member_category mc on m.id = mc.memberId where m.id = #{id, jdbcType=INTEGER} and m.isDel = 0

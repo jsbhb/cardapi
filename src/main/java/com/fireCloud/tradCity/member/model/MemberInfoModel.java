@@ -21,6 +21,8 @@ public class MemberInfoModel extends SimpleMemberInfoModel {
 	//
 	private String licensePath;
 	//
+	private String topPicPath;
+	//
 	private String operator;
 	//
 	private String mobile;
@@ -34,6 +36,14 @@ public class MemberInfoModel extends SimpleMemberInfoModel {
 	private String qq;
 	//
 	private List<FileModel> fileList;
+
+	public String getTopPicPath() {
+		return topPicPath;
+	}
+
+	public void setTopPicPath(String topPicPath) {
+		this.topPicPath = topPicPath;
+	}
 
 	public String getFax() {
 		return fax;
