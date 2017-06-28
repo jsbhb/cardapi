@@ -76,6 +76,7 @@ CREATE TABLE `firecloud`.`member` (
   `qq` VARCHAR(30) NULL COMMENT 'QQ客服',
   `reputation` int(11) NULL COMMENT '商家信誉度',
   `logoPath` VARCHAR(200) NULL COMMENT 'Logo图片地址',
+  `topPicPath` VARCHAR(200) NULL COMMENT '顶部图片地址',
   `frontPicPath` VARCHAR(200) NULL COMMENT '正面照图片地址',
   `guarantee` INT(1) NULL DEFAULT 0 COMMENT '是否平台担保',
   `highQuality` INT(1) NULL DEFAULT 0 COMMENT '是否优质商家',
