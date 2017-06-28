@@ -89,6 +89,7 @@ CREATE TABLE `firecloud`.`member` (
   `enterTime` DATETIME NULL COMMENT '入驻时间',
   `lastUpdateTime` DATETIME NULL COMMENT '最后修改时间',
   `isDel` INT(1) NULL DEFAULT 0 COMMENT '是否废除 0:否；1：是',
+  `isRel` INT(1) NULL DEFAULT 0 COMMENT '是否真 0:否；1：是',
   PRIMARY KEY (`id`),
   UNIQUE `memberName` (`memberName`),
   INDEX `member_product` (`product`),

@@ -105,7 +105,7 @@
 				and m.area = #{member.area}
 			</if>
 		</if>
-		order by popularize desc 
+		order by popularize desc, isRel desc 
 		<if test="sortList != null and sortList.size > 0">
 			<foreach collection="sortList" item="sort" open=""
 					separator="" close="">
