@@ -104,6 +104,8 @@ CREATE TABLE `firecloud`.`member` (
   INDEX `member_area` (`area`),
   INDEX `member_name` (`memberName`),
   INDEX `popularize` (`popularize`),
+  INDEX `isDel` (`isDel`),
+  INDEX `isRel` (`isRel`),
   INDEX `member_enterTime` (`enterTime`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '会员表';
 
