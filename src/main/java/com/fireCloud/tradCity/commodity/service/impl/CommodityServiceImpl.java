@@ -33,7 +33,6 @@ public class CommodityServiceImpl implements CommodityService {
 	@Override
 	public Map<String, Object> getCommodityBySearch(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int retRows = 1;
 		
 		//调用sql获取查询结果
 		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
@@ -62,9 +61,19 @@ public class CommodityServiceImpl implements CommodityService {
 				if (!brand.contains(commodity.getBrand())) {
 					brand.add(commodity.getBrand());
 				}
+//				for (CommodityColorModel colors : commodity.getColorList()) {
+//					if (!color.contains(colors.getColor())) {
+//						color.add(colors.getColor());
+//					}
+//				}
 				if (!color.contains(commodity.getColor())) {
 					color.add(commodity.getColor());
 				}
+//				for (CommoditySizeModel sizes : commodity.getSizeList()) {
+//					if (!size.contains(sizes.getSize())) {
+//						size.add(sizes.getSize());
+//					}
+//				}
 				if (!size.contains(commodity.getSize())) {
 					size.add(commodity.getSize());
 				}
@@ -94,22 +103,25 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 	
 	@Override
-	public Map<String, Object> getCommodityByCommodityId(Map<String, Object> searchItems) {
+	public Map<String, Object> getCommodityByCommodityId(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		//调用sql获取查询结果
 		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
 		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
 				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
-
+		
+		pagination.setTotalRows((long)commoditySearchList.size());
+		pagination.init();
 		//将显示信息拼装好
 		resultMap.put("commoditySearchList", commoditySearchList);
+		resultMap.put("pagination", pagination.webListConverter());
 		
 		return resultMap;
 	}
 	
 	@Override
-	public Map<String, Object> getCommodityByMemberId(Map<String, Object> searchItems) {
+	public Map<String, Object> getCommodityByMemberId(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		//调用sql获取查询结果
@@ -117,12 +129,13 @@ public class CommodityServiceImpl implements CommodityService {
 		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
 				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
 		
-
+		pagination.setTotalRows((long)commoditySearchList.size());
+		pagination.init();
 		//调用sql获取查询结果
 		searchItems.put("goodFlg", "1");
 		List<CommoditySearchModel> memberGoodCommodityList = commdityMapper.queryCommodity(searchItems);
 		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
-				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
+				memberGoodCommodityList == null ? "=====0" : "=====" + memberGoodCommodityList.size());
 
 		//定义前台展示的数组
 		ArrayList<String> commodityCategory2 = new ArrayList<String>();
@@ -146,6 +159,7 @@ public class CommodityServiceImpl implements CommodityService {
 		resultMap.put("commodityCategory2", commodityCategory2);
 		resultMap.put("commodityCategory3", commodityCategory3);
 		resultMap.put("memberGoodCommodityList", memberGoodCommodityList);
+		resultMap.put("pagination", pagination.webListConverter());
 		
 		return resultMap;
 	}

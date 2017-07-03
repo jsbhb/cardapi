@@ -7,8 +7,6 @@ package com.fireCloud.tradCity.commodity.model;
  * @date 2017/06/01
  */
 public class CommodityShowModel {
-
-	private Integer id;
 	
 	private Integer commodityId;
 	
@@ -31,14 +29,6 @@ public class CommodityShowModel {
 	private String updateTime;
 	
 	private String updateOpt;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Integer getCommodityId() {
 		return commodityId;

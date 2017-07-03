@@ -19,10 +19,10 @@ public interface CommodityService {
  	Map<String,Object> getCommodityBySearch(Map<String, Object> searchItems, Pagination pagination);
 	
 	//根据商品ID进行查询
-	Map<String,Object> getCommodityByCommodityId(Map<String, Object> searchItems);
+	Map<String,Object> getCommodityByCommodityId(Map<String, Object> searchItems, Pagination pagination);
 	
 	//根据商家ID进行查询
-	Map<String,Object> getCommodityByMemberId(Map<String, Object> searchItems);
+	Map<String,Object> getCommodityByMemberId(Map<String, Object> searchItems, Pagination pagination);
 	
 	//新增商品的一级类目
 	Map<String,Object> addCommodityCategoryA(CommodityCategoryAModel commodityCategoryA);

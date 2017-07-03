@@ -1,5 +1,7 @@
 package com.fireCloud.tradCity.commodity.model;
 
+import java.util.List;
+
 /**
  * 
  * @author wqy
@@ -22,13 +24,19 @@ public class CommoditySearchModel {
 	
 	private Double price;
 	
+	private List<CommodityPriceModel> priceList;
+	
 	private Integer quantity;
 	
 	private String uom;
 	
 	private String color;
 	
+	private List<CommodityColorModel> colorList;
+	
 	private String size;
+	
+	private List<CommoditySizeModel> sizeList;
 	
 	private String saleState;
 	
@@ -49,8 +57,6 @@ public class CommoditySearchModel {
 	private String picture4;
 	
 	private String picture5;
-	
-	private Integer commodityShowId;
 	
 	private String commodityIntroduction;
 	
@@ -79,6 +85,24 @@ public class CommoditySearchModel {
 	private Integer sincerity;
 	//是否支持退换货0:否；1：是
 	private Integer returnGoods;
+	//
+	private String province;
+	//
+	private String city;
+	//
+	private String area;
+	//
+	private String address;
+	//
+	private String mobile;
+	//
+	private String email;
+	//
+	private String phone;
+	//
+	private String fax;
+	// 多客服以逗号分开
+	private String qq;
 	
 	public Integer getCommodityId() {
 		return commodityId;
@@ -200,12 +224,6 @@ public class CommoditySearchModel {
 	public void setPicture5(String picture5) {
 		this.picture5 = picture5;
 	}
-	public Integer getCommodityShowId() {
-		return commodityShowId;
-	}
-	public void setCommodityShowId(Integer commodityShowId) {
-		this.commodityShowId = commodityShowId;
-	}
 	public String getCommodityIntroduction() {
 		return commodityIntroduction;
 	}
@@ -295,6 +313,78 @@ public class CommoditySearchModel {
 	}
 	public void setUom(String uom) {
 		this.uom = uom;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getFax() {
+		return fax;
+	}
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+	public List<CommodityPriceModel> getPriceList() {
+		return priceList;
+	}
+	public void setPriceList(List<CommodityPriceModel> priceList) {
+		this.priceList = priceList;
+	}
+	public List<CommodityColorModel> getColorList() {
+		return colorList;
+	}
+	public void setColorList(List<CommodityColorModel> colorList) {
+		this.colorList = colorList;
+	}
+	public List<CommoditySizeModel> getSizeList() {
+		return sizeList;
+	}
+	public void setSizeList(List<CommoditySizeModel> sizeList) {
+		this.sizeList = sizeList;
 	}
 	
 }

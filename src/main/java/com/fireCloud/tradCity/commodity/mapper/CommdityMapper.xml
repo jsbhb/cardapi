@@ -39,6 +39,25 @@
 		<result column="highQuality" property="highQuality" jdbcType="INTEGER" />
 		<result column="sincerity" property="sincerity" jdbcType="INTEGER" />
 		<result column="returnGoods" property="returnGoods" jdbcType="INTEGER" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="fax" property="fax" jdbcType="VARCHAR" />
+		<result column="qq" property="qq" jdbcType="VARCHAR" />
+		<collection property="colorList" ofType = "com.fireCloud.tradCity.commodity.model.CommodityColorModel">
+			<result column="colorList" property="color" jdbcType="VARCHAR" />
+		</collection>
+		<collection property="sizeList" ofType = "com.fireCloud.tradCity.commodity.model.CommoditySizeModel">
+			<result column="sizeList" property="size" jdbcType="VARCHAR" />
+		</collection>
+		<collection property="priceList" ofType = "com.fireCloud.tradCity.commodity.model.CommodityPriceModel">
+			<result column="quantityStart" property="quantityStart" jdbcType="INTEGER" />
+			<result column="quantityEnd" property="quantityEnd" jdbcType="INTEGER" />
+			<result column="priceList" property="price" jdbcType="DECIMAL" />
+		</collection>
 	</resultMap>
 	
 	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" id="commodityCategoryAMap">
@@ -76,11 +95,15 @@
 	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
 		select a.id commodityId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
 		a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
-		a.picture4,a.picture5,b.id commodityShowId,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
-		b.showPagePath,b.showPageSource,a.memberId,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods
+		a.picture4,a.picture5,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
+		b.showPagePath,b.showPageSource,a.memberId,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods,
+		c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,c.fax,c.qq,d.quantityStart,d.quantityEnd,d.price priceList,e.color colorList,f.size sizeList
 		from commodity a
 		inner join commodity_show b on a.id = b.commodityId
 		left join member c on a.memberId = c.id
+		left join commodity_price d on a.id = d.commodityId
+		left join commodity_color e on a.id = e.commodityId
+		left join commodity_size f on a.id = f.commodityId
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id}
@@ -215,7 +238,7 @@
         <if test="createTimeDown != null and createTimeDown != ''">
 			a.createTime desc,
         </if>
-        c.reputation desc, a.id desc
+        c.isRel desc, c.reputation desc, a.id desc
 	</select>
 	
 	<insert id="insCommodityCategoryA" parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" useGeneratedKeys="true">
