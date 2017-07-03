@@ -48,8 +48,57 @@
 		<result column="qq" property="qq" jdbcType="VARCHAR" />
 	</resultMap>
 
-	<select id = "queryCount" resultType = "java.lang.Integer">
-		select count(*) from member where isDel = 0
+	<select id = "queryCount" resultType = "java.lang.Integer" parameterType="java.util.Map">
+		select count(distinct m.memberName) from member m left join 
+		member_category mc on m.id = mc.memberId where m.isDel = 0
+		<if test="member != null">
+			<if test="member.memberName != null and member.memberName != ''">
+				and (m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%') 
+				or m.product like concat('%',#{member.memberName,jdbcType=VARCHAR},'%'))
+			</if>
+			<if test="member.dictList != null and member.dictList.size > 0">
+				and mc.categoryDict in
+				<foreach collection="member.dictList" item="item" open="("
+				separator="," close=")">
+					#{item.categoryDict, jdbcType=INTEGER}
+				</foreach>
+			</if>
+			<if test="member.entryList != null and member.entryList.size > 0">
+				and mc.categoryEntry in 
+				<foreach collection="member.entryList" item="item" open="("
+					separator="," close=")">
+					#{item.categoryEntry, jdbcType=INTEGER}
+				</foreach>
+			</if>
+			<if test="member.industryList != null and member.industryList.size > 0">
+				and mc.industry in 
+				<foreach collection="member.industryList" item="item" open="("
+					separator="," close=")">
+					#{item.industry, jdbcType=INTEGER}
+				</foreach>
+			</if>
+			<if test="member.guarantee != null and member.guarantee != ''">
+				and m.guarantee = #{member.guarantee, jdbcType=INTEGER}
+			</if>
+			<if test="member.highQuality != null and member.highQuality != ''">
+				and m.highQuality = #{member.highQuality, jdbcType=INTEGER}
+			</if>
+			<if test="member.sincerity != null and member.sincerity != ''">
+				and m.sincerity = #{member.sincerity, jdbcType=INTEGER}
+			</if>
+			<if test="member.returnGoods != null and member.returnGoods != ''">
+				and m.returnGoods = #{member.returnGoods, jdbcType=INTEGER}
+			</if>
+			<if test="member.province != null and member.province != ''">
+				and m.province = #{member.province}
+			</if>
+			<if test="member.city != null and member.city != ''">
+				and m.city = #{member.city}
+			</if>
+			<if test="member.area != null and member.area != ''">
+				and m.area = #{member.area}
+			</if>
+		</if>
 	</select>
 
 	<select id="querySimpleMember" resultMap="simpleMemberInfo"
@@ -57,11 +106,11 @@
 		select m.id as memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,
 		mc.entryName,mc.industry,mc.industryName 
-		from (select * from member limit #{pagination.startRow} , #{pagination.endRow}) m left join 
+		from member m left join 
 		member_category mc on m.id = mc.memberId where m.isDel = 0
 		<if test="member != null">
 			<if test="member.memberName != null and member.memberName != ''">
-				and m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%')
+				and (m.memberName like concat('%',#{member.memberName,jdbcType=VARCHAR},'%') or m.product like concat('%',#{member.memberName,jdbcType=VARCHAR},'%'))
 			</if>
 			<if test="member.dictList != null and member.dictList.size > 0">
 				and mc.categoryDict in
@@ -113,6 +162,7 @@
 					,${sort.sortField} ${sort.sortRule}
 			</foreach>
 		</if>
+		limit #{pagination.startRow} , #{pagination.endRow}
 	</select>
 	
 	<select id="queryMemberDetail" parameterType="java.lang.Integer" resultMap="memberInfo">

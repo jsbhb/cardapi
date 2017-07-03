@@ -20,5 +20,5 @@ public interface MemberMapper {
 	
 	List<String> queryMemberFileId(Integer memberId);
 	
-	Integer queryCount();
+	Integer queryCount(Map<String, Object> searchItems);
 }

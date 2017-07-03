@@ -49,9 +49,10 @@ public class MemberServiceImpl implements MemberService {
 		Map<String, Object> resultMap = new HashMap<String, Object>(16);
 		Map<String, Object> parmsMap = new HashMap<String, Object>();
 		//pagehelper不支持连表查询分页，所以采用传统方法
-		Integer total = memberMapper.queryCount();
-		pagination.setTotalRows((long)total);
 		parmsMap.put(MEMBER, memberInfo);
+		Integer total = memberMapper.queryCount(parmsMap);
+		pagination.setTotalRows((long)total);
+		
 		List<SortModel> sortListEntity = sortList.getSortList();
 		if (sortListEntity != null && sortListEntity.size() > 0) {
 			parmsMap.put(SORT_LIST, sortListEntity);
