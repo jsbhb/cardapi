@@ -162,7 +162,7 @@
 					,${sort.sortField} ${sort.sortRule}
 			</foreach>
 		</if>
-		limit #{pagination.startRow} , #{pagination.endRow}
+		limit #{pagination.startRow} , #{pagination.numPerPage}
 	</select>
 	
 	<select id="queryMemberDetail" parameterType="java.lang.Integer" resultMap="memberInfo">
