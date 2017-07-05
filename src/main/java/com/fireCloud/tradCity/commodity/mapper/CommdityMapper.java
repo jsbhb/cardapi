@@ -34,5 +34,5 @@ public interface CommdityMapper {
 	
 	void insCommodityShow(CommodityShowModel commodityShow);
 	
-	int queryCommodityCount(Map<String, Object> searchItems);
+	Integer queryCommodityCount(Map<String, Object> searchItems);
 }
