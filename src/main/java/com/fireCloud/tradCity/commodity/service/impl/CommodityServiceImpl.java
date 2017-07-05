@@ -24,6 +24,8 @@ import com.fireCloud.tradCity.log.SysLogger;
 @Service
 public class CommodityServiceImpl implements CommodityService {
 
+	private final String PAGINATION = "pagination";
+	
 	@Resource
 	CommdityMapper commdityMapper;
 
@@ -34,13 +36,18 @@ public class CommodityServiceImpl implements CommodityService {
 	public Map<String, Object> getCommodityBySearch(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
+		//获取所有结果
+		Integer total = commdityMapper.queryCommodityCount(searchItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
+				total == null ? "=====0" : "=====" + total);
+
+		pagination.setTotalRows((long)total);
+		pagination.init();
+		searchItems.put(PAGINATION, pagination);
+
 		//调用sql获取查询结果
 		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
-		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
-				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
-
-		pagination.setTotalRows((long)commoditySearchList.size());
-		pagination.init();
+		
 		//定义前台展示的数组
 		ArrayList<String> commodityCategory2 = new ArrayList<String>();
 		ArrayList<String> commodityCategory3 = new ArrayList<String>();
@@ -106,13 +113,17 @@ public class CommodityServiceImpl implements CommodityService {
 	public Map<String, Object> getCommodityByCommodityId(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
+		//获取所有结果
+		Integer total = commdityMapper.queryCommodityCount(searchItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
+				total == null ? "=====0" : "=====" + total);
+		
+		pagination.setTotalRows((long)total);
+		pagination.init();
+		searchItems.put(PAGINATION, pagination);
+		
 		//调用sql获取查询结果
 		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
-		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
-				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
-		
-		pagination.setTotalRows((long)commoditySearchList.size());
-		pagination.init();
 		//将显示信息拼装好
 		resultMap.put("commoditySearchList", commoditySearchList);
 		resultMap.put("pagination", pagination.webListConverter());
@@ -124,14 +135,20 @@ public class CommodityServiceImpl implements CommodityService {
 	public Map<String, Object> getCommodityByMemberId(Map<String, Object> searchItems, Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
+		//获取所有结果
+		Integer total = commdityMapper.queryCommodityCount(searchItems);
+		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
+				total == null ? "=====0" : "=====" + total);
+		
+		pagination.setTotalRows((long)total);
+		pagination.init();
+
+		searchItems.put(PAGINATION, pagination);
 		//调用sql获取查询结果
 		List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodity(searchItems);
-		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,
-				commoditySearchList == null ? "=====0" : "=====" + commoditySearchList.size());
 		
-		pagination.setTotalRows((long)commoditySearchList.size());
-		pagination.init();
 		//调用sql获取查询结果
+		searchItems.remove(PAGINATION);
 		searchItems.put("goodFlg", "1");
 		List<CommoditySearchModel> memberGoodCommodityList = commdityMapper.queryCommodity(searchItems);
 		sysLogger.info(LoggerConstants.SEARCH_COMMODITY_SIZE,

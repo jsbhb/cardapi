@@ -92,12 +92,8 @@
 		<result column="updateOpt" property="updateOpt" jdbcType="VARCHAR" />
 	</resultMap>
 	
-	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
-		select a.id commodityId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
-		a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
-		a.picture4,a.picture5,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
-		b.showPagePath,b.showPageSource,a.memberId,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods,
-		c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,c.fax,c.qq,d.quantityStart,d.quantityEnd,d.price priceList,e.color colorList,f.size sizeList
+	<select id = "queryCount" resultType = "java.lang.Integer" parameterType="java.util.Map">
+		select count(1)
 		from commodity a
 		inner join commodity_show b on a.id = b.commodityId
 		left join member c on a.memberId = c.id
@@ -121,7 +117,7 @@
 			and a.commodityCategory3 = #{commodity.commodityCategory3}
 		</if>
 		<if test="commodity.commodityName != null and commodity.commodityName != ''">
-			and a.commodityName like '%${commodity.commodityName}%'
+			and a.commodityName like concat('%',#{commodity.commodityName,jdbcType=VARCHAR},'%'))
         </if>
 		<if test="commodity.brand != null and commodity.brand != ''">
 			and a.brand = #{commodity.brand}
@@ -169,7 +165,118 @@
 			and a.commodityCategory3 = #{commodityCategory3}
         </if>
 		<if test="commodityName != null and commodityName != ''">
-			and a.commodityName like '%${commodityName}%'
+			and a.commodityName like concat('%',#{commodityName,jdbcType=VARCHAR},'%'))
+        </if>
+		<if test="brand != null and brand != ''">
+			and a.brand = #{brand}
+        </if>
+		<if test="color != null and color != ''">
+			and a.color = #{color}
+        </if>
+		<if test="size != null and size != ''">
+			and a.size = #{size}
+        </if>
+		<if test="priceMin != null and priceMin != ''">
+			and a.price &gt;= #{priceMin}
+        </if>
+		<if test="priceMax != null and priceMax != ''">
+			and a.price &lt;= #{priceMax}
+        </if>
+		<if test="saleState != null and saleState != ''">
+			and a.saleState = #{saleState}
+		</if>
+		<if test="goodFlg != null and goodFlg != ''">
+			and a.goodFlg = #{goodFlg}
+		</if>
+		<if test="hotFlg != null and hotFlg != ''">
+			and a.hotFlg = #{hotFlg}
+		</if>
+		<if test="choiceFlg != null and choiceFlg != ''">
+			and a.choiceFlg = #{choiceFlg}
+		</if>
+		<if test="appreciateFlg != null and appreciateFlg != ''">
+			and a.appreciateFlg = #{appreciateFlg}
+		</if>
+	</select>
+	
+	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
+		select a.id commodityId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
+		a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
+		a.picture4,a.picture5,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
+		b.showPagePath,b.showPageSource,a.memberId,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods,
+		c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,c.fax,c.qq,d.quantityStart,d.quantityEnd,d.price priceList,e.color colorList,f.size sizeList
+		from commodity a
+		inner join commodity_show b on a.id = b.commodityId
+		left join member c on a.memberId = c.id
+		left join commodity_price d on a.id = d.commodityId
+		left join commodity_color e on a.id = e.commodityId
+		left join commodity_size f on a.id = f.commodityId
+		where 1=1
+		<if test="commodity.id != null and commodity.id != ''">
+			and a.id = #{commodity.id}
+		</if>
+		<if test="commodity.memberId != null and commodity.memberId != ''">
+			and a.memberId = #{commodity.memberId}
+		</if>
+		<if test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
+			and a.commodityCategory1 = #{commodity.commodityCategory1}
+		</if>
+		<if test="commodity.commodityCategory2 != null and commodity.commodityCategory2 != ''">
+			and a.commodityCategory2 = #{commodity.commodityCategory2}
+		</if>
+		<if test="commodity.commodityCategory3 != null and commodity.commodityCategory3 != ''">
+			and a.commodityCategory3 = #{commodity.commodityCategory3}
+		</if>
+		<if test="commodity.commodityName != null and commodity.commodityName != ''">
+			and a.commodityName like concat('%',#{commodity.commodityName,jdbcType=VARCHAR},'%'))
+        </if>
+		<if test="commodity.brand != null and commodity.brand != ''">
+			and a.brand = #{commodity.brand}
+		</if>
+		<if test="commodity.color != null and commodity.color != ''">
+			and a.color = #{commodity.color}
+		</if>
+		<if test="commodity.size != null and commodity.size != ''">
+			and a.size = #{commodity.size}
+		</if>
+		<if test="commodity.priceMin != null and commodity.priceMin != ''">
+			and a.price &gt;= #{commodity.priceMin}
+        </if>
+		<if test="commodity.priceMax != null and commodity.priceMax != ''">
+			and a.price &lt;= #{commodity.priceMax}
+        </if>
+		<if test="commodity.saleState != null and commodity.saleState != ''">
+			and a.saleState = #{commodity.saleState}
+		</if>
+		<if test="commodity.goodFlg != null and commodity.goodFlg != ''">
+			and a.goodFlg = #{commodity.goodFlg}
+		</if>
+		<if test="commodity.hotFlg != null and commodity.hotFlg != ''">
+			and a.hotFlg = #{commodity.hotFlg}
+		</if>
+		<if test="commodity.choiceFlg != null and commodity.choiceFlg != ''">
+			and a.choiceFlg = #{commodity.choiceFlg}
+		</if>
+		<if test="commodity.appreciateFlg != null and commodity.appreciateFlg != ''">
+			and a.appreciateFlg = #{commodity.appreciateFlg}
+		</if>
+		<if test="commodityId != null and commodityId != ''">
+			and a.id = #{commodityId}
+		</if>
+		<if test="memberId != null and memberId != ''">
+			and a.memberId = #{memberId}
+		</if>
+		<if test="commodityCategory1 != null and commodityCategory1 != ''">
+			and a.commodityCategory1 = #{commodityCategory1}
+        </if>
+		<if test="commodityCategory2 != null and commodityCategory2 != ''">
+			and a.commodityCategory2 = #{commodityCategory2}
+        </if>
+		<if test="commodityCategory3 != null and commodityCategory3 != ''">
+			and a.commodityCategory3 = #{commodityCategory3}
+        </if>
+		<if test="commodityName != null and commodityName != ''">
+			and a.commodityName like concat('%',#{commodityName,jdbcType=VARCHAR},'%'))
         </if>
 		<if test="brand != null and brand != ''">
 			and a.brand = #{brand}
@@ -239,6 +346,7 @@
 			a.createTime desc,
         </if>
         c.isRel desc, c.reputation desc, a.id desc
+        limit #{pagination.startRow} , #{pagination.endRow}
 	</select>
 	
 	<insert id="insCommodityCategoryA" parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" useGeneratedKeys="true">
