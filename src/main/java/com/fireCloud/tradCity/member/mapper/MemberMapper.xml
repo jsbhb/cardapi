@@ -173,6 +173,6 @@
 	</select>
 	
 	<select id="queryMemberFileId" resultType="java.lang.String" parameterType="java.lang.Integer">
-		select fileId from member_pic where memberId = #{memberId, jdbcType=INTEGER} and m.isDel = 0
+		select fileId from member_pic where memberId = #{memberId, jdbcType=INTEGER}
 	</select>
 </mapper>
