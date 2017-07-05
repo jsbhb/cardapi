@@ -96,10 +96,6 @@
 		select count(1)
 		from commodity a
 		inner join commodity_show b on a.id = b.commodityId
-		left join member c on a.memberId = c.id
-		left join commodity_price d on a.id = d.commodityId
-		left join commodity_color e on a.id = e.commodityId
-		left join commodity_size f on a.id = f.commodityId
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id}
