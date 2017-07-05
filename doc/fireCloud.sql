@@ -1,14 +1,14 @@
-drop SCHEMA if exists  `firecloud`;
-CREATE SCHEMA `firecloud` ;
+drop SCHEMA if exists  `cardapi`;
+CREATE SCHEMA `cardapi` ;
 
 
-use firecloud;
+use cardapi;
 
 
 
 drop table if exists  `account`;
 
-CREATE TABLE `firecloud`.`account` (
+CREATE TABLE `cardapi`.`account` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `account` VARCHAR(50) NOT NULL COMMENT '账号',
   `pwd` VARCHAR(50) NOT NULL COMMENT '密码',
@@ -37,7 +37,7 @@ COMMENT = '账号表';
 
 drop table if exists  `delivery`;
 
-CREATE TABLE `firecloud`.`delivery` (
+CREATE TABLE `cardapi`.`delivery` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '收货地址ID',
   `accountId` INT(11) NOT NULL COMMENT '账号ID',
   `defaultFlg` INT(1) NULL DEFAULT 0 COMMENT '默认地址',
@@ -60,7 +60,7 @@ COMMENT = '收货地址表';
 
 drop table if exists  `member`;
 
-CREATE TABLE `firecloud`.`member` (
+CREATE TABLE `cardapi`.`member` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '会员ID',
   `accountId` INT(11) NOT NULL COMMENT '账号ID',
   `memberName` varchar(100) NOT NULL COMMENT '会员名称',
@@ -114,7 +114,7 @@ COMMENT = '会员表';
 
 drop table if exists  `member_pic`;
 
-CREATE TABLE `firecloud`.`member_pic` (
+CREATE TABLE `cardapi`.`member_pic` (
   `memberId` INT(11) NOT NULL COMMENT '会员ID',
   `fileId` INT(11) NOT NULL COMMENT '文件ID',
   `createTime` DATETIME NULL COMMENT '创建时间',
@@ -123,7 +123,7 @@ COMMENT = '会员图片';
 
 
 drop table if exists  `file`;
-CREATE TABLE `firecloud`.`file` (
+CREATE TABLE `cardapi`.`file` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '文件ID',
   `origialName` VARCHAR(500) NULL COMMENT '原始名称',
   `finalName` VARCHAR(500) NULL COMMENT '最终名称',
@@ -140,7 +140,7 @@ COMMENT = '文件管理';
 
 drop table if exists  `member_category`;
 
-CREATE TABLE `firecloud`.`member_category` (
+CREATE TABLE `cardapi`.`member_category` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '会员类目ID',
   `memberId` INT(11) NOT NULL COMMENT '会员ID',
   `industry` INT(11) NULL COMMENT '所在行业第一级',
@@ -160,7 +160,7 @@ COMMENT = '会员类目表';
 
 drop table if exists  `popularize_dict`;
 
-CREATE TABLE `firecloud`.`popularize_dict` (
+CREATE TABLE `cardapi`.`popularize_dict` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '推广字典ID',
   `popularizeCode` VARCHAR(50) NULL COMMENT '推广代号',
   `name` VARCHAR(50) NULL COMMENT '推广名称',
@@ -180,7 +180,7 @@ COMMENT = '推广字典';
 
 
 drop table if exists  `popularize_banner`;
-CREATE TABLE `firecloud`.`popularize_banner` (
+CREATE TABLE `cardapi`.`popularize_banner` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '轮播ID',
   `popularizeId` VARCHAR(50) NULL COMMENT '推广代号',
   `href` VARCHAR(300) NULL COMMENT '跳转地址',
@@ -193,7 +193,7 @@ COMMENT = '轮播';
 
 
 drop table if exists  `popularize_product`;
-CREATE TABLE `firecloud`.`popularize_product` (
+CREATE TABLE `cardapi`.`popularize_product` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `popularizeId` INT(11) NOT NULL COMMENT '推广字典ID',
   `productHref` VARCHAR(300) NULL COMMENT '跳转地址',
@@ -217,7 +217,7 @@ COMMENT = '推广商品';
 
 drop table if exists  `popularize_member`;
 
-CREATE TABLE `firecloud`.`popularize_member` (
+CREATE TABLE `cardapi`.`popularize_member` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '推广实体ID',
   `popularizeId` INT(11) NULL COMMENT '推广字典ID',
   `memberHref` VARCHAR(300) NULL COMMENT '推广地址',
@@ -239,7 +239,7 @@ COMMENT = '推广企业';
 
 
 drop table if exists  `popularize_member_prod`;
-CREATE TABLE `firecloud`.`popularize_member_prod` (
+CREATE TABLE `cardapi`.`popularize_member_prod` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '推广企业ID',
   `popularizeId` INT(11) NULL COMMENT '推广字典ID',
   `memberHref` VARCHAR(300) NULL COMMENT '推广地址',
@@ -263,7 +263,7 @@ COMMENT = '推广企业和商品企业表';
 
 
 drop table if exists  `popularize_member_prod_sub`;
-CREATE TABLE `firecloud`.`popularize_member_prod_sub` (
+CREATE TABLE `cardapi`.`popularize_member_prod_sub` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '推广商品ID',
   `memberProdId` INT(11) NULL COMMENT '推广企业商品ID',
   `productHref` VARCHAR(300) NULL COMMENT '跳转地址',
@@ -289,7 +289,7 @@ COMMENT = '推广企业和商品商品表';
 
 drop table if exists  `auth_func`;
 
-CREATE TABLE `firecloud`.`auth_func` (
+CREATE TABLE `cardapi`.`auth_func` (
   `funcId` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `funcName` VARCHAR(50) NULL COMMENT '功能名称',
   `url` VARCHAR(300) NULL COMMENT '链接',
@@ -308,7 +308,7 @@ COMMENT = '功能表';
 
 drop table if exists  `auth_role`;
 
-CREATE TABLE `firecloud`.`auth_role` (
+CREATE TABLE `cardapi`.`auth_role` (
   `roleId` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `roleName` VARCHAR(50) NULL COMMENT '角色名称',
   `status` INT(1) NULL DEFAULT 0 COMMENT '是否可用',
@@ -324,7 +324,7 @@ COMMENT = '角色表';
 
 drop table if exists  `auth_operator`;
 
-CREATE TABLE `firecloud`.`auth_operator` (
+CREATE TABLE `cardapi`.`auth_operator` (
   `optId` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `badge` VARCHAR(50) NOT NULL COMMENT '工号',
   `name` VARCHAR(50) NULL COMMENT '员工名称',
@@ -345,7 +345,7 @@ COMMENT = '员工表';
 
 drop table if exists  `auth_optrole`;
 
-CREATE TABLE `firecloud`.`auth_optrole` (
+CREATE TABLE `cardapi`.`auth_optrole` (
   `roleId` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'roleID',
   `optId` INT(11) NULL COMMENT 'optID',
   `partId` INT(11) NULL COMMENT '兼职roleID',
@@ -363,7 +363,7 @@ COMMENT = '员工角色绑定';
 
 drop table if exists  `auth_rolefunc`;
 
-CREATE TABLE `firecloud`.`auth_rolefunc` (
+CREATE TABLE `cardapi`.`auth_rolefunc` (
   `roleId` INT(11) NOT NULL COMMENT 'roleID',
   `funcId` INT(11) NOT NULL COMMENT 'funcID',
   `privilege` INT(2) NULL COMMENT '权限',
@@ -378,7 +378,7 @@ COMMENT = '角色功能绑定';
 
 drop table if exists  `commodity`;
 
-CREATE TABLE `firecloud`.`commodity` (
+CREATE TABLE `cardapi`.`commodity` (
   `id` INT(11) NOT NULL COMMENT '商品ID',
   `memberId` INT(11) NOT NULL COMMENT '商家ID',
   `commodityCategory1` VARCHAR(30) NULL COMMENT '商品所属类目1',
@@ -424,7 +424,7 @@ COMMENT = '商品表';
 
 drop table if exists  `commodity_show`;
 
-CREATE TABLE `firecloud`.`commodity_show` (
+CREATE TABLE `cardapi`.`commodity_show` (
   `commodityId` INT(11) NOT NULL COMMENT '商品ID',
   `commodityIntroduction` VARCHAR(2000) NULL COMMENT '商品介绍',
   `packingSpecification` VARCHAR(2000) NULL COMMENT '规格与包装',
@@ -441,7 +441,7 @@ COMMENT = '商品展示表';
 
 drop table if exists  `commodity_price`;
 
-CREATE TABLE `firecloud`.`commodity_price` (
+CREATE TABLE `cardapi`.`commodity_price` (
   `commodityId` INT(11) NOT NULL COMMENT '商品ID',
   `quantityStart` BIGINT(20) DEFAULT 1 COMMENT '起始数量',
   `quantityEnd` BIGINT(20) NULL COMMENT '终止数量',
@@ -455,7 +455,7 @@ COMMENT = '商品价格关联表';
 
 drop table if exists  `commodity_color`;
 
-CREATE TABLE `firecloud`.`commodity_color` (
+CREATE TABLE `cardapi`.`commodity_color` (
   `commodityId` INT(11) NOT NULL COMMENT '商品ID',
   `color` VARCHAR(30) NULL COMMENT '颜色',
   `createTime` DATETIME NULL COMMENT '创建时间',
@@ -467,7 +467,7 @@ COMMENT = '商品颜色关联表';
 
 drop table if exists  `commodity_size`;
 
-CREATE TABLE `firecloud`.`commodity_size` (
+CREATE TABLE `cardapi`.`commodity_size` (
   `commodityId` INT(11) NOT NULL COMMENT '商品ID',
   `size` VARCHAR(30) NULL COMMENT '尺寸',
   `createTime` DATETIME NULL COMMENT '创建时间',
@@ -479,7 +479,7 @@ COMMENT = '商品尺寸关联表';
 
 
 drop table if exists  `product_pic`;
-CREATE TABLE `firecloud`.`product_pic` (
+CREATE TABLE `cardapi`.`product_pic` (
   `productId` INT(11) NOT NULL COMMENT '会员ID',
   `fileId` INT(11) NOT NULL COMMENT '文件ID',
   `createTime` DATETIME NULL COMMENT '创建时间',
@@ -487,7 +487,7 @@ CREATE TABLE `firecloud`.`product_pic` (
 COMMENT = '商品图片';
 
 drop table if exists  `member_industry`;
-CREATE TABLE `firecloud`.`member_industry` (
+CREATE TABLE `cardapi`.`member_industry` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `industryName` VARCHAR(50) NULL,
   `status` INT(1) default 1 COMMENT '类目状态',
@@ -500,7 +500,7 @@ CREATE TABLE `firecloud`.`member_industry` (
 COMMENT = '行业名称';
 
 drop table if exists  `member_category_dict`;
-CREATE TABLE `firecloud`.`member_category_dict` (
+CREATE TABLE `cardapi`.`member_category_dict` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `industryId` INT(11) NULL,
   `dictName` VARCHAR(50) NULL,
@@ -514,7 +514,7 @@ CREATE TABLE `firecloud`.`member_category_dict` (
 COMMENT = '行业名称';
 
 drop table if exists  `member_category_entry`;
-CREATE TABLE `firecloud`.`member_category_entry` (
+CREATE TABLE `cardapi`.`member_category_entry` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `dictId` INT(11) NULL,
   `entryName` VARCHAR(50) NULL,
@@ -530,7 +530,7 @@ COMMENT = '行业分类细分';
 
 drop table if exists  `commodityCategoryA`;
 
-CREATE TABLE `firecloud`.`commodityCategoryA` (
+CREATE TABLE `cardapi`.`commodityCategoryA` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
   `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
   `status` INT(1) NULL COMMENT '类目状态',
@@ -544,7 +544,7 @@ COMMENT = '商品一级类目表';
 
 drop table if exists  `commodityCategoryB`;
 
-CREATE TABLE `firecloud`.`commodityCategoryB` (
+CREATE TABLE `cardapi`.`commodityCategoryB` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
   `categoryAId` INT(11) NOT NULL COMMENT '一级类目ID',
   `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
@@ -559,7 +559,7 @@ COMMENT = '商品二级类目表';
 
 drop table if exists  `commodityCategoryC`;
 
-CREATE TABLE `firecloud`.`commodityCategoryC` (
+CREATE TABLE `cardapi`.`commodityCategoryC` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
   `categoryBId` INT(11) NOT NULL COMMENT '二级类目ID',
   `categoryName` VARCHAR(50) NULL COMMENT '类目名称',
@@ -574,7 +574,7 @@ COMMENT = '商品三级类目表';
 
 
 
- CREATE TABLE `firecloud`.`apiprivilege` (
+ CREATE TABLE `cardapi`.`apiprivilege` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `userName` VARCHAR(45) NOT NULL,
   `publicKey` TEXT(1024) NULL,
