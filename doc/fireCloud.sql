@@ -381,7 +381,7 @@ COMMENT = '角色功能绑定';
 drop table if exists  `commodity`;
 
 CREATE TABLE `cardapi`.`commodity` (
-  `id` INT(11) NOT NULL COMMENT '商品ID',
+  `id` bigint(20) NOT NULL COMMENT '商品ID',
   `memberId` INT(11) NOT NULL COMMENT '商家ID',
   `commodityCategory1` VARCHAR(30) NULL COMMENT '商品所属类目1',
   `commodityCategory2` VARCHAR(30) NULL COMMENT '商品所属类目2',
@@ -429,7 +429,7 @@ COMMENT = '商品表';
 drop table if exists  `commodity_show`;
 
 CREATE TABLE `cardapi`.`commodity_show` (
-  `commodityId` INT(11) NOT NULL COMMENT '商品ID',
+  `commodityId` bigint(20) NOT NULL COMMENT '商品ID',
   `commodityIntroduction` VARCHAR(2000) NULL COMMENT '商品介绍',
   `packingSpecification` VARCHAR(2000) NULL COMMENT '规格与包装',
   `instructions` VARCHAR(2000) NULL COMMENT '使用说明',
@@ -446,7 +446,7 @@ COMMENT = '商品展示表';
 drop table if exists  `commodity_price`;
 
 CREATE TABLE `cardapi`.`commodity_price` (
-  `commodityId` INT(11) NOT NULL COMMENT '商品ID',
+  `commodityId` bigint(20) NOT NULL COMMENT '商品ID',
   `quantityStart` BIGINT(20) DEFAULT 1 COMMENT '起始数量',
   `quantityEnd` BIGINT(20) NULL COMMENT '终止数量',
   `price` DECIMAL(10,2) NULL COMMENT '价格',
@@ -460,7 +460,7 @@ COMMENT = '商品价格关联表';
 drop table if exists  `commodity_color`;
 
 CREATE TABLE `cardapi`.`commodity_color` (
-  `commodityId` INT(11) NOT NULL COMMENT '商品ID',
+  `commodityId` bigint(20) NOT NULL COMMENT '商品ID',
   `color` VARCHAR(30) NULL COMMENT '颜色',
   `createTime` DATETIME NULL COMMENT '创建时间',
   `createOpt` VARCHAR(50) NULL COMMENT '创建者',
@@ -472,7 +472,7 @@ COMMENT = '商品颜色关联表';
 drop table if exists  `commodity_size`;
 
 CREATE TABLE `cardapi`.`commodity_size` (
-  `commodityId` INT(11) NOT NULL COMMENT '商品ID',
+  `commodityId` bigint(20) NOT NULL COMMENT '商品ID',
   `size` VARCHAR(30) NULL COMMENT '尺寸',
   `createTime` DATETIME NULL COMMENT '创建时间',
   `createOpt` VARCHAR(50) NULL COMMENT '创建者',
