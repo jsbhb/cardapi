@@ -407,6 +407,7 @@ CREATE TABLE `cardapi`.`commodity` (
   `createOpt` VARCHAR(50) NULL COMMENT '创建者',
   `updateTime` DATETIME NULL COMMENT '更新时间',
   `updateOpt` VARCHAR(50) NULL COMMENT '更新者',
+  `index_status` INT(1) NULL DEFAULT 0 COMMENT '是否建立lucene索引 0:否；1：是',
   PRIMARY KEY (`id`),
   INDEX `commodity_memberId` (`memberId`),
   INDEX `commodity_commodityCategory1` (`commodityCategory1`),
@@ -421,6 +422,7 @@ CREATE TABLE `cardapi`.`commodity` (
   INDEX `commodity_goodFlg` (`goodFlg`),
   INDEX `commodity_hotFlg` (`hotFlg`),
   INDEX `commodity_choiceFlg` (`choiceFlg`),
+  INDEX `commodity_index_status` (`index_status`),
   INDEX `commodity_appreciateFlg` (`appreciateFlg`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 
 COMMENT = '商品表';
 
