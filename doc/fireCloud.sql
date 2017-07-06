@@ -91,6 +91,7 @@ CREATE TABLE `cardapi`.`member` (
   `lastUpdateTime` DATETIME NULL COMMENT '最后修改时间',
   `isDel` INT(1) NULL DEFAULT 0 COMMENT '是否废除 0:否；1：是',
   `isRel` INT(1) NULL DEFAULT 0 COMMENT '是否真 0:否；1：是',
+  `index_status` INT(1) NULL DEFAULT 0 COMMENT '是否建立lucene索引 0:否；1：是',
   PRIMARY KEY (`id`),
   UNIQUE `memberName` (`memberName`),
   INDEX `member_product` (`product`),
@@ -106,6 +107,7 @@ CREATE TABLE `cardapi`.`member` (
   INDEX `popularize` (`popularize`),
   INDEX `isDel` (`isDel`),
   INDEX `isRel` (`isRel`),
+  INDEX `index_status` (`index_status`),
   INDEX `member_enterTime` (`enterTime`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '会员表';
 
