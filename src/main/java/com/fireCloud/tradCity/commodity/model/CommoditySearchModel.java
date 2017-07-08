@@ -26,7 +26,7 @@ public class CommoditySearchModel {
 	
 	private List<CommodityPriceModel> priceList;
 	
-	private Integer quantity;
+	private String quantity;
 	
 	private String uom;
 	
@@ -146,10 +146,10 @@ public class CommoditySearchModel {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Integer getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 	public String getColor() {

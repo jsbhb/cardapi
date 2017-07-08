@@ -9,7 +9,7 @@
 		<result column="commodityCategory3" property="commodityCategory3" jdbcType="VARCHAR" />
 		<result column="commodityName" property="commodityName" jdbcType="VARCHAR" />
 		<result column="brand" property="brand" jdbcType="VARCHAR" />
-		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="quantity" property="quantity" jdbcType="VARCHAR" />
 		<result column="uom" property="uom" jdbcType="VARCHAR" />
 		<result column="color" property="color" jdbcType="VARCHAR" />
 		<result column="size" property="size" jdbcType="VARCHAR" />
@@ -93,7 +93,7 @@
 	</resultMap>
 	
 	<select id = "queryCommodityCount" resultType = "java.lang.Integer" parameterType="java.util.Map">
-		select count(1)
+		select count(a.id)
 		from commodity a
 		inner join commodity_show b on a.id = b.commodityId
 		where 1=1
@@ -346,7 +346,9 @@
 		left join commodity_price d on base.commodityId = d.commodityId
 		left join commodity_color e on base.commodityId = e.commodityId
 		left join commodity_size f on base.commodityId = f.commodityId
-        limit #{pagination.startRow} , #{pagination.endRow}
+		<if test="pagination != null and pagination != ''">
+        	limit #{pagination.startRow} , #{pagination.endRow}
+        </if>
 	</select>
 	
 	<insert id="insCommodityCategoryA" parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" useGeneratedKeys="true">
