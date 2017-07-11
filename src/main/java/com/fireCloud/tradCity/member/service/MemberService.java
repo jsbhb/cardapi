@@ -1,5 +1,6 @@
 package com.fireCloud.tradCity.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.fireCloud.tradCity.basic.model.Pagination;
@@ -31,4 +32,10 @@ public interface MemberService {
 	 * @return 会员详细信息
 	 */
 	MemberInfoModel queryMemberDetail(Integer memberId);
+	
+	/**
+	 * @fun 查询所有创建索引
+	 * @return
+	 */
+	List<SimpleMemberInfoModel> queryMember();
 }

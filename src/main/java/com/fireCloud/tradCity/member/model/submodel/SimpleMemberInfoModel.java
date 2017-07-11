@@ -1,11 +1,5 @@
 package com.fireCloud.tradCity.member.model.submodel;
 
-import java.util.List;
-
-import com.fireCloud.tradCity.member.model.CategoryDictModel;
-import com.fireCloud.tradCity.member.model.CategoryEntryModel;
-import com.fireCloud.tradCity.member.model.IndustryModel;
-
 /**
  * @author wqy
  * @fun 会员的简单信息，用于查询是显示缩略信息，详细会员信息model继承该model
@@ -17,11 +11,11 @@ public class SimpleMemberInfoModel {
 
 	private String memberName;
 	
-	private List<IndustryModel> industryList;
+//	private List<IndustryModel> industryList;
 	// 会员分类
-	private List<CategoryDictModel> dictList;
+//	private List<CategoryDictModel> dictList;
 	// 会员分类
-	private List<CategoryEntryModel> entryList;
+//	private List<CategoryEntryModel> entryList;
 	// 主营产品，逗号隔开字符串
 	private String product;
 	// 商家信用
@@ -50,6 +44,26 @@ public class SimpleMemberInfoModel {
 	private Integer popularize;
 	// 入驻时间
 	private String enterTime;
+	
+	private Integer isRel;
+	
+	private Integer isDel;
+
+	public Integer getIsDel() {
+		return isDel;
+	}
+
+	public void setIsDel(Integer isDel) {
+		this.isDel = isDel;
+	}
+
+	public Integer getIsRel() {
+		return isRel;
+	}
+
+	public void setIsRel(Integer isRel) {
+		this.isRel = isRel;
+	}
 
 	public Integer getPopularize() {
 		return popularize;
@@ -75,21 +89,21 @@ public class SimpleMemberInfoModel {
 		this.frontPicPath = frontPicPath;
 	}
 
-	public List<CategoryDictModel> getDictList() {
-		return dictList;
-	}
+//	public List<CategoryDictModel> getDictList() {
+//		return dictList;
+//	}
 
-	public void setDictList(List<CategoryDictModel> dictList) {
-		this.dictList = dictList;
-	}
-
-	public List<CategoryEntryModel> getEntryList() {
-		return entryList;
-	}
-
-	public void setEntryList(List<CategoryEntryModel> entryList) {
-		this.entryList = entryList;
-	}
+//	public void setDictList(List<CategoryDictModel> dictList) {
+//		this.dictList = dictList;
+//	}
+//
+//	public List<CategoryEntryModel> getEntryList() {
+//		return entryList;
+//	}
+//
+//	public void setEntryList(List<CategoryEntryModel> entryList) {
+//		this.entryList = entryList;
+//	}
 
 	public String getProduct() {
 		return product;
@@ -195,22 +209,22 @@ public class SimpleMemberInfoModel {
 		this.enterTime = enterTime;
 	}
 
-	public List<IndustryModel> getIndustryList() {
-		return industryList;
-	}
+//	public List<IndustryModel> getIndustryList() {
+//		return industryList;
+//	}
 
-	public void setIndustryList(List<IndustryModel> industryList) {
-		this.industryList = industryList;
-	}
+//	public void setIndustryList(List<IndustryModel> industryList) {
+//		this.industryList = industryList;
+//	}
 
 	@Override
 	public String toString() {
-		return "SimpleMemberInfoModel [memberId=" + memberId + ", memberName=" + memberName + ", industryList="
-				+ industryList + ", dictList=" + dictList + ", entryList=" + entryList + ", product=" + product
+		return "SimpleMemberInfoModel [memberId=" + memberId + ", memberName=" + memberName + ", product=" + product
 				+ ", reputation=" + reputation + ", logoPath=" + logoPath + ", frontPicPath=" + frontPicPath
 				+ ", guarantee=" + guarantee + ", highQuality=" + highQuality + ", sincerity=" + sincerity
 				+ ", returnGoods=" + returnGoods + ", province=" + province + ", city=" + city + ", area=" + area
-				+ ", address=" + address + ", popularize=" + popularize + ", enterTime=" + enterTime + "]";
+				+ ", address=" + address + ", popularize=" + popularize + ", enterTime=" + enterTime + ", isRel="
+				+ isRel + ", isDel=" + isDel + "]";
 	}
 
 }

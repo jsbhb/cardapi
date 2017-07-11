@@ -17,7 +17,10 @@ import com.fireCloud.tradCity.common.service.CommonService;
 import com.fireCloud.tradCity.constants.CacheConstants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
+import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
+import com.fireCloud.tradCity.member.service.MemberService;
 import com.fireCloud.tradCity.popularize.service.PopularizeService;
+import com.fireCloud.tradCity.util.LuceneUtil;
 
 
 /**
@@ -43,6 +46,9 @@ public class SysInit {
 	@Resource
 	SysLogger sysLogger;
 	
+	@Resource
+	MemberService memberService;
+	
 	@PostConstruct
 	private void init(){
 		sysLogger.info(LoggerConstants.SYS_INIT, "开始！！！！！！");
@@ -51,6 +57,9 @@ public class SysInit {
 		
 		//加载导航类缓存
 		loadIndexNavigation();
+		
+		//建lucene索引
+		createIndex();
 		
 		//加载API权限缓存
 //		loadApiPrivilege();
@@ -93,5 +102,12 @@ public class SysInit {
 			sysLogger.error(LoggerConstants.SYS_INIT, "获取API权限出错！！！！！！", e);
 		}
 		sysCache.put(CacheConstants.API_PRIVILEGE, apiMap);
+	}
+	
+	private void createIndex(){
+		List<SimpleMemberInfoModel> list = memberService.queryMember();
+		if(list != null && list.size() > 0){
+			LuceneUtil.getInstance().writerMemberIndx(list);
+		}
 	}
 }

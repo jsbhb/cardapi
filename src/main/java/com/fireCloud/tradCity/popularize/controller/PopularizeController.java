@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fireCloud.tradCity.basic.SysCache;
 import com.fireCloud.tradCity.basic.model.CallBackModel;
 import com.fireCloud.tradCity.constants.CacheConstants;
-import com.fireCloud.tradCity.constants.ConfigConstants;
+import com.fireCloud.tradCity.constants.Constants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
 
@@ -40,10 +40,10 @@ public class PopularizeController {
 	public CallBackModel indexPopularize(@PathVariable("version") Double version, HttpServletRequest req,
 			HttpServletResponse res) {
 		CallBackModel model = new CallBackModel();
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		res.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
 		try {
 			// 增加版本控制，后期版本升级可以兼容
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 
 				Map<String, Map<String, Object>> resultMap = (Map<String, Map<String, Object>>) sysCache
 						.get(CacheConstants.POPULARIZE_CACHE);

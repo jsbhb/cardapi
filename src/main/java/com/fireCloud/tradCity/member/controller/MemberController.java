@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fireCloud.tradCity.basic.model.CallBackModel;
 import com.fireCloud.tradCity.basic.model.Pagination;
 import com.fireCloud.tradCity.basic.model.SortModelList;
-import com.fireCloud.tradCity.constants.ConfigConstants;
+import com.fireCloud.tradCity.constants.Constants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
 import com.fireCloud.tradCity.member.model.MemberInfoModel;
@@ -41,11 +41,12 @@ public class MemberController {
 	public CallBackModel getSimpleMembers(@PathVariable("version") Double version, SimpleMemberInfoModel memberInfo,
 			Pagination pagination, SortModelList sortList, HttpServletRequest req, HttpServletResponse res) {
 
+		long time = System.currentTimeMillis();
 		CallBackModel model = new CallBackModel();
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		res.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
 		try {
 			// 增加版本控制，后期版本升级可以兼容
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 				Map<String, Object> resultMap = memberService.queryMember(memberInfo, sortList, pagination);
 				model.setSuccess(true);
 				model.setObj(resultMap);
@@ -55,6 +56,7 @@ public class MemberController {
 			model.setSuccess(false);
 			model.setMsg(ERROR_MSG);
 		}
+		System.out.println(System.currentTimeMillis()-time);
 		return model;
 	}
 
@@ -63,9 +65,9 @@ public class MemberController {
 			HttpServletRequest req, HttpServletResponse res) {
 		
 		CallBackModel model = new CallBackModel();
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		res.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
 		try {
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 				MemberInfoModel memberInfo = memberService.queryMemberDetail(memberId);
 				model.setObj(memberInfo);
 				model.setSuccess(true);

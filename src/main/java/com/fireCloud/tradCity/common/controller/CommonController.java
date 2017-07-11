@@ -15,7 +15,7 @@ import com.fireCloud.tradCity.basic.SysCache;
 import com.fireCloud.tradCity.basic.model.CallBackModel;
 import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 import com.fireCloud.tradCity.constants.CacheConstants;
-import com.fireCloud.tradCity.constants.ConfigConstants;
+import com.fireCloud.tradCity.constants.Constants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
 
@@ -36,9 +36,9 @@ public class CommonController {
 			HttpServletResponse res) {
 
 		CallBackModel model = new CallBackModel();
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		res.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
 		try {
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 				List<MemberIndustryModel> list = (List<MemberIndustryModel>) sysCache
 						.get(CacheConstants.INDEX_NAVIGATION_CACHE);
 				model.setObj(list);

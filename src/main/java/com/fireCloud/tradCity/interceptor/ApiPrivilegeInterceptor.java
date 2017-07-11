@@ -2,10 +2,8 @@ package com.fireCloud.tradCity.interceptor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +17,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.fireCloud.tradCity.basic.SysCache;
 import com.fireCloud.tradCity.constants.CacheConstants;
-import com.fireCloud.tradCity.constants.ConfigConstants;
+import com.fireCloud.tradCity.constants.Constants;
 import com.fireCloud.tradCity.util.Base64Util;
 import com.fireCloud.tradCity.util.RSAUtil;
 
@@ -34,7 +32,7 @@ public class ApiPrivilegeInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		response.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		response.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
 		String publicKey = "";
 		String sign = "";
 

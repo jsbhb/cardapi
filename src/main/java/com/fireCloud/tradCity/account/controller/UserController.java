@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fireCloud.tradCity.account.model.UserModel;
 import com.fireCloud.tradCity.account.service.UserService;
 import com.fireCloud.tradCity.basic.model.CallBackModel;
-import com.fireCloud.tradCity.constants.ConfigConstants;
+import com.fireCloud.tradCity.constants.Constants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
 import com.fireCloud.tradCity.util.JwtUtils;
@@ -34,11 +34,11 @@ public class UserController {
 	public CallBackModel check(@PathVariable("version") Double version, HttpServletRequest req,
 			HttpServletResponse res) {
 
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		res.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
 		CallBackModel model = new CallBackModel();
 		try {
 			// 增加版本控制，后期版本升级可以兼容
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 				String name = req.getParameter("name");
 				if(name == null){
 					model.setSuccess(false);
@@ -60,11 +60,11 @@ public class UserController {
 	public CallBackModel register(@PathVariable("version") Double version, UserModel userModel, HttpServletRequest req,
 			HttpServletResponse res) {
 
-		res.setHeader(ConfigConstants.CROSS_DOMAIN, ConfigConstants.DOMAIN_NAME);
+		res.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
 		CallBackModel model = new CallBackModel();
 		try {
 			// 增加版本控制，后期版本升级可以兼容
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 				userModel.setPwd(MD5Util.MD5(userModel.getPwd()));
 				userService.register(userModel);
 				String token = JwtUtils.sign(userModel, ONE_DAY);
@@ -85,7 +85,7 @@ public class UserController {
 		CallBackModel model = new CallBackModel();
 		try {
 			// 增加版本控制，后期版本升级可以兼容
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 				userModel.setPwd(MD5Util.MD5(userModel.getPwd()));
 				UserModel user = userService.login(userModel);
 				if (user == null) {
@@ -111,7 +111,7 @@ public class UserController {
 		CallBackModel model = new CallBackModel();
 		try {
 			// 增加版本控制，后期版本升级可以兼容
-			if (ConfigConstants.FIRST_VERSION.equals(version)) {
+			if (Constants.FIRST_VERSION.equals(version)) {
 				model.setSuccess(true);
 				model.setMsg("test");
 			}

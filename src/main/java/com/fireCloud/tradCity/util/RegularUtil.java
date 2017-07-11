@@ -1,6 +1,6 @@
 package com.fireCloud.tradCity.util;
 
-import com.fireCloud.tradCity.constants.ConfigConstants;
+import com.fireCloud.tradCity.constants.Constants;
 
 public class RegularUtil {
 	
@@ -9,11 +9,11 @@ public class RegularUtil {
 	
 	public static String emailOrPhone(String str){
 		if(str.matches(EMAIL_REGEX)){
-			return ConfigConstants.EMAIL;
+			return Constants.EMAIL;
 		}
 		if(str.matches(MOBILE_REGEX)){
-			return ConfigConstants.MOBILE;
+			return Constants.MOBILE;
 		}
-		return ConfigConstants.ACCOUNT;
+		return Constants.ACCOUNT;
 	}
 }
