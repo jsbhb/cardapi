@@ -93,9 +93,8 @@
 	</resultMap>
 	
 	<select id = "queryCommodityCount" resultType = "java.lang.Integer" parameterType="java.util.Map">
-		select count(a.id)
+		select count(*)
 		from commodity a
-		inner join commodity_show b on a.id = b.commodityId
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id}
@@ -197,12 +196,17 @@
 	
 	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
 		select base.*,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
-		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price priceList,e.color colorList,f.size sizeList
+		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price priceList,
+		e.color colorList,f.size sizeList
 		from (
-		select a.id commodityId,a.memberId,a.commodityCategory1,a.commodityCategory2,a.commodityCategory3,a.commodityName,a.brand,a.price,
-		a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,
-		a.picture4,a.picture5
+		select a.id commodityId,a.memberId,ca.categoryName commodityCategory1,
+		cb.categoryName commodityCategory2,cc.categoryName commodityCategory3,
+		a.commodityName,a.brand,a.price,a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,
+		a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,a.picture4,a.picture5
 		from commodity a
+		left join commodityCategoryA ca on a.commodityCategory1 = ca.id
+		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
+		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id} 
@@ -300,52 +304,52 @@
 		<if test="appreciateFlg != null and appreciateFlg != ''">
 			and a.appreciateFlg = #{appreciateFlg} 
 		</if>
-		order by  
-        <if test="commodity.hotUp != null and commodity.hotUp != ''">
-			a.hotFlg asc,
-        </if>
-        <if test="commodity.hotDown != null and commodity.hotDown != ''">
-			a.hotFlg desc,
-        </if>
-        <if test="commodity.priceUp != null and commodity.priceUp != ''">
-			a.price asc,
-        </if>
-        <if test="commodity.priceDown != null and commodity.priceDown != ''">
-			a.price desc,
-        </if>
-        <if test="commodity.createTimeUp != null and commodity.createTimeUp != ''">
-			a.createTime asc,
-        </if>
-        <if test="commodity.createTimeDown != null and commodity.createTimeDown != ''">
-			a.createTime desc,
-        </if>
-        <if test="hotUp != null and hotUp != ''">
-			a.hotFlg asc,
-        </if>
-        <if test="hotDown != null and hotDown != ''">
-			a.hotFlg desc,
-        </if>
-        <if test="priceUp != null and priceUp != ''">
-			a.price asc,
-        </if>
-        <if test="priceDown != null and priceDown != ''">
-			a.price desc,
-        </if>
-        <if test="createTimeUp != null and createTimeUp != ''">
-			a.createTime asc,
-        </if>
-        <if test="createTimeDown != null and createTimeDown != ''">
-			a.createTime desc,
-        </if>
-        a.id desc
 		) base
 		inner join commodity_show b on base.commodityId = b.commodityId
-		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,c.sincerity,returnGoods,   
-		c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,c.fax,c.qq from member c
-		order by c.isRel desc, c.reputation desc) basec on base.memberId = basec.id
+		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,
+		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
+		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id
 		left join commodity_price d on base.commodityId = d.commodityId
 		left join commodity_color e on base.commodityId = e.commodityId
 		left join commodity_size f on base.commodityId = f.commodityId
+		order by  
+        <if test="commodity.hotUp != null and commodity.hotUp != ''">
+			base.hotFlg asc,
+        </if>
+        <if test="commodity.hotDown != null and commodity.hotDown != ''">
+			base.hotFlg desc,
+        </if>
+        <if test="commodity.priceUp != null and commodity.priceUp != ''">
+			base.price asc,
+        </if>
+        <if test="commodity.priceDown != null and commodity.priceDown != ''">
+			base.price desc,
+        </if>
+        <if test="commodity.createTimeUp != null and commodity.createTimeUp != ''">
+			base.createTime asc,
+        </if>
+        <if test="commodity.createTimeDown != null and commodity.createTimeDown != ''">
+			base.createTime desc,
+        </if>
+        <if test="hotUp != null and hotUp != ''">
+			base.hotFlg asc,
+        </if>
+        <if test="hotDown != null and hotDown != ''">
+			base.hotFlg desc,
+        </if>
+        <if test="priceUp != null and priceUp != ''">
+			base.price asc,
+        </if>
+        <if test="priceDown != null and priceDown != ''">
+			base.price desc,
+        </if>
+        <if test="createTimeUp != null and createTimeUp != ''">
+			base.createTime asc,
+        </if>
+        <if test="createTimeDown != null and createTimeDown != ''">
+			base.createTime desc,
+        </if>
+		basec.isRel desc, basec.reputation desc, base.commodityId desc
 		<if test="pagination != null and pagination != ''">
         	limit #{pagination.startRow} , #{pagination.endRow}
         </if>
