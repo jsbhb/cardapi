@@ -1,7 +1,6 @@
 package com.fireCloud.tradCity.member.model;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author wqy
@@ -12,9 +11,10 @@ public class SearchFilterModel {
 
 	// 所在行业
 	private Map<String,String> industryMap;
+	
 	// 主营类目
 	private Map<String,String> entryMap;
-	//
+	
 	private Map<String,String> dictMap;
 	
 	public Map<String, String> getDictMap() {

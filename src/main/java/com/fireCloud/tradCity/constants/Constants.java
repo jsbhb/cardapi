@@ -24,4 +24,6 @@ public class Constants {
 	public static final String TOTAL = "total";
 	
 	public static final String ID_LIST = "idList";
+	
+	public static final String HIGHLIGHTER_MODEL = "highlighterModel";
 }

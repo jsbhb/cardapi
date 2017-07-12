@@ -10,18 +10,18 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.fireCloud.tradCity.basic.model.Pagination;
-import com.fireCloud.tradCity.basic.model.SortModel;
 import com.fireCloud.tradCity.basic.model.SortModelList;
+import com.fireCloud.tradCity.constants.Constants;
+import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.filemng.model.FileModel;
 import com.fireCloud.tradCity.filemng.service.FileService;
+import com.fireCloud.tradCity.log.SysLogger;
 import com.fireCloud.tradCity.member.mapper.MemberMapper;
-import com.fireCloud.tradCity.member.model.CategoryDictModel;
-import com.fireCloud.tradCity.member.model.CategoryEntryModel;
-import com.fireCloud.tradCity.member.model.IndustryModel;
 import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.SearchFilterModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
+import com.fireCloud.tradCity.util.lucene.LuceneUtil;
 
 /**
  * @author wqy
@@ -31,8 +31,6 @@ import com.fireCloud.tradCity.member.service.MemberService;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-	private final String MEMBER = "member";
-	private final String SORT_LIST = "sortList";
 	private final String MEMBER_LIST = "memberList";
 	private final String SEARCH_FILTER = "searchFilter";
 	private final String PAGINATION = "pagination";
@@ -43,72 +41,57 @@ public class MemberServiceImpl implements MemberService {
 	@Resource
 	FileService fileService;
 
+	@Resource
+	SysLogger sysLogger;
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> queryMember(SimpleMemberInfoModel memberInfo, SortModelList sortList,
 			Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>(16);
-		Map<String, Object> parmsMap = new HashMap<String, Object>();
-		//pagehelper不支持连表查询分页，所以采用传统方法
-		parmsMap.put(MEMBER, memberInfo);
-		Integer total = memberMapper.queryCount(parmsMap);
-		pagination.setTotalRows((long)total);
-		
-		List<SortModel> sortListEntity = sortList.getSortList();
-		if (sortListEntity != null && sortListEntity.size() > 0) {
-			parmsMap.put(SORT_LIST, sortListEntity);
+		Map<String, Object> luceneMap = new HashMap<String, Object>();
+
+		try {
+			luceneMap = LuceneUtil.getInstance().search(memberInfo, pagination, sortList);
+		} catch (Exception e) {
+			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "lucene搜索出错:", e);
 		}
-		//计算startRow和endRow
-		pagination.init();
-		parmsMap.put(PAGINATION, pagination);
-		List<SimpleMemberInfoModel> infoPage = memberMapper.querySimpleMember(parmsMap);
-		if (infoPage != null && infoPage.size() > 0) {
-			SearchFilterModel searchFilterModel = new SearchFilterModel();
-			// 抽取前台搜索过滤条件
-			extractFilterCondition(infoPage, searchFilterModel);
-			resultMap.put(MEMBER_LIST, infoPage);
-			resultMap.put(SEARCH_FILTER, searchFilterModel);
-			resultMap.put(PAGINATION, pagination.webListConverter());
+		Integer total = (Integer) luceneMap.get(Constants.TOTAL);
+		List<Integer> memberIdList = (List<Integer>) luceneMap.get(Constants.ID_LIST);
+		pagination.setTotalRows((long) total);
+		if (memberIdList != null && memberIdList.size() > 0) {
+			List<SimpleMemberInfoModel> memberList = new ArrayList<SimpleMemberInfoModel>();
+			SimpleMemberInfoModel model = null;
+			// 设置高亮
+			Map<Integer, SimpleMemberInfoModel> highlighterModel = (Map<Integer, SimpleMemberInfoModel>) luceneMap
+					.get(Constants.HIGHLIGHTER_MODEL);
+			for (Integer id : memberIdList) {
+				model = memberMapper.querySimpleMember(id);
+				if (highlighterModel != null && highlighterModel.size() > 0) {
+					if (highlighterModel.get(id).getMemberName() != null
+							&& !"".equals(highlighterModel.get(id).getMemberName())){
+						
+						model.setMemberName(highlighterModel.get(id).getMemberName());
+					}
+					if (highlighterModel.get(id).getProduct() != null
+							&& !"".equals(highlighterModel.get(id).getProduct())){
+						
+						model.setProduct(highlighterModel.get(id).getProduct());
+					}
+				}
+				memberList.add(model);
+			}
+
+			resultMap.put(MEMBER_LIST, memberList);
 		}
+
+		resultMap.put(PAGINATION, pagination.webListConverter());
+
+		SearchFilterModel searchFilter = new SearchFilterModel();
+
+		resultMap.put(SEARCH_FILTER, searchFilter);
 
 		return resultMap;
-	}
-
-	/**
-	 * @fun 将会员的行业和分类抽离出来，以便给前台更详细的查询条件,其他优质商家等通用信息前台直接写死
-	 * @param infoPage
-	 * @param searchFilterModel
-	 */
-	private void extractFilterCondition(List<SimpleMemberInfoModel> infoPage, SearchFilterModel searchFilterModel) {
-		Map<String, String> industryMap = new HashMap<String, String>();
-		Map<String, String> entryMap = new HashMap<String, String>();
-		Map<String, String> dictMap = new HashMap<String, String>();
-		List<CategoryDictModel> temp = null;
-		List<CategoryEntryModel> tempEntry = null;
-		List<IndustryModel> tempDict = null;
-		for (SimpleMemberInfoModel info : infoPage) {
-			temp = info.getDictList();
-			for (CategoryDictModel model : temp) {
-				if(!dictMap.containsKey(model.getCategoryDict() + "")){
-					dictMap.put(model.getCategoryDict() + "", model.getDictName());
-				}
-			}
-			tempEntry = info.getEntryList();
-			for (CategoryEntryModel model : tempEntry) {
-				if(!entryMap.containsKey(model.getCategoryEntry() + "")){
-					entryMap.put(model.getCategoryEntry() + "", model.getEntryName());
-				}
-			}
-			tempDict = info.getIndustryList();
-			for (IndustryModel model : tempDict) {
-				if(!industryMap.containsKey(model.getIndustry() + "")){
-					industryMap.put(model.getIndustry() + "", model.getIndustryName());
-				}
-			}
-		}
-		searchFilterModel.setEntryMap(entryMap);
-		searchFilterModel.setIndustryMap(industryMap);
-		searchFilterModel.setDictMap(dictMap);
-
 	}
 
 	@Override
@@ -125,6 +108,12 @@ public class MemberServiceImpl implements MemberService {
 
 		model.setFileList(fielModelList);
 		return model;
+	}
+
+	@Override
+	public List<SimpleMemberInfoModel> queryMember() {
+
+		return memberMapper.queryMember();
 	}
 
 }

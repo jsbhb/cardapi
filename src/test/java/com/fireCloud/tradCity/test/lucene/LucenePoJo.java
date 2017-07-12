@@ -13,9 +13,12 @@ import java.util.Date;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DoubleDocValuesField;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
@@ -32,53 +35,43 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleFragmenter;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.junit.Test;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
-public class LucenePoJo extends Thread{
+public class LucenePoJo{
 
 	private static Analyzer analyzer = new IKAnalyzer();
 
 	private Directory directory;
-
-//	private static String filePath = System.getProperty("user.dir") + File.separator + "luence" + File.separator + "test";
-
-	private String filePath;
-	public LucenePoJo(String filePath){
-		this.filePath = filePath;
-	}
 	
+	private int textmaxlength = 2000;
+
+	private static String prefixHTML = "<font color='red'>";
+
+	private static String suffixHTML = "</font>";
+
+	private static String filePath = System.getProperty("user.dir") + File.separator + "luence" + File.separator + "test";
+
 	public static void main(String[] args) throws Exception {
-		LucenePoJo l = new LucenePoJo(System.getProperty("user.dir") + File.separator + "luence" + File.separator + "test");
-		LucenePoJo ll = new LucenePoJo(System.getProperty("user.dir") + File.separator + "luence" + File.separator + "test");
+		LucenePoJo l = new LucenePoJo();
 		try {
-			l.run();
-			ll.run();
-//			long time = System.currentTimeMillis();
-//			l.search();
-//			System.out.println("搜索时间：" + (System.currentTimeMillis() - time));
+//			l.writerIndx(filePath);
+			long time = System.currentTimeMillis();
+			l.search();
+			System.out.println("搜索时间：" + (System.currentTimeMillis() - time));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	@Override
-	public void run() {
-		try {
-			writerIndx(filePath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public long stringToLong(String strTime, String formatType) throws ParseException {
 		Date date = stringToDate(strTime, formatType); // String类型转成date类型
 		if (date == null) {
@@ -136,10 +129,14 @@ public class LucenePoJo extends Thread{
 				System.out.println(i);
 				tem = temp.split(",");
 				doc = new Document();
-				doc.add(new StringField("id", tem[0], Store.YES));
-				doc.add(new TextField("memberName", tem[1], Store.NO));
+				doc.add(new IntField("id", Integer.parseInt(tem[0]), Store.YES));
+				doc.add(new TextField("memberName", tem[1], Store.YES));
 				doc.add(new TextField("product", tem[2], Store.NO));
-				doc.add(new StringField("reputation", tem[3], Store.NO));
+				try {
+					doc.add(new IntField("reputation", Integer.parseInt(tem[3]), Store.YES));
+				} catch (Exception e) {
+					doc.add(new IntField("reputation", Integer.parseInt("0"), Store.YES));
+				}
 				doc.add(new StringField("guarantee", tem[4], Store.NO));
 				doc.add(new StringField("highQuality", tem[5], Store.NO));
 				doc.add(new StringField("frontPicPath", tem[6], Store.NO));
@@ -200,21 +197,28 @@ public class LucenePoJo extends Thread{
 
 		Query query = MultiFieldQueryParser.parse(keyWords,fileds,flags,analyzer);
 
+		SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(prefixHTML, suffixHTML);
+		Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer(query));
+		highlighter.setTextFragmenter(new SimpleFragmenter(this.textmaxlength));
 		
 		System.out.println("Searching for: " + query.toString());
-		SortField s1 = new SortField("popularize", Type.STRING, true);
-		SortField s3 = new SortField("isRel", Type.STRING, true);
-		SortField s2 = new SortField("enterTime", Type.LONG, false);
-		Sort sort = new Sort(new SortField[] { s1, s3, s2, SortField.FIELD_SCORE, });
-		ScoreDoc scoreDoc = getLastScoreDoc(2, 20, query, searcher,sort);
+//		SortField s1 = new SortField("popularize", Type.STRING, true);
+//		SortField s3 = new SortField("isRel", Type.STRING, true);
+		SortField s2 = new SortField("reputation", Type.INT, true);
+		Sort sort = new Sort(new SortField[] {  s2 });
+		ScoreDoc scoreDoc = getLastScoreDoc(1, 20, query, searcher,sort);
 		TopDocs results = searcher.searchAfter(scoreDoc, query, 20,sort);
 		System.out.println("Total match：" + results.totalHits);
 		ScoreDoc[] hits = results.scoreDocs;
 		int count = 1;
 		for (ScoreDoc hit : hits) {
 			Document doc1 = searcher.doc(hit.doc);
-			String res = doc1.get("memberName");
-			System.err.println(count + "  " + res + ", " + doc1.get("id") + "  " + doc1.get("product") +"  "+ doc1.get("enterTime"));
+			String res = highlighter.getBestFragment(analyzer, "memberName", doc1.get("memberName"));
+//			String res = doc1.get("memberName");
+//			System.err.println(count + "  " + res + ", " + doc1.get("id") + "  " + doc1.get("product") +"  "+ doc1.get("enterTime"));
+			System.err.print(doc1.get("id") + ",");
+			System.err.println(" ");
+			System.err.print(doc1.get("reputation") + ",");
 			count++;
 		}
 	}

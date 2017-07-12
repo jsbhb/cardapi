@@ -20,26 +20,22 @@
 		<result column="area" property="area" jdbcType="VARCHAR" />
 		<result column="address" property="address" jdbcType="VARCHAR" />
 		<result column="popularize" property="popularize" jdbcType="INTEGER" />
-		<collection property="dictList"
-			ofType="com.fireCloud.tradCity.member.model.CategoryDictModel">
+		<result column="isRel" property="isRel" jdbcType="INTEGER" />
+		<result column="enterTime" property="enterTime" jdbcType="VARCHAR" />
+		<collection property="dictList" ofType = "com.fireCloud.tradCity.member.model.CategoryDictModel">
 			<id column="id" property="id" jdbcType="INTEGER" />
-			<result column="categoryDict" property="categoryDict"
-				jdbcType="INTEGER" />
+			<result column="categoryDict" property="categoryDict" jdbcType="INTEGER" />
 			<result column="dictName" property="dictName" jdbcType="VARCHAR" />
 		</collection>
-		<collection property="entryList"
-			ofType="com.fireCloud.tradCity.member.model.CategoryEntryModel">
+		<collection property="entryList" ofType = "com.fireCloud.tradCity.member.model.CategoryEntryModel">
 			<id column="id" property="id" jdbcType="INTEGER" />
-			<result column="categoryEntry" property="categoryEntry"
-				jdbcType="INTEGER" />
+			<result column="categoryEntry" property="categoryEntry" jdbcType="INTEGER" />
 			<result column="entryName" property="entryName" jdbcType="VARCHAR" />
 		</collection>
-		<collection property="industryList"
-			ofType="com.fireCloud.tradCity.member.model.IndustryModel">
+		<collection property="industryList" ofType = "com.fireCloud.tradCity.member.model.IndustryModel">
 			<id column="id" property="id" jdbcType="INTEGER" />
 			<result column="industry" property="industry" jdbcType="INTEGER" />
-			<result column="industryName" property="industryName"
-				jdbcType="VARCHAR" />
+			<result column="industryName" property="industryName" jdbcType="VARCHAR" />
 		</collection>
 	</resultMap>
 
@@ -56,134 +52,6 @@
 		<result column="fax" property="fax" jdbcType="VARCHAR" />
 		<result column="qq" property="qq" jdbcType="VARCHAR" />
 	</resultMap>
-
-	<select id="queryCount" resultType="java.lang.Integer"
-		parameterType="java.util.Map">
-		select count(distinct m.memberName) from member m left join
-		member_category mc on m.id = mc.memberId where m.isDel = 0
-		<if test="member != null">
-			<if test="member.memberName != null and member.memberName != ''">
-				and (m.memberName like
-				concat('%',#{member.memberName,jdbcType=VARCHAR},'%')
-				or m.product like
-				concat('%',#{member.memberName,jdbcType=VARCHAR},'%'))
-			</if>
-			<if test="member.dictList != null and member.dictList.size > 0">
-				and mc.categoryDict in
-				<foreach collection="member.dictList" item="item" open="("
-					separator="," close=")">
-					#{item.categoryDict, jdbcType=INTEGER}
-				</foreach>
-			</if>
-			<if test="member.entryList != null and member.entryList.size > 0">
-				and mc.categoryEntry in
-				<foreach collection="member.entryList" item="item" open="("
-					separator="," close=")">
-					#{item.categoryEntry, jdbcType=INTEGER}
-				</foreach>
-			</if>
-			<if test="member.industryList != null and member.industryList.size > 0">
-				and mc.industry in
-				<foreach collection="member.industryList" item="item" open="("
-					separator="," close=")">
-					#{item.industry, jdbcType=INTEGER}
-				</foreach>
-			</if>
-			<if test="member.guarantee != null and member.guarantee != ''">
-				and m.guarantee = #{member.guarantee, jdbcType=INTEGER}
-			</if>
-			<if test="member.highQuality != null and member.highQuality != ''">
-				and m.highQuality = #{member.highQuality,
-				jdbcType=INTEGER}
-			</if>
-			<if test="member.sincerity != null and member.sincerity != ''">
-				and m.sincerity = #{member.sincerity, jdbcType=INTEGER}
-			</if>
-			<if test="member.returnGoods != null and member.returnGoods != ''">
-				and m.returnGoods = #{member.returnGoods,
-				jdbcType=INTEGER}
-			</if>
-			<if test="member.province != null and member.province != ''">
-				and m.province = #{member.province}
-			</if>
-			<if test="member.city != null and member.city != ''">
-				and m.city = #{member.city}
-			</if>
-			<if test="member.area != null and member.area != ''">
-				and m.area = #{member.area}
-			</if>
-		</if>
-	</select>
-
-	<select id="querySimpleMember" resultMap="simpleMemberInfo"
-		parameterType="java.util.Map">
-		select m.id as
-		memberId,mc.id,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
-		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize,mc.categoryDict,mc.categoryEntry,mc.dictName,
-		mc.entryName,mc.industry,mc.industryName
-		from member m left join
-		member_category mc on m.id = mc.memberId where m.isDel = 0
-		<if test="member != null">
-			<if test="member.memberName != null and member.memberName != ''">
-				and (m.memberName like
-				concat('%',#{member.memberName,jdbcType=VARCHAR},'%') or m.product
-				like concat('%',#{member.memberName,jdbcType=VARCHAR},'%'))
-			</if>
-			<if test="member.dictList != null and member.dictList.size > 0">
-				and mc.categoryDict in
-				<foreach collection="member.dictList" item="item" open="("
-					separator="," close=")">
-					#{item.categoryDict, jdbcType=INTEGER}
-				</foreach>
-			</if>
-			<if test="member.entryList != null and member.entryList.size > 0">
-				and mc.categoryEntry in
-				<foreach collection="member.entryList" item="item" open="("
-					separator="," close=")">
-					#{item.categoryEntry, jdbcType=INTEGER}
-				</foreach>
-			</if>
-			<if test="member.industryList != null and member.industryList.size > 0">
-				and mc.industry in
-				<foreach collection="member.industryList" item="item" open="("
-					separator="," close=")">
-					#{item.industry, jdbcType=INTEGER}
-				</foreach>
-			</if>
-			<if test="member.guarantee != null and member.guarantee != ''">
-				and m.guarantee = #{member.guarantee, jdbcType=INTEGER}
-			</if>
-			<if test="member.highQuality != null and member.highQuality != ''">
-				and m.highQuality = #{member.highQuality,
-				jdbcType=INTEGER}
-			</if>
-			<if test="member.sincerity != null and member.sincerity != ''">
-				and m.sincerity = #{member.sincerity, jdbcType=INTEGER}
-			</if>
-			<if test="member.returnGoods != null and member.returnGoods != ''">
-				and m.returnGoods = #{member.returnGoods,
-				jdbcType=INTEGER}
-			</if>
-			<if test="member.province != null and member.province != ''">
-				and m.province = #{member.province}
-			</if>
-			<if test="member.city != null and member.city != ''">
-				and m.city = #{member.city}
-			</if>
-			<if test="member.area != null and member.area != ''">
-				and m.area = #{member.area}
-			</if>
-		</if>
-		group by m.memberName
-		order by popularize desc, isRel desc
-		<if test="sortList != null and sortList.size > 0">
-			<foreach collection="sortList" item="sort" open="" separator=""
-				close="">
-				,${sort.sortField} ${sort.sortRule}
-			</foreach>
-		</if>
-		limit #{pagination.startRow} , #{pagination.numPerPage}
-	</select>
 
 	<select id="queryMemberDetail" parameterType="java.lang.Integer"
 		resultMap="memberInfo">
@@ -206,6 +74,14 @@
 		m.id as
 		memberId,m.memberName,m.product,m.reputation,m.guarantee,m.highQuality,m.isRel,m.enterTime,
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize
-		from member m where m.isDel = 0 ;
+		from member m where isDel = 0;
+	</select>
+
+	<select id="querySimpleMember" resultMap="simpleMemberInfo"
+		parameterType="Object">
+		select m.id as
+		memberId,m.memberName,m.product,m.reputation,m.logoPath,m.frontPicPath,m.guarantee,m.highQuality,
+		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize
+		from member m where m.id = #{memberId}
 	</select>
 </mapper>

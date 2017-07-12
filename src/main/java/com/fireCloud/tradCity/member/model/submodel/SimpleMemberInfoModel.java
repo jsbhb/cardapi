@@ -1,5 +1,11 @@
 package com.fireCloud.tradCity.member.model.submodel;
 
+import java.util.List;
+
+import com.fireCloud.tradCity.member.model.CategoryDictModel;
+import com.fireCloud.tradCity.member.model.CategoryEntryModel;
+import com.fireCloud.tradCity.member.model.IndustryModel;
+
 /**
  * @author wqy
  * @fun 会员的简单信息，用于查询是显示缩略信息，详细会员信息model继承该model
@@ -11,11 +17,11 @@ public class SimpleMemberInfoModel {
 
 	private String memberName;
 	
-//	private List<IndustryModel> industryList;
+	private List<IndustryModel> industryList;
+	//会员分类
+	private List<CategoryDictModel> dictList;
 	// 会员分类
-//	private List<CategoryDictModel> dictList;
-	// 会员分类
-//	private List<CategoryEntryModel> entryList;
+	private List<CategoryEntryModel> entryList;
 	// 主营产品，逗号隔开字符串
 	private String product;
 	// 商家信用
@@ -89,21 +95,21 @@ public class SimpleMemberInfoModel {
 		this.frontPicPath = frontPicPath;
 	}
 
-//	public List<CategoryDictModel> getDictList() {
-//		return dictList;
-//	}
+	public List<CategoryDictModel> getDictList() {
+		return dictList;
+	}
 
-//	public void setDictList(List<CategoryDictModel> dictList) {
-//		this.dictList = dictList;
-//	}
-//
-//	public List<CategoryEntryModel> getEntryList() {
-//		return entryList;
-//	}
-//
-//	public void setEntryList(List<CategoryEntryModel> entryList) {
-//		this.entryList = entryList;
-//	}
+	public void setDictList(List<CategoryDictModel> dictList) {
+		this.dictList = dictList;
+	}
+
+	public List<CategoryEntryModel> getEntryList() {
+		return entryList;
+	}
+
+	public void setEntryList(List<CategoryEntryModel> entryList) {
+		this.entryList = entryList;
+	}
 
 	public String getProduct() {
 		return product;
@@ -209,13 +215,13 @@ public class SimpleMemberInfoModel {
 		this.enterTime = enterTime;
 	}
 
-//	public List<IndustryModel> getIndustryList() {
-//		return industryList;
-//	}
+	public List<IndustryModel> getIndustryList() {
+		return industryList;
+	}
 
-//	public void setIndustryList(List<IndustryModel> industryList) {
-//		this.industryList = industryList;
-//	}
+	public void setIndustryList(List<IndustryModel> industryList) {
+		this.industryList = industryList;
+	}
 
 	@Override
 	public String toString() {

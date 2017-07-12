@@ -14,7 +14,7 @@ import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
  */
 public interface MemberMapper {
 	
-	List<SimpleMemberInfoModel> querySimpleMember(Map<String, Object> searchItems);
+	SimpleMemberInfoModel querySimpleMember(Integer memberId);
 	
 	MemberInfoModel queryMemberDetail(Integer memberId);
 	

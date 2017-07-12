@@ -20,7 +20,7 @@ import com.fireCloud.tradCity.log.SysLogger;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
 import com.fireCloud.tradCity.popularize.service.PopularizeService;
-import com.fireCloud.tradCity.util.LuceneUtil;
+import com.fireCloud.tradCity.util.lucene.LuceneUtil;
 
 
 /**
