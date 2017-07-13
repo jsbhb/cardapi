@@ -53,6 +53,8 @@
 		<result column="qq" property="qq" jdbcType="VARCHAR" />
 	</resultMap>
 
+
+	<!-- 根据ID查询会员详细信息 -->
 	<select id="queryMemberDetail" parameterType="java.lang.Integer"
 		resultMap="memberInfo">
 		select m.id as
@@ -69,6 +71,7 @@
 		#{memberId, jdbcType=INTEGER}
 	</select>
 
+	<!-- 系统启动 查询所有信息创建lucene索引-->
 	<select id="queryMember" resultMap="simpleMemberInfo">
 		select
 		m.id as
@@ -76,7 +79,17 @@
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize
 		from member m where isDel = 0;
 	</select>
+	
+	<!-- 更新已经创建lucene索引的数据状态 -->
+	<update id="updateLuceneIndex" >
+		update member set index_status = 1 
+	</update>
+	
+	<update id="updateLuceneIndexById" parameterType="Object">
+		update member set index_status = 1 where id = #{memberId, jdbcType=INTEGER}
+	</update>
 
+	<!-- 会员商城搜索 -->
 	<select id="querySimpleMember" resultMap="simpleMemberInfo"
 		parameterType="Object">
 		select m.id as
@@ -84,4 +97,5 @@
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize
 		from member m where m.id = #{memberId}
 	</select>
+	
 </mapper>

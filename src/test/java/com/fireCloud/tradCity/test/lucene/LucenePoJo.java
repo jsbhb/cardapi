@@ -130,8 +130,14 @@ public class LucenePoJo{
 				tem = temp.split(",");
 				doc = new Document();
 				doc.add(new IntField("id", Integer.parseInt(tem[0]), Store.YES));
-				doc.add(new TextField("memberName", tem[1], Store.YES));
-				doc.add(new TextField("product", tem[2], Store.NO));
+				
+				Field memberName = new TextField("memberName", tem[1], Store.YES);
+				doc.add(memberName);
+				memberName.setBoost(5.0f);
+				
+				Field product = new TextField("product", tem[2], Store.YES);
+				doc.add(product);
+				product.setBoost(1.0f);
 				try {
 					doc.add(new IntField("reputation", Integer.parseInt(tem[3]), Store.YES));
 				} catch (Exception e) {
@@ -191,7 +197,7 @@ public class LucenePoJo{
 		}
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(file));
 		IndexSearcher searcher = new IndexSearcher(reader);
-		String[] keyWords = {"涂料","涂料"};
+		String[] keyWords = {"北京东方桑梯商贸有限公司","北京东方桑梯商贸有限公司"};
 		String[] fileds = {"memberName","product"};
 		BooleanClause.Occur[] flags=new BooleanClause.Occur[]{BooleanClause.Occur.SHOULD,BooleanClause.Occur.SHOULD};  
 
@@ -204,8 +210,8 @@ public class LucenePoJo{
 		System.out.println("Searching for: " + query.toString());
 //		SortField s1 = new SortField("popularize", Type.STRING, true);
 //		SortField s3 = new SortField("isRel", Type.STRING, true);
-		SortField s2 = new SortField("reputation", Type.INT, true);
-		Sort sort = new Sort(new SortField[] {  s2 });
+//		SortField s2 = new SortField("reputation", Type.INT, true);
+		Sort sort = new Sort(new SortField[] {  SortField.FIELD_SCORE });
 		ScoreDoc scoreDoc = getLastScoreDoc(1, 20, query, searcher,sort);
 		TopDocs results = searcher.searchAfter(scoreDoc, query, 20,sort);
 		System.out.println("Total match：" + results.totalHits);
@@ -213,12 +219,12 @@ public class LucenePoJo{
 		int count = 1;
 		for (ScoreDoc hit : hits) {
 			Document doc1 = searcher.doc(hit.doc);
-			String res = highlighter.getBestFragment(analyzer, "memberName", doc1.get("memberName"));
-//			String res = doc1.get("memberName");
-//			System.err.println(count + "  " + res + ", " + doc1.get("id") + "  " + doc1.get("product") +"  "+ doc1.get("enterTime"));
-			System.err.print(doc1.get("id") + ",");
-			System.err.println(" ");
-			System.err.print(doc1.get("reputation") + ",");
+//			String res = highlighter.getBestFragment(analyzer, "memberName", doc1.get("memberName"));
+			String res = doc1.get("memberName");
+			System.err.println(count + "  " + res + ", " + doc1.get("id") + "  " + doc1.get("product") +"  "+ doc1.get("enterTime"));
+//			System.err.print(doc1.get("id") + ",");
+//			System.err.println(" ");
+//			System.err.print(doc1.get("reputation") + ",");
 			count++;
 		}
 	}

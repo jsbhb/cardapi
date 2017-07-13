@@ -99,48 +99,19 @@ public class LuceneUtil {
 		return instancs;
 	}
 
-	public void writerMemberIndx(List<SimpleMemberInfoModel> memberInfoList) {
-		Document doc = null;
-		long time = 0;
-		for (SimpleMemberInfoModel model : memberInfoList) {
-
-			doc = new Document();
-			doc.add(new StringField("id", model.getMemberId() + "", Store.YES));
-			doc.add(new TextField("memberName", model.getMemberName(), Store.YES));
-			doc.add(new TextField("product", model.getProduct() == null ? "" : model.getProduct(), Store.YES));
-			doc.add(new StringField("reputation", model.getReputation() == null ? "0" : model.getReputation() + "",
-					Store.NO));
-			doc.add(new StringField("guarantee", model.getGuarantee() + "", Store.NO));
-			doc.add(new StringField("highQuality", model.getHighQuality() + "", Store.NO));
-			doc.add(new StringField("isRel", model.getIsRel() == null ? "0" : model.getIsRel() + "", Store.NO));
-			try {
-				time = DateUtil.stringToLong(model.getEnterTime(), dateFormat);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			doc.add(new LongField("enterTime", time, Store.NO));
-			doc.add(new StringField("sincerity", model.getSincerity() + "", Store.NO));
-			doc.add(new StringField("returnGoods", model.getReturnGoods() + "", Store.NO));
-			doc.add(new StringField("province", model.getProvince() == null ? "" : model.getProvince(), Store.NO));
-			doc.add(new StringField("city", model.getCity() == null ? "" : model.getCity(), Store.NO));
-			doc.add(new StringField("area", model.getArea() == null ? "" : model.getArea(), Store.NO));
-			doc.add(new StringField("address", model.getAddress() == null ? "" : model.getAddress(), Store.NO));
-			doc.add(new StringField("popularize", model.getPopularize() == null ? "0" : model.getPopularize() + "",
-					Store.NO));
-			try {
-				memberIndexWriter.addDocument(doc);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	/**
+	 * @fun 创建索引
+	 * @param objList
+	 */
+	public <T> void writerIndex(List<T> objList) {
+		
+		if(objList.get(0) instanceof SimpleMemberInfoModel){
+			buildMemberIndex(objList);
 		}
-		try {
-			memberIndexWriter.commit();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
 	}
+
 
 	/**
 	 * lucene 搜索
@@ -201,6 +172,63 @@ public class LuceneUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	private <T> void buildMemberIndex(List<T> objList) {
+		Document doc;
+		long time = 0;
+		for (Object obj : objList) {
+			
+			SimpleMemberInfoModel model = (SimpleMemberInfoModel)obj;
+
+			doc = new Document();
+			doc.add(new StringField("id", model.getMemberId() + "", Store.YES));
+			
+			//企业名称设置权重
+			TextField memberName = new TextField("memberName", model.getMemberName(), Store.YES);
+			doc.add(memberName);
+			memberName.setBoost(5.0f);
+			
+			//商品名称设置权重
+			TextField product = new TextField("product", model.getProduct() == null ? "" : model.getProduct(), Store.YES);
+			doc.add(product);
+			product.setBoost(1.0f);
+			
+			
+			doc.add(new StringField("reputation", model.getReputation() == null ? "0" : model.getReputation() + "",
+					Store.NO));
+			doc.add(new StringField("guarantee", model.getGuarantee() + "", Store.NO));
+			doc.add(new StringField("highQuality", model.getHighQuality() + "", Store.NO));
+			doc.add(new StringField("isRel", model.getIsRel() == null ? "0" : model.getIsRel() + "", Store.NO));
+			try {
+				time = DateUtil.stringToLong(model.getEnterTime(), dateFormat);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			doc.add(new LongField("enterTime", time, Store.NO));
+			doc.add(new StringField("sincerity", model.getSincerity() + "", Store.NO));
+			doc.add(new StringField("returnGoods", model.getReturnGoods() + "", Store.NO));
+			doc.add(new StringField("province", model.getProvince() == null ? "" : model.getProvince(), Store.NO));
+			doc.add(new StringField("city", model.getCity() == null ? "" : model.getCity(), Store.NO));
+			doc.add(new StringField("area", model.getArea() == null ? "" : model.getArea(), Store.NO));
+			doc.add(new StringField("address", model.getAddress() == null ? "" : model.getAddress(), Store.NO));
+			doc.add(new StringField("popularize", model.getPopularize() == null ? "0" : model.getPopularize() + "",
+					Store.NO));
+			try {
+				memberIndexWriter.addDocument(doc);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			memberIndexWriter.commit();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	private void searchMember(Object obj, Pagination pagination, SortModelList sortList, Map<String, Object> result,
 			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,

@@ -94,7 +94,8 @@ CREATE TABLE `cardapi`.`member` (
   `index_status` INT(1) NULL DEFAULT 0 COMMENT '是否建立lucene索引 0:否；1：是',
   PRIMARY KEY (`id`),
   UNIQUE `memberName` (`memberName`),
-  INDEX `index_status` (`index_status`)
+  INDEX `index_status` (`index_status`),
+  INDEX `isDel` (`isDel`)
   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '会员表';
 

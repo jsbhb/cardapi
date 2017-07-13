@@ -23,4 +23,8 @@ public interface MemberMapper {
 	Integer queryCount(Map<String, Object> searchItems);
 	
 	List<SimpleMemberInfoModel> queryMember();
+	
+	void updateLuceneIndex();
+	
+	void updateLuceneIndexById(Integer member);
 }

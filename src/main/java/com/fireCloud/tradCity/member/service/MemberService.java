@@ -38,4 +38,9 @@ public interface MemberService {
 	 * @return
 	 */
 	List<SimpleMemberInfoModel> queryMember();
+	
+	/**
+	 * @fun 更新lucene索引
+	 */
+	void updateLuceneIndex();
 }

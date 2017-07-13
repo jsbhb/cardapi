@@ -116,4 +116,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.queryMember();
 	}
 
+	@Override
+	public void updateLuceneIndex() {
+		
+		memberMapper.updateLuceneIndex();
+	}
+
 }
