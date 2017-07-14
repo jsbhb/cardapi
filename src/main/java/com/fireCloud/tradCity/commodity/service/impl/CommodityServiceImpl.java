@@ -65,7 +65,7 @@ public class CommodityServiceImpl implements CommodityService {
 				if (!commodityCategory3.contains(commodity.getCommodityCategory3())) {
 					commodityCategory3.add(commodity.getCommodityCategory3());
 				}
-				if (!brand.contains(commodity.getBrand())) {
+				if (!brand.contains(commodity.getBrand()) && commodity.getBrand()!=null) {
 					brand.add(commodity.getBrand());
 				}
 //				for (CommodityColorModel colors : commodity.getColorList()) {
@@ -73,7 +73,7 @@ public class CommodityServiceImpl implements CommodityService {
 //						color.add(colors.getColor());
 //					}
 //				}
-				if (!color.contains(commodity.getColor())) {
+				if (!color.contains(commodity.getColor()) && commodity.getColor()!=null) {
 					color.add(commodity.getColor());
 				}
 //				for (CommoditySizeModel sizes : commodity.getSizeList()) {
@@ -81,7 +81,7 @@ public class CommodityServiceImpl implements CommodityService {
 //						size.add(sizes.getSize());
 //					}
 //				}
-				if (!size.contains(commodity.getSize())) {
+				if (!size.contains(commodity.getSize()) && commodity.getSize()!=null) {
 					size.add(commodity.getSize());
 				}
 			}
