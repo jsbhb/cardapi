@@ -71,13 +71,13 @@
 		#{memberId, jdbcType=INTEGER}
 	</select>
 
-	<!-- 系统启动 查询所有信息创建lucene索引-->
+	<!-- 系统启动 查询没有创建lucene索引的信息-->
 	<select id="queryMember" resultMap="simpleMemberInfo">
 		select
 		m.id as
 		memberId,m.memberName,m.product,m.reputation,m.guarantee,m.highQuality,m.isRel,m.enterTime,
 		m.sincerity,m.returnGoods,m.province,m.city,m.area,m.address,m.popularize
-		from member m where isDel = 0;
+		from member m where isDel = 0 and m.index_status = 0;
 	</select>
 	
 	<!-- 更新已经创建lucene索引的数据状态 -->
