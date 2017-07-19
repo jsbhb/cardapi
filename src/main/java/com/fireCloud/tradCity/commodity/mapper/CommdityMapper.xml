@@ -3,7 +3,7 @@
 <mapper namespace="com.fireCloud.tradCity.commodity.mapper.CommdityMapper">
 	
 	<resultMap type="com.fireCloud.tradCity.commodity.model.CommoditySearchModel" id="baseMap">
-		<id column="commodityId" property="commodityId" jdbcType="INTEGER" />
+		<id column="commodityId" property="commodityId" jdbcType="VARCHAR" />
 		<result column="commodityCategory1" property="commodityCategory1" jdbcType="VARCHAR" />
 		<result column="commodityCategory2" property="commodityCategory2" jdbcType="VARCHAR" />
 		<result column="commodityCategory3" property="commodityCategory3" jdbcType="VARCHAR" />

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class CommoditySearchModel {
 
-	private Integer commodityId;
+	private String commodityId;
 	
 	private String commodityCategory1;
 	
@@ -104,10 +104,10 @@ public class CommoditySearchModel {
 	// 多客服以逗号分开
 	private String qq;
 	
-	public Integer getCommodityId() {
+	public String getCommodityId() {
 		return commodityId;
 	}
-	public void setCommodityId(Integer commodityId) {
+	public void setCommodityId(String commodityId) {
 		this.commodityId = commodityId;
 	}
 	public String getCommodityCategory1() {
