@@ -104,14 +104,12 @@ public class LuceneUtil {
 	 * @param objList
 	 */
 	public <T> void writerIndex(List<T> objList) {
-		
-		if(objList.get(0) instanceof SimpleMemberInfoModel){
+
+		if (objList.get(0) instanceof SimpleMemberInfoModel) {
 			buildMemberIndex(objList);
 		}
-		
 
 	}
-
 
 	/**
 	 * lucene 搜索
@@ -141,6 +139,11 @@ public class LuceneUtil {
 		return result;
 	}
 
+	/**
+	 * 删除索引
+	 * @param id
+	 * @param type 区分商品索引还是会员索引
+	 */
 	public void deleteIndex(Integer id, int type) {
 		if (type == MEMBER_TYPE) {
 			try {
@@ -154,48 +157,50 @@ public class LuceneUtil {
 
 	}
 
-	public void updateIndex(Map<String,String> param){
+	/**
+	 * 更新索引
+	 * @param param
+	 */
+	public void updateIndex(Map<String, String> param) {
 		Document doc = new Document();
-		
-		for(Map.Entry<String, String> entry : param.entrySet()){
-			if("memberName".equals(entry.getKey()) || "product".equals(entry.getKey())){
+
+		for (Map.Entry<String, String> entry : param.entrySet()) {
+			if ("memberName".equals(entry.getKey()) || "product".equals(entry.getKey())) {
 				doc.add(new StringField(entry.getKey(), entry.getValue(), Store.NO));
 			} else {
 				doc.add(new StringField(entry.getKey(), entry.getValue(), Store.YES));
 			}
 		}
 		try {
-			memberIndexWriter.updateDocument(new Term("id",param.get("id")), doc);
+			memberIndexWriter.updateDocument(new Term("id", param.get("id")), doc);
 			memberIndexWriter.commit();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	private <T> void buildMemberIndex(List<T> objList) {
 		Document doc;
 		long time = 0;
 		for (Object obj : objList) {
-			
-			SimpleMemberInfoModel model = (SimpleMemberInfoModel)obj;
+
+			SimpleMemberInfoModel model = (SimpleMemberInfoModel) obj;
 
 			doc = new Document();
 			doc.add(new StringField("id", model.getMemberId() + "", Store.YES));
-			
-			//企业名称设置权重
+
+			// 企业名称设置权重
 			TextField memberName = new TextField("memberName", model.getMemberName(), Store.YES);
 			doc.add(memberName);
 			memberName.setBoost(5.0f);
-			
-			//商品名称设置权重
-			TextField product = new TextField("product", model.getProduct() == null ? "" : model.getProduct(), Store.YES);
+
+			// 商品名称设置权重
+			TextField product = new TextField("product", model.getProduct() == null ? "" : model.getProduct(),
+					Store.YES);
 			doc.add(product);
 			product.setBoost(1.0f);
-			
-			
+
 			doc.add(new StringField("reputation", model.getReputation() == null ? "0" : model.getReputation() + "",
 					Store.NO));
 			doc.add(new StringField("guarantee", model.getGuarantee() + "", Store.NO));
@@ -228,7 +233,6 @@ public class LuceneUtil {
 			e.printStackTrace();
 		}
 	}
-	
 
 	private void searchMember(Object obj, Pagination pagination, SortModelList sortList, Map<String, Object> result,
 			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
@@ -238,10 +242,32 @@ public class LuceneUtil {
 		SimpleMemberInfoModel memberInfo = (SimpleMemberInfoModel) obj;
 
 		memberIndexSearch = getIndexSearch(member_filePath);
+		
+		List<Integer> memberIdList = new ArrayList<Integer>();
+		
+		Document doc1 = null;
 
 		// 封装查询参数
 		renderQueryParameter(keyWordsList, filedsList, occurList, accuratePara, memberInfo);
 
+		if (keyWordsList.size() == 0 && accuratePara.size() == 0) {
+			
+			queryMemberWithOutPara(pagination, result, memberIdList);
+			
+		} else {
+
+			queryMemberWithPara(pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara,
+					memberIdList);
+		}
+
+	}
+
+	private void queryMemberWithPara(Pagination pagination, SortModelList sortList, Map<String, Object> result,
+			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
+			Map<String, String> accuratePara, List<Integer> memberIdList)
+					throws org.apache.lucene.queryparser.classic.ParseException, IOException,
+					InvalidTokenOffsetsException {
+		Document doc1;
 		Query query = MultiFieldQueryParser.parse(keyWordsList.toArray(new String[keyWordsList.size()]),
 				filedsList.toArray(new String[filedsList.size()]),
 				occurList.toArray(new BooleanClause.Occur[occurList.size()]), analyzer);
@@ -259,20 +285,19 @@ public class LuceneUtil {
 			query = luceneFilter.getFilterQuery(query);// 结果过滤
 		}
 
-		SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(prefixHTML, suffixHTML);
-		Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer(query));
-		highlighter.setTextFragmenter(new SimpleFragmenter(this.textmaxlength));
+		//获取高亮对象
+		Highlighter highlighter = getHighlighter(query);
 
 		ScoreDoc scoreDoc = getLastScoreDoc(pagination.getCurrentPage(), pagination.getNumPerPage(), query,
 				memberIndexSearch, sort);
 		TopDocs results = memberIndexSearch.searchAfter(scoreDoc, query, pagination.getNumPerPage(), sort);
 		System.out.println("Total match：" + results.totalHits);
 		ScoreDoc[] hits = results.scoreDocs;
-		List<Integer> memberIdList = new ArrayList<Integer>();
+		
 		SimpleMemberInfoModel info = null;
 		Map<Integer, SimpleMemberInfoModel> highlighterModel = new HashMap<Integer, SimpleMemberInfoModel>();
 		for (ScoreDoc hit : hits) {
-			Document doc1 = memberIndexSearch.doc(hit.doc);
+			doc1 = memberIndexSearch.doc(hit.doc);
 			String res = doc1.get("id");
 			if (res != null) {
 				info = new SimpleMemberInfoModel();
@@ -285,6 +310,30 @@ public class LuceneUtil {
 		result.put(Constants.TOTAL, results.totalHits);
 		result.put(Constants.ID_LIST, memberIdList);
 		result.put(Constants.HIGHLIGHTER_MODEL, highlighterModel);
+	}
+
+	private void queryMemberWithOutPara(Pagination pagination, Map<String, Object> result, List<Integer> memberIdList)
+			throws IOException {
+		Document doc1;
+		int count = reader.maxDoc();
+		int start = (pagination.getCurrentPage() - 1) * pagination.getNumPerPage();
+		int end = pagination.getCurrentPage() * pagination.getNumPerPage();
+		for (int i = start; i < end; i++) {
+			doc1 = memberIndexSearch.doc(i);
+			String res = doc1.get("id");
+			if (res != null) {
+				memberIdList.add(Integer.parseInt(res));
+			}
+		}
+		result.put(Constants.TOTAL, count);
+		result.put(Constants.ID_LIST, memberIdList);
+	}
+
+	private Highlighter getHighlighter(Query query) {
+		SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(prefixHTML, suffixHTML);
+		Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer(query));
+		highlighter.setTextFragmenter(new SimpleFragmenter(this.textmaxlength));
+		return highlighter;
 	}
 
 	private Sort renderSortParameter(SortModelList sortList) {
