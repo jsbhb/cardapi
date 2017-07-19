@@ -95,6 +95,9 @@
 	<select id = "queryCommodityCount" resultType = "java.lang.Integer" parameterType="java.util.Map">
 		select count(*)
 		from commodity a
+		left join commodityCategoryA ca on a.commodityCategory1 = ca.id
+		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
+		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id}
@@ -103,13 +106,13 @@
 			and a.memberId = #{commodity.memberId}
 		</if>
 		<if test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
-			and a.commodityCategory1 = #{commodity.commodityCategory1}
+			and ca.categoryName = #{commodity.commodityCategory1}
 		</if>
 		<if test="commodity.commodityCategory2 != null and commodity.commodityCategory2 != ''">
-			and a.commodityCategory2 = #{commodity.commodityCategory2}
+			and cb.categoryName = #{commodity.commodityCategory2}
 		</if>
 		<if test="commodity.commodityCategory3 != null and commodity.commodityCategory3 != ''">
-			and a.commodityCategory3 = #{commodity.commodityCategory3}
+			and cc.categoryName = #{commodity.commodityCategory3}
 		</if>
 		<if test="commodity.commodityName != null and commodity.commodityName != ''">
 			and a.commodityName like concat('%',#{commodity.commodityName},'%')
@@ -151,13 +154,13 @@
 			and a.memberId = #{memberId}
 		</if>
 		<if test="commodityCategory1 != null and commodityCategory1 != ''">
-			and a.commodityCategory1 = #{commodityCategory1}
+			and ca.categoryName = #{commodityCategory1}
         </if>
 		<if test="commodityCategory2 != null and commodityCategory2 != ''">
-			and a.commodityCategory2 = #{commodityCategory2}
+			and cb.categoryName = #{commodityCategory2}
         </if>
 		<if test="commodityCategory3 != null and commodityCategory3 != ''">
-			and a.commodityCategory3 = #{commodityCategory3}
+			and cc.categoryName = #{commodityCategory3}
         </if>
 		<if test="commodityName != null and commodityName != ''">
 			and a.commodityName like concat('%',#{commodityName},'%')
@@ -215,13 +218,13 @@
 			and a.memberId = #{commodity.memberId} 
 		</if>
 		<if test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
-			and a.commodityCategory1 = #{commodity.commodityCategory1} 
+			and ca.categoryName = #{commodity.commodityCategory1} 
 		</if>
 		<if test="commodity.commodityCategory2 != null and commodity.commodityCategory2 != ''">
-			and a.commodityCategory2 = #{commodity.commodityCategory2} 
+			and cb.categoryName = #{commodity.commodityCategory2} 
 		</if>
 		<if test="commodity.commodityCategory3 != null and commodity.commodityCategory3 != ''">
-			and a.commodityCategory3 = #{commodity.commodityCategory3} 
+			and cc.categoryName = #{commodity.commodityCategory3} 
 		</if>
 		<if test="commodity.commodityName != null and commodity.commodityName != ''">
 			and a.commodityName like concat('%',#{commodity.commodityName},'%') 
@@ -263,13 +266,13 @@
 			and a.memberId = #{memberId} 
 		</if>
 		<if test="commodityCategory1 != null and commodityCategory1 != ''">
-			and a.commodityCategory1 = #{commodityCategory1} 
+			and ca.categoryName = #{commodityCategory1} 
         </if>
 		<if test="commodityCategory2 != null and commodityCategory2 != ''">
-			and a.commodityCategory2 = #{commodityCategory2} 
+			and cb.categoryName = #{commodityCategory2} 
         </if>
 		<if test="commodityCategory3 != null and commodityCategory3 != ''">
-			and a.commodityCategory3 = #{commodityCategory3} 
+			and cc.categoryName = #{commodityCategory3} 
         </if>
 		<if test="commodityName != null and commodityName != ''">
 			and a.commodityName like concat('%',#{commodityName},'%') 
