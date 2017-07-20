@@ -23,6 +23,7 @@
 		<result column="price" property="price" jdbcType="DECIMAL" />
 		<result column="productId" property="productId" jdbcType="VARCHAR" />
 		<result column="picPath" property="picPath" jdbcType="VARCHAR" />
+		<result column="memberId" property="memberId" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<resultMap id = "productInfoModel" type = "com.fireCloud.tradCity.popularize.model.ProductInfoModel" extends = "baseBroductInfo">
@@ -61,7 +62,7 @@
 	</select>
 	
 	<select id="queryProductInfo" resultMap="productInfoModel">
-		select pd.name,pd.popularizeCode,pp.title,pp.shortTitle,pp.description as subdescription,pp.price,
+		select pd.name,pd.popularizeCode,pp.title,pp.shortTitle,pp.description as subdescription,pp.price,pp.memberId, 
 		pp.productId,pp.picPath from popularize_dict pd left join popularize_product pp on pd.id = pp.popularizeId 
 		where pd.status = 1 and pp.status = 1
 	</select>
