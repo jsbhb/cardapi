@@ -194,6 +194,7 @@ CREATE TABLE `cardapi`.`popularize_product` (
   `description` VARCHAR(450) NULL COMMENT '描述',
   `price` DECIMAL(10,2) NULL COMMENT '商品价格',
   `productId`  INT(11) NULL COMMENT '商品ID',
+  `memberId`  INT(11) NULL COMMENT '会员ID',
   `createTime` DATETIME NULL COMMENT '创建时间',
   `startTime` DATETIME NULL COMMENT '开始时间',
   `day` INT(3) NULL COMMENT '持续天数',
