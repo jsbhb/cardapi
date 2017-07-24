@@ -244,8 +244,6 @@ public class LuceneUtil {
 		
 		List<Integer> memberIdList = new ArrayList<Integer>();
 		
-		Document doc1 = null;
-
 		// 封装查询参数
 		renderQueryParameter(keyWordsList, filedsList, occurList, accuratePara, memberInfo);
 
@@ -361,6 +359,7 @@ public class LuceneUtil {
 		return sort;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void renderQueryParameter(List<String> keyWordsList, List<String> filedsList,
 			List<BooleanClause.Occur> occurList, Map<String, String> accuratePara, SimpleMemberInfoModel memberInfo)
 					throws IntrospectionException, IllegalAccessException, InvocationTargetException {
