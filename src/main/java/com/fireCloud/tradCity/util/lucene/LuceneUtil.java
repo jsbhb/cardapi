@@ -16,7 +16,6 @@ import java.util.Map;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -193,7 +192,7 @@ public class LuceneUtil {
 			// 企业名称设置权重
 			TextField memberName = new TextField("memberName", model.getMemberName(), Store.YES);
 			doc.add(memberName);
-			memberName.setBoost(5.0f);
+			memberName.setBoost(1.5f);
 
 			// 商品名称设置权重
 			TextField product = new TextField("product", model.getProduct() == null ? "" : model.getProduct(),

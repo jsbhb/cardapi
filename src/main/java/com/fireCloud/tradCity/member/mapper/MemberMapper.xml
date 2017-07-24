@@ -82,7 +82,7 @@
 	
 	<!-- 更新已经创建lucene索引的数据状态 -->
 	<update id="updateLuceneIndex" >
-		update member set index_status = 1 
+		update member set index_status = 1 where isDel = 0
 	</update>
 	
 	<update id="updateLuceneIndexById" parameterType="Object">
