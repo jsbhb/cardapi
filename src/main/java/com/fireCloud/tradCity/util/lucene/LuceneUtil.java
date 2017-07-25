@@ -338,7 +338,7 @@ public class LuceneUtil {
 
 		productIndexSearch = getIndexSearch(product_filePath);
 
-		List<Integer> commodityIdList = new ArrayList<Integer>();
+		List<String> commodityIdList = new ArrayList<String>();
 
 		// 封装查询参数
 		renderQueryCommodityParameter(keyWordsList, filedsList, occurList, accuratePara, commmodityInfo);
@@ -403,7 +403,7 @@ public class LuceneUtil {
 
 	private void queryCommodityWithPara(Pagination pagination, SortModelList sortList, Map<String, Object> result,
 			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
-			Map<String, String> accuratePara, List<Integer> commodityIdList)
+			Map<String, String> accuratePara, List<String> commodityIdList)
 					throws org.apache.lucene.queryparser.classic.ParseException, IOException,
 					InvalidTokenOffsetsException {
 		Document doc1;
@@ -434,9 +434,9 @@ public class LuceneUtil {
 		ScoreDoc[] hits = results.scoreDocs;
 
 		CommodityModel info = null;
-		Map<Integer, CommodityModel> highlighterModel = new HashMap<Integer, CommodityModel>();
+		Map<String, CommodityModel> highlighterModel = new HashMap<String, CommodityModel>();
 		for (ScoreDoc hit : hits) {
-			doc1 = memberIndexSearch.doc(hit.doc);
+			doc1 = productIndexSearch.doc(hit.doc);
 			String res = doc1.get("id");
 			if (res != null) {
 				info = new CommodityModel();
@@ -448,8 +448,8 @@ public class LuceneUtil {
 						highlighter.getBestFragment(analyzer, "commodityCategory2", doc1.get("commodityCategory2")));
 				info.setCommodityCategory3(
 						highlighter.getBestFragment(analyzer, "commodityCategory3", doc1.get("commodityCategory3")));
-				highlighterModel.put(Integer.parseInt(res), info);
-				commodityIdList.add(Integer.parseInt(res));
+				highlighterModel.put(res, info);
+				commodityIdList.add(res);
 			}
 		}
 		result.put(Constants.TOTAL, results.totalHits);
@@ -475,7 +475,7 @@ public class LuceneUtil {
 	}
 
 	private void queryCommodityWithOutPara(Pagination pagination, Map<String, Object> result,
-			List<Integer> commodityIdList) throws IOException {
+			List<String> commodityIdList) throws IOException {
 		Document doc1;
 		int count = reader.maxDoc();
 		int start = (pagination.getCurrentPage() - 1) * pagination.getNumPerPage();
@@ -484,7 +484,7 @@ public class LuceneUtil {
 			doc1 = productIndexSearch.doc(i);
 			String res = doc1.get("id");
 			if (res != null) {
-				commodityIdList.add(Integer.parseInt(res));
+				commodityIdList.add(res);
 			}
 		}
 		result.put(Constants.TOTAL, count);
@@ -563,7 +563,13 @@ public class LuceneUtil {
 			Method getMethod = pd.getReadMethod();// 获得get方法
 			o = getMethod.invoke(commodityInfo, null);
 			if (o != null) {
-				accuratePara.put(field.getName(), o + "");
+				if ("commodityName".equals(field.getName())) {
+					keyWordsList.add(o + "");
+					filedsList.add(field.getName());
+					occurList.add(BooleanClause.Occur.SHOULD);
+				} else {
+					accuratePara.put(field.getName(), o + "");
+				}
 			}
 		}
 	}

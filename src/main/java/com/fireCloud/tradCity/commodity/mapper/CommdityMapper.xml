@@ -508,7 +508,10 @@
 		left join commodityCategoryA ca on a.commodityCategory1 = ca.id
 		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
 		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
-		where 1=1 and a.id = #{id} 
+		where 1=1 and a.id in 
+		<foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
 		) base
 		inner join commodity_show b on base.commodityId = b.commodityId
 		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,
@@ -517,6 +520,7 @@
 		left join commodity_price d on base.commodityId = d.commodityId
 		left join commodity_color e on base.commodityId = e.commodityId
 		left join commodity_size f on base.commodityId = f.commodityId
+		order by
 		basec.isRel desc, basec.reputation desc, base.commodityId desc
 	</select>
 </mapper>

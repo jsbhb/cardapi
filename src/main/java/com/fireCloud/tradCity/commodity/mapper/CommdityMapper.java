@@ -40,5 +40,5 @@ public interface CommdityMapper {
 	
 	void updateLuceneIndex();
 	
-	CommoditySearchModel queryCommodityModel(String id);
+	List<CommoditySearchModel> queryCommodityModel(List<String> id);
 }

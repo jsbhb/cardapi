@@ -135,9 +135,13 @@ public class CommodityServiceImpl implements CommodityService {
 
 		pagination.setTotalRows((long) total);
 		if (commodityIdList != null && commodityIdList.size() > 0) {
-			CommoditySearchModel model = null;
+			List<String> tmpIds = new ArrayList<String>();
 			for (String id : commodityIdList) {
-				model = commdityMapper.queryCommodityModel(id);
+				tmpIds.add(id);
+			}
+			// 调用sql获取查询结果
+			List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodityModel(tmpIds);
+			for (CommoditySearchModel model : commoditySearchList) {
 				if (!commodityCategory2.contains(model.getCommodityCategory2())) {
 					commodityCategory2.add(model.getCommodityCategory2());
 				}
@@ -155,6 +159,7 @@ public class CommodityServiceImpl implements CommodityService {
 				}
 				commodityList.add(model);
 			}
+
 		}
 		resultMap.put(PAGINATION, pagination.webListConverter());
 		// 将显示信息拼装好
