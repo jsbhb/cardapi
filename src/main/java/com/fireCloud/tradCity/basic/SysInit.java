@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import com.fireCloud.tradCity.apiprivilege.ApiPrivilegeComponent;
 import com.fireCloud.tradCity.apiprivilege.model.ApiPrivilege;
+import com.fireCloud.tradCity.commodity.model.CommodityModel;
+import com.fireCloud.tradCity.commodity.service.CommodityService;
 import com.fireCloud.tradCity.common.model.MemberIndustryModel;
 import com.fireCloud.tradCity.common.service.CommonService;
 import com.fireCloud.tradCity.constants.CacheConstants;
@@ -47,6 +49,9 @@ public class SysInit {
 
 	@Resource
 	MemberService memberService;
+	
+	@Resource
+	CommodityService commodityService;
 
 	@PostConstruct
 	private void init() {
@@ -107,6 +112,13 @@ public class SysInit {
 		if (list != null && list.size() > 0) {
 			LuceneUtil.getInstance().writerIndex(list);
 			memberService.updateLuceneIndex();
+		}
+		
+		//添加商品索引
+		List<CommodityModel> list2 = commodityService.queryInitCommodity();
+		if (list2 != null && list2.size() > 0) {
+			LuceneUtil.getInstance().writerIndex(list2);
+			commodityService.updateLuceneIndex();
 		}
 	}
 }

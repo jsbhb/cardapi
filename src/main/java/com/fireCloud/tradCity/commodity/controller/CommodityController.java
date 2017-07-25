@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fireCloud.tradCity.basic.model.CallBackModel;
 import com.fireCloud.tradCity.basic.model.Pagination;
+import com.fireCloud.tradCity.basic.model.SortModelList;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel;
@@ -46,7 +47,7 @@ public class CommodityController {
 	//首页上的按分类和按名称检索接口
 	@RequestMapping(value = "/{version}/commoditys", method = RequestMethod.GET)
 	public CallBackModel getCommoditys(@PathVariable("version") Double version, CommodityModel commodity,
-			Pagination pagination, HttpServletRequest req, HttpServletResponse res) {
+			Pagination pagination, SortModelList sortList, HttpServletRequest req, HttpServletResponse res) {
 		//定义返回结果的model
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
@@ -60,7 +61,10 @@ public class CommodityController {
 				searchItems.put("commodity", commodity);
 				
 				//封装查询结果
-				Map<String, Object> resultMap = commodityService.getCommodityBySearch(searchItems, pagination);
+				//Map<String, Object> resultMap = commodityService.getCommodityBySearch(searchItems, pagination);
+				//使用lucene
+				Map<String, Object> resultMap = commodityService.getCommodityBySearch(commodity, sortList, pagination);
+				
 				model.setSuccess(true);
 				model.setObj(resultMap);
 				

@@ -35,4 +35,10 @@ public interface CommdityMapper {
 	void insCommodityShow(CommodityShowModel commodityShow);
 	
 	Integer queryCommodityCount(Map<String, Object> searchItems);
+	
+	List<CommodityModel> queryInitCommodity();
+	
+	void updateLuceneIndex();
+	
+	CommoditySearchModel queryCommodityModel(String id);
 }

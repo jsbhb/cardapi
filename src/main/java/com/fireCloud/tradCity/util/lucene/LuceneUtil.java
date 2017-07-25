@@ -45,6 +45,7 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 import com.fireCloud.tradCity.basic.model.Pagination;
 import com.fireCloud.tradCity.basic.model.SortModel;
 import com.fireCloud.tradCity.basic.model.SortModelList;
+import com.fireCloud.tradCity.commodity.model.CommodityModel;
 import com.fireCloud.tradCity.constants.Constants;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.util.DateUtil;
@@ -106,6 +107,8 @@ public class LuceneUtil {
 
 		if (objList.get(0) instanceof SimpleMemberInfoModel) {
 			buildMemberIndex(objList);
+		} else if (objList.get(0) instanceof CommodityModel) {
+			buildCommodityIndex(objList);
 		}
 
 	}
@@ -133,6 +136,8 @@ public class LuceneUtil {
 
 		if (obj instanceof SimpleMemberInfoModel) {
 			searchMember(obj, pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara);
+		} else if (obj instanceof CommodityModel) {
+			searchCommodity(obj, pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara);
 		}
 
 		return result;
@@ -140,8 +145,10 @@ public class LuceneUtil {
 
 	/**
 	 * 删除索引
+	 * 
 	 * @param id
-	 * @param type 区分商品索引还是会员索引
+	 * @param type
+	 *            区分商品索引还是会员索引
 	 */
 	public void deleteIndex(Integer id, int type) {
 		if (type == MEMBER_TYPE) {
@@ -152,12 +159,21 @@ public class LuceneUtil {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (type == PRODUCT_TYPE) {
+			try {
+				productIndexWriter.deleteDocuments(new Term("id", id + ""));
+				productIndexWriter.commit();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
 
 	/**
 	 * 更新索引
+	 * 
 	 * @param param
 	 */
 	public void updateIndex(Map<String, String> param) {
@@ -173,6 +189,10 @@ public class LuceneUtil {
 		try {
 			memberIndexWriter.updateDocument(new Term("id", param.get("id")), doc);
 			memberIndexWriter.commit();
+
+			// 商品索引更新
+			productIndexWriter.updateDocument(new Term("id", param.get("id")), doc);
+			productIndexWriter.commit();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -233,6 +253,54 @@ public class LuceneUtil {
 		}
 	}
 
+	private <T> void buildCommodityIndex(List<T> objList) {
+		Document doc;
+		for (Object obj : objList) {
+
+			CommodityModel model = (CommodityModel) obj;
+
+			doc = new Document();
+			doc.add(new StringField("id", model.getId() + "", Store.YES));
+
+			// 商品名称设置权重
+			TextField commodityName = new TextField("commodityName",
+					model.getCommodityName() == null ? "" : model.getCommodityName(), Store.YES);
+			doc.add(commodityName);
+			commodityName.setBoost(1.5f);
+
+			TextField commodityCategory1 = new TextField("commodityCategory1",
+					model.getCommodityCategory1() == null ? "" : model.getCommodityCategory1(), Store.YES);
+			doc.add(commodityCategory1);
+			commodityCategory1.setBoost(1.0f);
+
+			TextField commodityCategory2 = new TextField("commodityCategory2",
+					model.getCommodityCategory2() == null ? "" : model.getCommodityCategory2(), Store.YES);
+			doc.add(commodityCategory2);
+			commodityCategory2.setBoost(1.0f);
+
+			TextField commodityCategory3 = new TextField("commodityCategory3",
+					model.getCommodityCategory3() == null ? "" : model.getCommodityCategory3(), Store.YES);
+			doc.add(commodityCategory3);
+			commodityCategory3.setBoost(1.0f);
+
+			doc.add(new StringField("brand", model.getBrand() == null ? "" : model.getBrand() + "", Store.YES));
+			doc.add(new StringField("uom", model.getUom() == null ? "" : model.getUom(), Store.YES));
+			doc.add(new StringField("color", model.getColor() == null ? "" : model.getColor(), Store.YES));
+			doc.add(new StringField("size", model.getSize() == null ? "" : model.getSize() + "", Store.YES));
+			try {
+				productIndexWriter.addDocument(doc);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			productIndexWriter.commit();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private void searchMember(Object obj, Pagination pagination, SortModelList sortList, Map<String, Object> result,
 			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
 			Map<String, String> accuratePara)
@@ -241,22 +309,46 @@ public class LuceneUtil {
 		SimpleMemberInfoModel memberInfo = (SimpleMemberInfoModel) obj;
 
 		memberIndexSearch = getIndexSearch(member_filePath);
-		
+
 		List<Integer> memberIdList = new ArrayList<Integer>();
-		
+
+		Document doc1 = null;
+
 		// 封装查询参数
 		renderQueryParameter(keyWordsList, filedsList, occurList, accuratePara, memberInfo);
 
 		if (keyWordsList.size() == 0 && accuratePara.size() == 0) {
-			
+
 			queryMemberWithOutPara(pagination, result, memberIdList);
-			
+
 		} else {
 
 			queryMemberWithPara(pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara,
 					memberIdList);
 		}
 
+	}
+
+	private void searchCommodity(Object obj, Pagination pagination, SortModelList sortList, Map<String, Object> result,
+			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
+			Map<String, String> accuratePara)
+					throws IntrospectionException, IllegalAccessException, InvocationTargetException,
+					org.apache.lucene.queryparser.classic.ParseException, IOException, InvalidTokenOffsetsException {
+		CommodityModel commmodityInfo = (CommodityModel) obj;
+
+		productIndexSearch = getIndexSearch(product_filePath);
+
+		List<Integer> commodityIdList = new ArrayList<Integer>();
+
+		// 封装查询参数
+		renderQueryCommodityParameter(keyWordsList, filedsList, occurList, accuratePara, commmodityInfo);
+
+		if (keyWordsList.size() == 0 && accuratePara.size() == 0) {
+			queryCommodityWithOutPara(pagination, result, commodityIdList);
+		} else {
+			queryCommodityWithPara(pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara,
+					commodityIdList);
+		}
 	}
 
 	private void queryMemberWithPara(Pagination pagination, SortModelList sortList, Map<String, Object> result,
@@ -282,7 +374,7 @@ public class LuceneUtil {
 			query = luceneFilter.getFilterQuery(query);// 结果过滤
 		}
 
-		//获取高亮对象
+		// 获取高亮对象
 		Highlighter highlighter = getHighlighter(query);
 
 		ScoreDoc scoreDoc = getLastScoreDoc(pagination.getCurrentPage(), pagination.getNumPerPage(), query,
@@ -290,7 +382,7 @@ public class LuceneUtil {
 		TopDocs results = memberIndexSearch.searchAfter(scoreDoc, query, pagination.getNumPerPage(), sort);
 		System.out.println("Total match：" + results.totalHits);
 		ScoreDoc[] hits = results.scoreDocs;
-		
+
 		SimpleMemberInfoModel info = null;
 		Map<Integer, SimpleMemberInfoModel> highlighterModel = new HashMap<Integer, SimpleMemberInfoModel>();
 		for (ScoreDoc hit : hits) {
@@ -309,6 +401,62 @@ public class LuceneUtil {
 		result.put(Constants.HIGHLIGHTER_MODEL, highlighterModel);
 	}
 
+	private void queryCommodityWithPara(Pagination pagination, SortModelList sortList, Map<String, Object> result,
+			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
+			Map<String, String> accuratePara, List<Integer> commodityIdList)
+					throws org.apache.lucene.queryparser.classic.ParseException, IOException,
+					InvalidTokenOffsetsException {
+		Document doc1;
+		Query query = MultiFieldQueryParser.parse(keyWordsList.toArray(new String[keyWordsList.size()]),
+				filedsList.toArray(new String[filedsList.size()]),
+				occurList.toArray(new BooleanClause.Occur[occurList.size()]), analyzer);
+
+		System.out.println("Searching for: " + query.toString());
+		// 封装排序参数
+		Sort sort = renderSortParameter(sortList);
+
+		// 是否需要精确查找
+		if (accuratePara.size() > 0) {
+			LuceneFilter luceneFilter = new LuceneFilter();
+			for (Map.Entry<String, String> entry : accuratePara.entrySet()) {
+				luceneFilter.addFilter(entry.getKey(), entry.getValue());
+			}
+			query = luceneFilter.getFilterQuery(query);// 结果过滤
+		}
+
+		// 获取高亮对象
+		Highlighter highlighter = getHighlighter(query);
+
+		ScoreDoc scoreDoc = getLastScoreDoc(pagination.getCurrentPage(), pagination.getNumPerPage(), query,
+				productIndexSearch, sort);
+		TopDocs results = productIndexSearch.searchAfter(scoreDoc, query, pagination.getNumPerPage(), sort);
+		System.out.println("Total match：" + results.totalHits);
+		ScoreDoc[] hits = results.scoreDocs;
+
+		CommodityModel info = null;
+		Map<Integer, CommodityModel> highlighterModel = new HashMap<Integer, CommodityModel>();
+		for (ScoreDoc hit : hits) {
+			doc1 = memberIndexSearch.doc(hit.doc);
+			String res = doc1.get("id");
+			if (res != null) {
+				info = new CommodityModel();
+				info.setCommodityName(
+						highlighter.getBestFragment(analyzer, "commodityName", doc1.get("commodityName")));
+				info.setCommodityCategory1(
+						highlighter.getBestFragment(analyzer, "commodityCategory1", doc1.get("commodityCategory1")));
+				info.setCommodityCategory2(
+						highlighter.getBestFragment(analyzer, "commodityCategory2", doc1.get("commodityCategory2")));
+				info.setCommodityCategory3(
+						highlighter.getBestFragment(analyzer, "commodityCategory3", doc1.get("commodityCategory3")));
+				highlighterModel.put(Integer.parseInt(res), info);
+				commodityIdList.add(Integer.parseInt(res));
+			}
+		}
+		result.put(Constants.TOTAL, results.totalHits);
+		result.put(Constants.ID_LIST, commodityIdList);
+		result.put(Constants.HIGHLIGHTER_MODEL, highlighterModel);
+	}
+
 	private void queryMemberWithOutPara(Pagination pagination, Map<String, Object> result, List<Integer> memberIdList)
 			throws IOException {
 		Document doc1;
@@ -324,6 +472,23 @@ public class LuceneUtil {
 		}
 		result.put(Constants.TOTAL, count);
 		result.put(Constants.ID_LIST, memberIdList);
+	}
+
+	private void queryCommodityWithOutPara(Pagination pagination, Map<String, Object> result,
+			List<Integer> commodityIdList) throws IOException {
+		Document doc1;
+		int count = reader.maxDoc();
+		int start = (pagination.getCurrentPage() - 1) * pagination.getNumPerPage();
+		int end = pagination.getCurrentPage() * pagination.getNumPerPage();
+		for (int i = start; i < end; i++) {
+			doc1 = productIndexSearch.doc(i);
+			String res = doc1.get("id");
+			if (res != null) {
+				commodityIdList.add(Integer.parseInt(res));
+			}
+		}
+		result.put(Constants.TOTAL, count);
+		result.put(Constants.ID_LIST, commodityIdList);
 	}
 
 	private Highlighter getHighlighter(Query query) {
@@ -359,7 +524,6 @@ public class LuceneUtil {
 		return sort;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void renderQueryParameter(List<String> keyWordsList, List<String> filedsList,
 			List<BooleanClause.Occur> occurList, Map<String, String> accuratePara, SimpleMemberInfoModel memberInfo)
 					throws IntrospectionException, IllegalAccessException, InvocationTargetException {
@@ -383,6 +547,23 @@ public class LuceneUtil {
 				} else {
 					accuratePara.put(field.getName(), o + "");
 				}
+			}
+		}
+	}
+
+	private void renderQueryCommodityParameter(List<String> keyWordsList, List<String> filedsList,
+			List<BooleanClause.Occur> occurList, Map<String, String> accuratePara, CommodityModel commodityInfo)
+					throws IntrospectionException, IllegalAccessException, InvocationTargetException {
+		Object o = null;
+
+		Class clazz = commodityInfo.getClass();
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
+			Method getMethod = pd.getReadMethod();// 获得get方法
+			o = getMethod.invoke(commodityInfo, null);
+			if (o != null) {
+				accuratePara.put(field.getName(), o + "");
 			}
 		}
 	}
@@ -446,6 +627,34 @@ public class LuceneUtil {
 					}
 				}
 				return memberIndexSearch;
+			}
+		} else if (product_filePath.equals(filePath)) {
+
+			if (productIndexSearch == null) {
+				try {
+					directory = FSDirectory.open(file);
+					reader = DirectoryReader.open(directory);
+					return new IndexSearcher(reader);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				if (reader != null) {
+					try {
+						directory = FSDirectory.open(file);
+						DirectoryReader newReader = DirectoryReader.openIfChanged(reader);
+						if (newReader != null) {
+							reader.close();
+							reader = newReader;
+							return new IndexSearcher(reader);
+						} else {
+							return productIndexSearch;
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				return productIndexSearch;
 			}
 		}
 

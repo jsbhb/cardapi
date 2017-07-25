@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fireCloud.tradCity.commodity.mapper.CommdityMapper">
 	
+	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityModel" id="initMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="commodityCategory1" property="commodityCategory1" jdbcType="VARCHAR" />
+		<result column="commodityCategory2" property="commodityCategory2" jdbcType="VARCHAR" />
+		<result column="commodityCategory3" property="commodityCategory3" jdbcType="VARCHAR" />
+		<result column="commodityName" property="commodityName" jdbcType="VARCHAR" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="quantity" property="quantity" jdbcType="VARCHAR" />
+		<result column="uom" property="uom" jdbcType="VARCHAR" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="size" property="size" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="goodFlg" property="goodFlg" jdbcType="INTEGER" />
+		<result column="hotFlg" property="hotFlg" jdbcType="INTEGER" />
+		<result column="choiceFlg" property="choiceFlg" jdbcType="INTEGER" />
+		<result column="appreciateFlg" property="appreciateFlg" jdbcType="INTEGER" />
+		<result column="memberId" property="memberId" jdbcType="INTEGER" />
+	</resultMap>
+	
 	<resultMap type="com.fireCloud.tradCity.commodity.model.CommoditySearchModel" id="baseMap">
 		<id column="commodityId" property="commodityId" jdbcType="VARCHAR" />
 		<result column="commodityCategory1" property="commodityCategory1" jdbcType="VARCHAR" />
@@ -456,4 +475,48 @@
 	    insert into commodity_show (commodityId,commodityIntroduction,packingSpecification,instructions,customerService,showPagePath,showPageSource,createTime,createOpt,updateTime,updateOpt)
 		values (#{commodityId},#{commodityIntroduction},#{packingSpecification},#{instructions},#{customerService},#{showPagePath},#{showPageSource},now(),#{createOpt},now(),#{updateOpt})
 	</insert>
+	
+	<!-- 系统启动 查询没有创建lucene索引的信息-->
+	<select id="queryInitCommodity" resultMap="initMap">
+		select a.id,ca.categoryName commodityCategory1,
+		cb.categoryName commodityCategory2,cc.categoryName commodityCategory3,
+		a.commodityName,ifnull(a.brand,'') brand,a.quantity,ifnull(a.uom,'') uom,
+		ifnull(a.color,'') color,ifnull(a.size,'') size,a.price,
+		a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.memberId
+		from commodity a
+		inner join commodityCategoryA ca on a.commodityCategory1 = ca.id
+		inner join commodityCategoryB cb on a.commodityCategory2 = cb.id
+		inner join commodityCategoryC cc on a.commodityCategory3 = cc.id
+		where a.index_status = '0'
+	</select>
+	
+	<!-- 更新已经创建lucene索引的数据状态 -->
+	<update id="updateLuceneIndex" >
+		update commodity a set a.index_status = '1' where a.index_status = '0'
+	</update>
+	
+	<select id="queryCommodityModel" resultMap="baseMap" parameterType="Object">
+		select base.*,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
+		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price priceList,
+		e.color colorList,f.size sizeList
+		from (
+		select a.id commodityId,a.memberId,ca.categoryName commodityCategory1,
+		cb.categoryName commodityCategory2,cc.categoryName commodityCategory3,
+		a.commodityName,a.brand,a.price,a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,
+		a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,a.picture4,a.picture5
+		from commodity a
+		left join commodityCategoryA ca on a.commodityCategory1 = ca.id
+		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
+		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
+		where 1=1 and a.id = #{id} 
+		) base
+		inner join commodity_show b on base.commodityId = b.commodityId
+		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,
+		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
+		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id
+		left join commodity_price d on base.commodityId = d.commodityId
+		left join commodity_color e on base.commodityId = e.commodityId
+		left join commodity_size f on base.commodityId = f.commodityId
+		basec.isRel desc, basec.reputation desc, base.commodityId desc
+	</select>
 </mapper>

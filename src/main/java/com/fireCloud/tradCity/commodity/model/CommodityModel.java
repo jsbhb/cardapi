@@ -24,7 +24,7 @@ public class CommodityModel {
 	
 	private Double price;
 	
-	private Integer quantity;
+	private String quantity;
 	
 	private String uom;
 	
@@ -140,11 +140,11 @@ public class CommodityModel {
 		this.price = price;
 	}
 
-	public Integer getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 
