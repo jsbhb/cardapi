@@ -327,7 +327,7 @@
 			and a.appreciateFlg = #{appreciateFlg} 
 		</if>
 		) base
-		inner join commodity_show b on base.commodityId = b.commodityId
+		left join commodity_show b on base.commodityId = b.commodityId
 		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,
 		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
 		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id
@@ -513,7 +513,7 @@
 			#{id}
 		</foreach>
 		) base
-		inner join commodity_show b on base.commodityId = b.commodityId
+		left join commodity_show b on base.commodityId = b.commodityId
 		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,
 		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
 		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id

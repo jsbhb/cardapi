@@ -262,6 +262,10 @@ public class LuceneUtil {
 			doc = new Document();
 			doc.add(new StringField("id", model.getId() + "", Store.YES));
 
+			TextField memberId = new TextField("memberId", model.getMemberId().toString(), Store.YES);
+			doc.add(memberId);
+			memberId.setBoost(1.0f);
+
 			// 商品名称设置权重
 			TextField commodityName = new TextField("commodityName",
 					model.getCommodityName() == null ? "" : model.getCommodityName(), Store.YES);
@@ -563,12 +567,48 @@ public class LuceneUtil {
 			Method getMethod = pd.getReadMethod();// 获得get方法
 			o = getMethod.invoke(commodityInfo, null);
 			if (o != null) {
-				if ("commodityName".equals(field.getName())) {
+				// 如果是brand,需要brand和commodityName一起模糊查询
+				if ("brand".equals(field.getName())) {
+					keyWordsList.add(o + "");
+					filedsList.add(field.getName());
+					keyWordsList.add(o + "");
+					filedsList.add("commodityName");
+					occurList.add(BooleanClause.Occur.SHOULD);
+					occurList.add(BooleanClause.Occur.SHOULD);
+				} else if ("commodityCategory1".equals(field.getName())) {
+					keyWordsList.add(o + "");
+					filedsList.add(field.getName());
+					keyWordsList.add(o + "");
+					filedsList.add("commodityName");
+					occurList.add(BooleanClause.Occur.SHOULD);
+					occurList.add(BooleanClause.Occur.SHOULD);
+				} else if ("commodityCategory2".equals(field.getName())) {
+					keyWordsList.add(o + "");
+					filedsList.add(field.getName());
+					keyWordsList.add(o + "");
+					filedsList.add("commodityCategory1");
+					keyWordsList.add(o + "");
+					filedsList.add("commodityName");
+					occurList.add(BooleanClause.Occur.SHOULD);
+					occurList.add(BooleanClause.Occur.SHOULD);
+					occurList.add(BooleanClause.Occur.SHOULD);
+				} else if ("commodityCategory3".equals(field.getName())) {
+					keyWordsList.add(o + "");
+					filedsList.add(field.getName());
+					keyWordsList.add(o + "");
+					filedsList.add("commodityCategory1");
+					keyWordsList.add(o + "");
+					filedsList.add("commodityCategory2");
+					keyWordsList.add(o + "");
+					filedsList.add("commodityName");
+					occurList.add(BooleanClause.Occur.SHOULD);
+					occurList.add(BooleanClause.Occur.SHOULD);
+					occurList.add(BooleanClause.Occur.SHOULD);
+					occurList.add(BooleanClause.Occur.SHOULD);
+				} else {
 					keyWordsList.add(o + "");
 					filedsList.add(field.getName());
 					occurList.add(BooleanClause.Occur.SHOULD);
-				} else {
-					accuratePara.put(field.getName(), o + "");
 				}
 			}
 		}

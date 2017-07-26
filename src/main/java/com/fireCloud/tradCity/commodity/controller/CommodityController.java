@@ -111,7 +111,7 @@ public class CommodityController {
 	//根据商家ID进行数据查询
 	@RequestMapping(value = "/{version}/{memberId}/commoditys", method = RequestMethod.GET)
 	public CallBackModel getCommoditysByMemberId(@PathVariable("version") Double version, @PathVariable("memberId") Integer memberId, CommodityModel commodity,
-			Pagination pagination, HttpServletRequest req,	HttpServletResponse res) {
+			Pagination pagination, SortModelList sortList, HttpServletRequest req,	HttpServletResponse res) {
 		//定义返回结果的model
 		CallBackModel model = new CallBackModel();
 		//增加版本控制，后期版本升级可以兼容
@@ -126,7 +126,9 @@ public class CommodityController {
 				searchItems.put("commodity", commodity);
 				
 				//封装查询结果
-				Map<String, Object> resultMap = commodityService.getCommodityByMemberId(searchItems, pagination);
+				//Map<String, Object> resultMap = commodityService.getCommodityByMemberId(searchItems, pagination);
+				//使用lucene
+				Map<String, Object> resultMap = commodityService.getCommodityByMemberId(commodity, sortList, pagination);
 				model.setSuccess(true);
 				model.setObj(resultMap);
 				

@@ -148,14 +148,14 @@ public class CommodityServiceImpl implements CommodityService {
 				if (!commodityCategory3.contains(model.getCommodityCategory3())) {
 					commodityCategory3.add(model.getCommodityCategory3());
 				}
-				if (!brand.contains(model.getBrand()) && model.getBrand() != null) {
-					brand.add(model.getBrand());
+				if (model.getBrand() != null && !brand.contains(model.getBrand().split(" ")[0])) {
+					brand.add(model.getBrand().split(" ")[0]);
 				}
-				if (!color.contains(model.getColor()) && model.getColor() != null) {
-					color.add(model.getColor());
+				if (model.getColor() != null && !color.contains(model.getColor().split(" ")[0])) {
+					color.add(model.getColor().split(" ")[0]);
 				}
-				if (!size.contains(model.getSize()) && model.getSize() != null) {
-					size.add(model.getSize());
+				if (model.getSize() != null && !size.contains(model.getSize().split(" ")[0])) {
+					size.add(model.getSize().split(" ")[0]);
 				}
 				commodityList.add(model);
 			}
@@ -249,6 +249,55 @@ public class CommodityServiceImpl implements CommodityService {
 		resultMap.put("memberGoodCommodityList", memberGoodCommodityList);
 		resultMap.put("pagination", pagination.webListConverter());
 
+		return resultMap;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> getCommodityByMemberId(CommodityModel commodity, SortModelList sortList,
+			Pagination pagination) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> luceneMap = new HashMap<String, Object>();
+
+		try {
+			luceneMap = LuceneUtil.getInstance().search(commodity, pagination, sortList);
+		} catch (Exception e) {
+			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "lucene搜索出错:", e);
+		}
+		Integer total = (Integer) luceneMap.get(Constants.TOTAL);
+		List<String> commodityIdList = (List<String>) luceneMap.get(Constants.ID_LIST);
+		List<CommoditySearchModel> commodityList = new ArrayList<CommoditySearchModel>();
+		// 定义前台展示的数组
+		ArrayList<String> commodityCategory2 = new ArrayList<String>();
+		ArrayList<String> commodityCategory3 = new ArrayList<String>();
+
+		pagination.setTotalRows((long) total);
+		if (commodityIdList != null && commodityIdList.size() > 0) {
+			List<String> tmpIds = new ArrayList<String>();
+			for (String id : commodityIdList) {
+				tmpIds.add(id);
+			}
+			// 调用sql获取查询结果
+			List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodityModel(tmpIds);
+			for (CommoditySearchModel model : commoditySearchList) {
+				if (!commodityCategory2.contains(model.getCommodityCategory2())) {
+					commodityCategory2.add(model.getCommodityCategory2());
+				}
+				if (!commodityCategory3.contains(model.getCommodityCategory3())) {
+					commodityCategory3.add(model.getCommodityCategory3());
+				}
+				commodityList.add(model);
+			}
+		}
+		Map<String, Object> searchItems = new HashMap<String, Object>();
+		searchItems.put("commodity", commodity);
+		searchItems.put("goodFlg", "1");
+		List<CommoditySearchModel> memberGoodCommodityList = commdityMapper.queryCommodity(searchItems);
+		resultMap.put("memberGoodCommodityList", memberGoodCommodityList);
+		resultMap.put(PAGINATION, pagination.webListConverter());
+		resultMap.put("commodityCategory2", commodityCategory2);
+		resultMap.put("commodityCategory3", commodityCategory3);
+		resultMap.put("commoditySearchList", commodityList);
 		return resultMap;
 	}
 

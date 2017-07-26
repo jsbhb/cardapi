@@ -26,8 +26,11 @@ public interface CommodityService {
 	
 	//根据商品ID进行查询
 	Map<String,Object> getCommodityByCommodityId(Map<String, Object> searchItems, Pagination pagination);
+
+ 	//采用lucene查询
+ 	Map<String,Object> getCommodityByMemberId(CommodityModel commodity, SortModelList sortList, Pagination pagination);
 	
-	//根据商家ID进行查询
+ 	//根据商家ID进行查询
 	Map<String,Object> getCommodityByMemberId(Map<String, Object> searchItems, Pagination pagination);
 	
 	//新增商品的一级类目
