@@ -193,7 +193,7 @@ CREATE TABLE `cardapi`.`popularize_product` (
   `shortTitle` VARCHAR(50) NULL COMMENT '缩略名称',
   `description` VARCHAR(450) NULL COMMENT '描述',
   `price` DECIMAL(10,2) NULL COMMENT '商品价格',
-  `productId`  INT(11) NULL COMMENT '商品ID',
+  `productId`  bigint(20) NULL COMMENT '商品ID',
   `memberId`  INT(11) NULL COMMENT '会员ID',
   `createTime` DATETIME NULL COMMENT '创建时间',
   `startTime` DATETIME NULL COMMENT '开始时间',
@@ -269,7 +269,7 @@ CREATE TABLE `cardapi`.`popularize_member_prod_sub` (
   `sort` INT(2) NULL COMMENT '字典排序',
   `price` DECIMAL(10,2) NULL COMMENT '商品价格',
   `createTime` DATETIME NULL COMMENT '创建时间',
-  `productId`  INT(11) NULL COMMENT '商品ID',
+  `productId`  bigint(20) NULL COMMENT '商品ID',
   PRIMARY KEY (`id`),
   INDEX `popularize_member_prod_sub_memberProdId` (`memberProdId`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '推广企业和商品商品表';
