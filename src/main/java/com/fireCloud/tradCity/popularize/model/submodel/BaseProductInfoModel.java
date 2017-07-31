@@ -20,7 +20,7 @@ public class BaseProductInfoModel {
 	
 	private BigDecimal price;
 	
-	private Integer productId;
+	private Long productId;
 	
 	private String picPath;
 	
@@ -82,11 +82,11 @@ public class BaseProductInfoModel {
 		this.price = price;
 	}
 
-	public Integer getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Integer productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 
