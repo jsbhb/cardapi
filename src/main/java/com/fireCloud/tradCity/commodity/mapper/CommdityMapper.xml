@@ -53,6 +53,7 @@
 		<result column="memberId" property="memberId" jdbcType="INTEGER" />
 		<result column="memberName" property="memberName" jdbcType="VARCHAR" />
 		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="topPicPath" property="topPicPath" jdbcType="VARCHAR" />
 		<result column="reputation" property="reputation" jdbcType="VARCHAR" />
 		<result column="guarantee" property="guarantee" jdbcType="INTEGER" />
 		<result column="highQuality" property="highQuality" jdbcType="INTEGER" />
@@ -328,7 +329,7 @@
 		</if>
 		) base
 		left join commodity_show b on base.commodityId = b.commodityId
-		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,
+		left join (select c.id,c.memberName,c.logoPath,c.topPicPath,c.reputation,c.guarantee,c.highQuality,
 		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
 		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id
 		left join commodity_price d on base.commodityId = d.commodityId
@@ -514,7 +515,7 @@
 		</foreach>
 		) base
 		left join commodity_show b on base.commodityId = b.commodityId
-		left join (select c.id,c.memberName,c.logoPath,c.reputation,c.guarantee,c.highQuality,
+		left join (select c.id,c.memberName,c.logoPath,c.topPicPath,c.reputation,c.guarantee,c.highQuality,
 		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
 		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id
 		left join commodity_price d on base.commodityId = d.commodityId

@@ -75,6 +75,8 @@ public class CommoditySearchModel {
 	private String memberName;
 	
 	private String logoPath;
+	
+	private String topPicPath;
 	//商家信用
 	private String reputation;
 	//是否平台担保 0:否；1：是
@@ -307,6 +309,12 @@ public class CommoditySearchModel {
 	}
 	public void setLogoPath(String logoPath) {
 		this.logoPath = logoPath;
+	}
+	public String getTopPicPath() {
+		return topPicPath;
+	}
+	public void setTopPicPath(String topPicPath) {
+		this.topPicPath = topPicPath;
 	}
 	public String getUom() {
 		return uom;
