@@ -117,6 +117,7 @@ public class CommodityServiceImpl implements CommodityService {
 			Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> luceneMap = new HashMap<String, Object>();
+		Map<String, Object> searchMap = new HashMap<String, Object>();
 
 		try {
 			luceneMap = LuceneUtil.getInstance().search(commodity, pagination, sortList);
@@ -139,8 +140,10 @@ public class CommodityServiceImpl implements CommodityService {
 			for (String id : commodityIdList) {
 				tmpIds.add(id);
 			}
+			searchMap.put("id", tmpIds);
+			searchMap.put("commodity", commodity);
 			// 调用sql获取查询结果
-			List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodityModel(tmpIds);
+			List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodityModel(searchMap);
 			for (CommoditySearchModel model : commoditySearchList) {
 				if (!commodityCategory2.contains(model.getCommodityCategory2())) {
 					commodityCategory2.add(model.getCommodityCategory2());
@@ -174,6 +177,8 @@ public class CommodityServiceImpl implements CommodityService {
 			resultMap.put("commodityCategory2", null);
 			resultMap.put("commodityCategory3", null);
 		}
+		resultMap.put("commodityCategory2", commodityCategory2);
+		resultMap.put("commodityCategory3", commodityCategory3);
 		if (commodityList.size() <= 0) {
 			resultMap.put("commoditySearchList", null);
 		} else {
@@ -248,6 +253,18 @@ public class CommodityServiceImpl implements CommodityService {
 		resultMap.put("commodityCategory3", commodityCategory3);
 		resultMap.put("memberGoodCommodityList", memberGoodCommodityList);
 		resultMap.put("pagination", pagination.webListConverter());
+		
+		CommodityModel commodity = (CommodityModel)searchItems.get("commodity");
+		if (commodity.getCommodityCategory2() == null) {
+			resultMap.put("selectedCategory2", null);
+		} else {
+			resultMap.put("selectedCategory2", commodity.getCommodityCategory2());
+		}
+		if (commodity.getCommodityCategory3() == null) {
+			resultMap.put("selectedCategory3", null);
+		} else {
+			resultMap.put("selectedCategory3", commodity.getCommodityCategory3());
+		}
 
 		return resultMap;
 	}
@@ -258,6 +275,7 @@ public class CommodityServiceImpl implements CommodityService {
 			Pagination pagination) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> luceneMap = new HashMap<String, Object>();
+		Map<String, Object> searchMap = new HashMap<String, Object>();
 
 		try {
 			luceneMap = LuceneUtil.getInstance().search(commodity, pagination, sortList);
@@ -277,8 +295,10 @@ public class CommodityServiceImpl implements CommodityService {
 			for (String id : commodityIdList) {
 				tmpIds.add(id);
 			}
+			searchMap.put("id", tmpIds);
+			searchMap.put("commodity", commodity);
 			// 调用sql获取查询结果
-			List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodityModel(tmpIds);
+			List<CommoditySearchModel> commoditySearchList = commdityMapper.queryCommodityModel(searchMap);
 			for (CommoditySearchModel model : commoditySearchList) {
 				if (!commodityCategory2.contains(model.getCommodityCategory2())) {
 					commodityCategory2.add(model.getCommodityCategory2());
@@ -298,6 +318,17 @@ public class CommodityServiceImpl implements CommodityService {
 		resultMap.put("commodityCategory2", commodityCategory2);
 		resultMap.put("commodityCategory3", commodityCategory3);
 		resultMap.put("commoditySearchList", commodityList);
+
+		if (commodity.getCommodityCategory2() == null) {
+			resultMap.put("selectedCategory2", null);
+		} else {
+			resultMap.put("selectedCategory2", commodity.getCommodityCategory2());
+		}
+		if (commodity.getCommodityCategory3() == null) {
+			resultMap.put("selectedCategory3", null);
+		} else {
+			resultMap.put("selectedCategory3", commodity.getCommodityCategory3());
+		}
 		return resultMap;
 	}
 

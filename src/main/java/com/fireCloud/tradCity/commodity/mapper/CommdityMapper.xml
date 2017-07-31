@@ -495,7 +495,7 @@
 		update commodity a set a.index_status = '1' where a.index_status = '0'
 	</update>
 	
-	<select id="queryCommodityModel" resultMap="baseMap" parameterType="Object">
+	<select id="queryCommodityModel" resultMap="baseMap" parameterType="java.util.Map">
 		select base.*,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
 		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price priceList,
 		e.color colorList,f.size sizeList
@@ -509,7 +509,7 @@
 		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
 		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
 		where 1=1 and a.id in 
-		<foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+		<foreach item="id" index="index" collection="id" open="(" separator="," close=")">
 			#{id}
 		</foreach>
 		) base
@@ -521,6 +521,24 @@
 		left join commodity_color e on base.commodityId = e.commodityId
 		left join commodity_size f on base.commodityId = f.commodityId
 		order by
+		<if test="commodity.hotUp != null and commodity.hotUp != ''">
+			base.hotFlg asc,
+        </if>
+        <if test="commodity.hotDown != null and commodity.hotDown != ''">
+			base.hotFlg desc,
+        </if>
+        <if test="commodity.priceUp != null and commodity.priceUp != ''">
+			base.price asc,
+        </if>
+        <if test="commodity.priceDown != null and commodity.priceDown != ''">
+			base.price desc,
+        </if>
+        <if test="commodity.createTimeUp != null and commodity.createTimeUp != ''">
+			base.createTime asc,
+        </if>
+        <if test="commodity.createTimeDown != null and commodity.createTimeDown != ''">
+			base.createTime desc,
+        </if>
 		basec.isRel desc, basec.reputation desc, base.commodityId desc
 	</select>
 </mapper>
