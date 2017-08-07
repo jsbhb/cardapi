@@ -57,4 +57,27 @@ public class PopularizeController {
 		}
 		return model;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/{version}/popularizations/navPopular", method = RequestMethod.GET)
+	public CallBackModel navPopularize(@PathVariable("version") Double version, HttpServletRequest req,
+			HttpServletResponse res) {
+		CallBackModel model = new CallBackModel();
+		res.setHeader(Constants.CROSS_DOMAIN, Constants.DOMAIN_NAME);
+		try {
+			// 增加版本控制，后期版本升级可以兼容
+			if (Constants.FIRST_VERSION.equals(version)) {
+
+				Map<String, Map<String, Object>> resultMap = (Map<String, Map<String, Object>>) sysCache
+						.get(CacheConstants.NAV_POPULARIZE_CACHE);
+				model.setSuccess(true);
+				model.setObj(resultMap);
+			}
+		} catch (Exception e) {
+			sysLogger.error(LoggerConstants.INDEX_POPULARIZE, "出错！！！！！！", e);
+			model.setSuccess(false);
+			model.setMsg(ERROR_MSG);
+		}
+		return model;
+	}
 }

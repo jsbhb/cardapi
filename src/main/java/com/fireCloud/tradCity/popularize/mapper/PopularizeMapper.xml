@@ -45,6 +45,7 @@
 		<result column="picPath" property="picPath" jdbcType="VARCHAR" />
 		<result column="description" property="description" jdbcType="VARCHAR" />
 		<result column="memberId" property="memberId" jdbcType="INTEGER" />
+		<result column="industry" property="industry" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<select id="queryMemberProduct" resultMap="memberProductModel">
@@ -67,9 +68,12 @@
 		where pd.status = 1 and pp.status = 1
 	</select>
 	
-	<select id="queryMember" resultMap="memberModel">
-		select pd.name,pd.popularizeCode, pm.logoPath, pm.picPath, pm.description, pm.memberId 
+	<select id="queryMember" resultMap="memberModel" parameterType="Object">
+		select pd.name,pd.popularizeCode, pm.logoPath, pm.picPath, pm.description, pm.memberId,pd.industry  
 		from popularize_dict pd left join popularize_member pm on pd.id = pm.popularizeId 
 		where pd.status = 1 and pm.status = 1
+		<if test="type != null and type != ''">
+			and pd.type = 5
+		</if> 
 	</select>
 </mapper>

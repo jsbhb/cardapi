@@ -164,7 +164,9 @@ CREATE TABLE `cardapi`.`popularize_dict` (
   `categoryDict` INT(11) NULL COMMENT '所在行业',
   `categoryEntry` INT(11) NULL COMMENT '行业类目',
   `createTime` DATETIME NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
+  PRIMARY KEY (`id`),
+  INDEX `idx_type` (`type`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '推广字典';
 
 
@@ -178,7 +180,8 @@ CREATE TABLE `cardapi`.`popularize_banner` (
   `picPath` VARCHAR(300) NULL COMMENT '轮播图片地址',
   `createTime` DATETIME NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  INDEX `popularize_banner_popularizeId` (`popularizeId`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
+  INDEX `popularize_banner_popularizeId` (`popularizeId`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 
 COMMENT = '轮播';
 
 

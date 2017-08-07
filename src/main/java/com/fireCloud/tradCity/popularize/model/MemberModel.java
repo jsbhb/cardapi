@@ -20,6 +20,17 @@ public class MemberModel {
 	private String picPath;
 	
 	private String description;
+	
+	private Integer industry;
+	
+	
+	public Integer getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(Integer industry) {
+		this.industry = industry;
+	}
 
 	public String getName() {
 		return name;

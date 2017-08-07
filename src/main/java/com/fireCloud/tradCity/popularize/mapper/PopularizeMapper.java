@@ -1,6 +1,7 @@
 package com.fireCloud.tradCity.popularize.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fireCloud.tradCity.popularize.model.IndexBannerModel;
 import com.fireCloud.tradCity.popularize.model.MemberModel;
@@ -19,5 +20,5 @@ public interface PopularizeMapper {
 	//获取商品推广
 	List<ProductInfoModel> queryProductInfo();
 	//获取推广企业
-	List<MemberModel> queryMember();
+	List<MemberModel> queryMember(Map<String,String> param);
 }

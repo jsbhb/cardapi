@@ -58,6 +58,9 @@ public class SysInit {
 		sysLogger.info(LoggerConstants.SYS_INIT, "开始！！！！！！");
 		// 加载首页推广缓存
 		loadIndexPopularize();
+		
+		//加载导航推广
+		loadNavPopularize();
 
 		// 加载导航类缓存
 		loadIndexNavigation();
@@ -80,6 +83,17 @@ public class SysInit {
 		}
 
 		sysCache.put(CacheConstants.POPULARIZE_CACHE, resultMap);
+	}
+	
+	private void loadNavPopularize() {
+		Map<String, Map<String, Object>> resultMap = new HashMap<String, Map<String, Object>>();
+		try {
+			resultMap = popularizeService.getNavPopularize();
+		} catch (Exception e) {
+			sysLogger.error(LoggerConstants.SYS_INIT, "加载首页推广类服务出错", e);
+		}
+
+		sysCache.put(CacheConstants.NAV_POPULARIZE_CACHE, resultMap);
 	}
 
 	private void loadIndexNavigation() {

@@ -67,28 +67,58 @@ public class PopularizeServiceImpl implements PopularizeService {
 		}
 
 		// 推广企业
-		List<MemberModel> memberList = popularizeMapper.queryMember();
+		popularMember(resultMap, false);
+		return resultMap;
+	}
+	
+	
+	@Override
+	public Map<String, Map<String, Object>> getNavPopularize() {
+		
+		Map<String, Map<String, Object>> resultMap = new HashMap<String, Map<String, Object>>();
+		
+		popularMember(resultMap, true);
+		return resultMap;
+	}
+
+
+	private void popularMember(Map<String, Map<String, Object>> resultMap, boolean flag) {
+		Map<String,String> parma = new HashMap<String,String>();
+		if(flag){
+			parma.put("type", "5");
+		}
+		List<MemberModel> memberList = popularizeMapper.queryMember(parma);
 		sysLogger.info(LoggerConstants.MEMBER_POPULARIZE_SIZE,
 				memberList == null ? "=====0" : "=====" + memberList.size());
 		if (memberList != null && memberList.size() > 0) {
 			// 封装会员推广数据
 			packageModel(resultMap, memberList, MemberModel.class);
 		}
-		return resultMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> void packageModel(Map<String, Map<String, Object>> resultMap, List<T> objList, Class clazz) {
 		try {
 			Method method = null;
 			for (Object model : objList) {
-				method = clazz.getDeclaredMethod("getPopularizeCode", null);
-				String popularizeCode = (String) method.invoke(model, null);
+				method = clazz.getDeclaredMethod("getPopularizeCode");
+				String popularizeCode = (String) method.invoke(model);
 				if (resultMap.get(popularizeCode) == null) {
 					Map<String, Object> tempMap = new HashMap<String, Object>();
-					method = clazz.getDeclaredMethod("getName", null);
-					tempMap.put(POPULARIZE_NAME, method.invoke(model, null));
+					method = clazz.getDeclaredMethod("getName");
+					tempMap.put(POPULARIZE_NAME, method.invoke(model));
 					List<Object> tempList = new ArrayList<Object>();
 					tempList.add(model);
+					try {
+						method = clazz.getDeclaredMethod("getIndustry");
+						Object obj = method.invoke(model);
+						if(obj != null){
+							tempMap.put("industry", obj);
+						}
+					} catch (NoSuchMethodException e) {
+						
+					}
+						
 					tempMap.put(MODEL_LIST, tempList);
 					resultMap.put(popularizeCode, tempMap);
 				} else {

@@ -11,4 +11,6 @@ import java.util.Map;
 public interface PopularizeService {
 
 	Map<String,Map<String,Object>> getIndexPopularize();
+	
+	Map<String,Map<String,Object>> getNavPopularize();
 }
