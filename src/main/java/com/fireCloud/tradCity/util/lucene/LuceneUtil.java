@@ -23,14 +23,16 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queries.BooleanFilter;
 import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
@@ -314,21 +316,16 @@ public class LuceneUtil {
 
 		memberIndexSearch = getIndexSearch(member_filePath);
 
-		List<Integer> memberIdList = new ArrayList<Integer>();
-
-		Document doc1 = null;
-
 		// 封装查询参数
 		renderQueryParameter(keyWordsList, filedsList, occurList, accuratePara, memberInfo);
 
 		if (keyWordsList.size() == 0 && accuratePara.size() == 0) {
 
-			queryMemberWithOutPara(pagination, result, memberIdList);
+			queryMemberWithOutPara(pagination, result);
 
 		} else {
 
-			queryMemberWithPara(pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara,
-					memberIdList);
+			queryMemberWithPara(pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara);
 		}
 
 	}
@@ -342,48 +339,46 @@ public class LuceneUtil {
 
 		productIndexSearch = getIndexSearch(product_filePath);
 
-		List<String> commodityIdList = new ArrayList<String>();
 
 		// 封装查询参数
 		renderQueryCommodityParameter(keyWordsList, filedsList, occurList, accuratePara, commmodityInfo);
 
 		if (keyWordsList.size() == 0 && accuratePara.size() == 0) {
-			queryCommodityWithOutPara(pagination, result, commodityIdList);
+			queryCommodityWithOutPara(pagination, result);
 		} else {
-			queryCommodityWithPara(pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara,
-					commodityIdList);
+			queryCommodityWithPara(pagination, sortList, result, keyWordsList, filedsList, occurList, accuratePara);
 		}
 	}
 
 	private void queryMemberWithPara(Pagination pagination, SortModelList sortList, Map<String, Object> result,
 			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
-			Map<String, String> accuratePara, List<Integer> memberIdList)
+			Map<String, String> accuratePara)
 					throws org.apache.lucene.queryparser.classic.ParseException, IOException,
 					InvalidTokenOffsetsException {
 		Document doc1;
-		Query query = MultiFieldQueryParser.parse(keyWordsList.toArray(new String[keyWordsList.size()]),
-				filedsList.toArray(new String[filedsList.size()]),
-				occurList.toArray(new BooleanClause.Occur[occurList.size()]), analyzer);
+		List<String> memberIdList = new ArrayList<String>();
+		BooleanQuery query = new BooleanQuery();
+		for (int i = 0; i < keyWordsList.size(); i++) {
 
-		System.out.println("Searching for: " + query.toString());
-		// 封装排序参数
+			Term tm = new Term(filedsList.get(i),keyWordsList.get(i));
+			
+			TermQuery parser1 = new TermQuery(tm);
+			query.add(parser1, BooleanClause.Occur.SHOULD);
+		}
+
 		Sort sort = renderSortParameter(sortList);
 
+		BooleanFilter booleanFilter = null;
+		
 		// 是否需要精确查找
-		if (accuratePara.size() > 0) {
-			LuceneFilter luceneFilter = new LuceneFilter();
-			for (Map.Entry<String, String> entry : accuratePara.entrySet()) {
-				luceneFilter.addFilter(entry.getKey(), entry.getValue());
-			}
-			query = luceneFilter.getFilterQuery(query);// 结果过滤
-		}
+		booleanFilter = accurateQuery(accuratePara, query, booleanFilter);
 
 		// 获取高亮对象
 		Highlighter highlighter = getHighlighter(query);
 
-		ScoreDoc scoreDoc = getLastScoreDoc(pagination.getCurrentPage(), pagination.getNumPerPage(), query,
+		ScoreDoc scoreDoc = getLastScoreDoc(pagination.getCurrentPage(), pagination.getNumPerPage(), query,booleanFilter,
 				memberIndexSearch, sort);
-		TopDocs results = memberIndexSearch.searchAfter(scoreDoc, query, pagination.getNumPerPage(), sort);
+		TopDocs results = memberIndexSearch.searchAfter(scoreDoc, query,booleanFilter, pagination.getNumPerPage(), sort);
 		System.out.println("Total match：" + results.totalHits);
 		ScoreDoc[] hits = results.scoreDocs;
 
@@ -397,7 +392,7 @@ public class LuceneUtil {
 				info.setMemberName(highlighter.getBestFragment(analyzer, "memberName", doc1.get("memberName")));
 				info.setProduct(highlighter.getBestFragment(analyzer, "product", doc1.get("product")));
 				highlighterModel.put(Integer.parseInt(res), info);
-				memberIdList.add(Integer.parseInt(res));
+				memberIdList.add(res);
 			}
 		}
 		result.put(Constants.TOTAL, results.totalHits);
@@ -405,35 +400,47 @@ public class LuceneUtil {
 		result.put(Constants.HIGHLIGHTER_MODEL, highlighterModel);
 	}
 
-	private void queryCommodityWithPara(Pagination pagination, SortModelList sortList, Map<String, Object> result,
-			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
-			Map<String, String> accuratePara, List<String> commodityIdList)
-					throws org.apache.lucene.queryparser.classic.ParseException, IOException,
-					InvalidTokenOffsetsException {
-		Document doc1;
-		Query query = MultiFieldQueryParser.parse(keyWordsList.toArray(new String[keyWordsList.size()]),
-				filedsList.toArray(new String[filedsList.size()]),
-				occurList.toArray(new BooleanClause.Occur[occurList.size()]), analyzer);
-
-		System.out.println("Searching for: " + query.toString());
-		// 封装排序参数
-		Sort sort = renderSortParameter(sortList);
-
-		// 是否需要精确查找
+	private BooleanFilter accurateQuery(Map<String, String> accuratePara, BooleanQuery query,
+			BooleanFilter booleanFilter) {
 		if (accuratePara.size() > 0) {
 			LuceneFilter luceneFilter = new LuceneFilter();
 			for (Map.Entry<String, String> entry : accuratePara.entrySet()) {
 				luceneFilter.addFilter(entry.getKey(), entry.getValue());
 			}
-			query = luceneFilter.getFilterQuery(query);// 结果过滤
+			booleanFilter = luceneFilter.getFilterQuery(query);// 结果过滤
 		}
+		return booleanFilter;
+	}
+
+	private void queryCommodityWithPara(Pagination pagination, SortModelList sortList, Map<String, Object> result,
+			List<String> keyWordsList, List<String> filedsList, List<BooleanClause.Occur> occurList,
+			Map<String, String> accuratePara)
+					throws org.apache.lucene.queryparser.classic.ParseException, IOException,
+					InvalidTokenOffsetsException {
+		Document doc1;
+		List<String> commodityIdList = new ArrayList<String>();
+		BooleanQuery query = new BooleanQuery();
+		for (int i = 0; i < keyWordsList.size(); i++) {
+
+			Term tm = new Term(filedsList.get(i),keyWordsList.get(i));
+			
+			TermQuery parser1 = new TermQuery(tm);
+			query.add(parser1, BooleanClause.Occur.SHOULD);
+		}
+
+		// 封装排序参数
+		Sort sort = renderSortParameter(sortList);
+
+		// 是否需要精确查找
+		BooleanFilter booleanFilter = null;
+		booleanFilter = accurateQuery(accuratePara, query, booleanFilter);
 
 		// 获取高亮对象
 		Highlighter highlighter = getHighlighter(query);
 
-		ScoreDoc scoreDoc = getLastScoreDoc(pagination.getCurrentPage(), pagination.getNumPerPage(), query,
-				productIndexSearch, sort);
-		TopDocs results = productIndexSearch.searchAfter(scoreDoc, query, pagination.getNumPerPage(), sort);
+		ScoreDoc scoreDoc = getLastScoreDoc(pagination.getCurrentPage(), pagination.getNumPerPage(), query,booleanFilter,
+				memberIndexSearch, sort);
+		TopDocs results = productIndexSearch.searchAfter(scoreDoc, query, booleanFilter,pagination.getNumPerPage(), sort);
 		System.out.println("Total match：" + results.totalHits);
 		ScoreDoc[] hits = results.scoreDocs;
 
@@ -461,26 +468,10 @@ public class LuceneUtil {
 		result.put(Constants.HIGHLIGHTER_MODEL, highlighterModel);
 	}
 
-	private void queryMemberWithOutPara(Pagination pagination, Map<String, Object> result, List<Integer> memberIdList)
-			throws IOException {
-		Document doc1;
-		int count = reader.maxDoc();
-		int start = (pagination.getCurrentPage() - 1) * pagination.getNumPerPage();
-		int end = pagination.getCurrentPage() * pagination.getNumPerPage();
-		for (int i = start; i < end; i++) {
-			doc1 = memberIndexSearch.doc(i);
-			String res = doc1.get("id");
-			if (res != null) {
-				memberIdList.add(Integer.parseInt(res));
-			}
-		}
-		result.put(Constants.TOTAL, count);
-		result.put(Constants.ID_LIST, memberIdList);
-	}
 
-	private void queryCommodityWithOutPara(Pagination pagination, Map<String, Object> result,
-			List<String> commodityIdList) throws IOException {
+	private void queryCommodityWithOutPara(Pagination pagination, Map<String, Object> result) throws IOException {
 		Document doc1;
+		List<String> idList = new ArrayList<String>();
 		int count = reader.maxDoc();
 		int start = (pagination.getCurrentPage() - 1) * pagination.getNumPerPage();
 		int end = pagination.getCurrentPage() * pagination.getNumPerPage();
@@ -488,11 +479,28 @@ public class LuceneUtil {
 			doc1 = productIndexSearch.doc(i);
 			String res = doc1.get("id");
 			if (res != null) {
-				commodityIdList.add(res);
+				idList.add(res);
 			}
 		}
 		result.put(Constants.TOTAL, count);
-		result.put(Constants.ID_LIST, commodityIdList);
+		result.put(Constants.ID_LIST, idList);
+	}
+	
+	private void queryMemberWithOutPara(Pagination pagination, Map<String, Object> result) throws IOException {
+		Document doc1;
+		List<String> idList = new ArrayList<String>();
+		int count = reader.maxDoc();
+		int start = (pagination.getCurrentPage() - 1) * pagination.getNumPerPage();
+		int end = pagination.getCurrentPage() * pagination.getNumPerPage();
+		for (int i = start; i < end; i++) {
+			doc1 = memberIndexSearch.doc(i);
+			String res = doc1.get("id");
+			if (res != null) {
+				idList.add(res);
+			}
+		}
+		result.put(Constants.TOTAL, count);
+		result.put(Constants.ID_LIST, idList);
 	}
 
 	private Highlighter getHighlighter(Query query) {
@@ -614,12 +622,12 @@ public class LuceneUtil {
 		}
 	}
 
-	private ScoreDoc getLastScoreDoc(int pageIndex, int pageSize, Query query, IndexSearcher searcher, Sort sort)
+	private ScoreDoc getLastScoreDoc(int pageIndex, int pageSize, Query query, BooleanFilter booleanFilter, IndexSearcher searcher, Sort sort)
 			throws IOException {
 		if (pageIndex == 1)
 			return null;// 如果是第一页就返回空
 		int num = pageSize * (pageIndex - 1);// 获取上一页的最后数量
-		TopDocs tds = searcher.search(query, num, sort);
+		TopDocs tds = searcher.search(query,booleanFilter, num, sort);
 		return tds.scoreDocs[num - 1];
 	}
 

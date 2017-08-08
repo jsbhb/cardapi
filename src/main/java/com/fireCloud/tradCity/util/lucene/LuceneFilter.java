@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queries.BooleanFilter;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.FilteredQuery;
 import org.apache.lucene.search.Query;
@@ -20,12 +22,14 @@ private List<Filter> filterList;
         QueryWrapperFilter filter=new QueryWrapperFilter(new TermQuery(term));//添加过滤器 
         filterList.add(filter);//加入List，可以增加多個过滤 
     } 
-    public Query getFilterQuery(Query query){ 
+    public BooleanFilter getFilterQuery(Query query){ 
+    	BooleanFilter booleanFilter = new BooleanFilter(); 
         for(int i=0;i<filterList.size();i++){ 
             //取出多個过滤器，在结果中再次定位结果 
             query = new FilteredQuery(query, filterList.get(i)); 
+            booleanFilter.add(filterList.get(i), Occur.MUST);
         } 
-        return query; 
+        return booleanFilter; 
     }    
 } 
 

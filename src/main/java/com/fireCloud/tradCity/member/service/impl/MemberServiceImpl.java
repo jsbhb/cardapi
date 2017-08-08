@@ -22,6 +22,7 @@ import com.fireCloud.tradCity.member.model.SearchFilterModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
 import com.fireCloud.tradCity.util.lucene.LuceneUtil;
+import com.fireCloud.tradCity.util.lucene.impl.MemberLucene;
 
 /**
  * @author wqy
@@ -52,7 +53,7 @@ public class MemberServiceImpl implements MemberService {
 		Map<String, Object> luceneMap = new HashMap<String, Object>();
 
 		try {
-			luceneMap = LuceneUtil.getInstance().search(memberInfo, pagination, sortList);
+			luceneMap = MemberLucene.getInstance().search(memberInfo, pagination, sortList);
 		} catch (Exception e) {
 			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "lucene搜索出错:", e);
 		}

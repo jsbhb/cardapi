@@ -119,7 +119,7 @@ CREATE TABLE `cardapi`.`file` (
   `finalName` VARCHAR(500) NULL COMMENT '最终名称',
   `suffix` VARCHAR(20) NULL COMMENT '后缀',
   `rule` INT(2) NOT NULL COMMENT '名称加密方式',
-  `type` INT(2) NOT NULL COMMENT '文档类型',
+  `type` INT(2) NOT NULL COMMENT '文档类型0:企业首页轮播；1：证书类；2：公司文化；3：公司环境',
   `storeType` INT(2) NULL COMMENT '存储类型',
   `createTime` DATETIME NULL COMMENT '创建时间',
   INDEX `type_IND` (`type`),

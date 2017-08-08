@@ -23,6 +23,7 @@ import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
 import com.fireCloud.tradCity.popularize.service.PopularizeService;
 import com.fireCloud.tradCity.util.lucene.LuceneUtil;
+import com.fireCloud.tradCity.util.lucene.impl.MemberLucene;
 
 /**
  * @author wqy
@@ -124,7 +125,7 @@ public class SysInit {
 	private void createIndex() {
 		List<SimpleMemberInfoModel> list = memberService.queryMember();
 		if (list != null && list.size() > 0) {
-			LuceneUtil.getInstance().writerIndex(list);
+			MemberLucene.getInstance().writerIndex(list);
 			memberService.updateLuceneIndex();
 		}
 		
