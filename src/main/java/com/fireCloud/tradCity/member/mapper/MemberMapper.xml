@@ -109,10 +109,10 @@
 			#{id}
 		</foreach>
 		<if test="sortList != null and sortList != ''">
-		order by 
+		order by isRel desc, popularize desc
 			<foreach item="sort" index="index" collection="sortList" open=""
 				separator="," close="">
-				${sort.sortField} ${sort.sortRule} 
+				, ${sort.sortField} ${sort.sortRule} 
 			</foreach>
 		</if>
 	</select>
