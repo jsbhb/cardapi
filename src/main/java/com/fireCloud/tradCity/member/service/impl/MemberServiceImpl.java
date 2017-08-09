@@ -21,7 +21,6 @@ import com.fireCloud.tradCity.member.model.MemberInfoModel;
 import com.fireCloud.tradCity.member.model.SearchFilterModel;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
-import com.fireCloud.tradCity.util.lucene.LuceneUtil;
 import com.fireCloud.tradCity.util.lucene.impl.MemberLucene;
 
 /**
@@ -62,25 +61,29 @@ public class MemberServiceImpl implements MemberService {
 		pagination.setTotalRows((long) total);
 		if (memberIdList != null && memberIdList.size() > 0) {
 			List<SimpleMemberInfoModel> memberList = new ArrayList<SimpleMemberInfoModel>();
-			SimpleMemberInfoModel model = null;
 			// 设置高亮
 			Map<Integer, SimpleMemberInfoModel> highlighterModel = (Map<Integer, SimpleMemberInfoModel>) luceneMap
 					.get(Constants.HIGHLIGHTER_MODEL);
-			for (Integer id : memberIdList) {
-				model = memberMapper.querySimpleMember(id);
-				if (highlighterModel != null && highlighterModel.size() > 0) {
-					if (highlighterModel.get(id).getMemberName() != null
-							&& !"".equals(highlighterModel.get(id).getMemberName())){
-						
-						model.setMemberName(highlighterModel.get(id).getMemberName());
+			Map<String, Object> searchParm = new HashMap<String, Object>();
+			searchParm.put("idList", memberIdList);
+			if(sortList != null && sortList.getSortList() != null && sortList.getSortList().size() > 0){
+				searchParm.put("sortList", sortList.getSortList());
+			}
+			memberList = memberMapper.querySimpleMember(searchParm);
+			if (highlighterModel != null && highlighterModel.size() > 0) {
+				for (SimpleMemberInfoModel model : memberList) {
+					if (highlighterModel.get(model.getMemberId()).getMemberName() != null
+							&& !"".equals(highlighterModel.get(model.getMemberId()).getMemberName())) {
+
+						model.setMemberName(highlighterModel.get(model.getMemberId()).getMemberName());
 					}
-					if (highlighterModel.get(id).getProduct() != null
-							&& !"".equals(highlighterModel.get(id).getProduct())){
-						
-						model.setProduct(highlighterModel.get(id).getProduct());
+					if (highlighterModel.get(model.getMemberId()).getProduct() != null
+							&& !"".equals(highlighterModel.get(model.getMemberId()).getProduct())) {
+
+						model.setProduct(highlighterModel.get(model.getMemberId()).getProduct());
 					}
 				}
-				memberList.add(model);
+
 			}
 
 			resultMap.put(MEMBER_LIST, memberList);
@@ -119,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void updateLuceneIndex() {
-		
+
 		memberMapper.updateLuceneIndex();
 	}
 

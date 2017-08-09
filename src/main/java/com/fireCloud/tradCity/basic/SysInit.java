@@ -22,7 +22,7 @@ import com.fireCloud.tradCity.log.SysLogger;
 import com.fireCloud.tradCity.member.model.submodel.SimpleMemberInfoModel;
 import com.fireCloud.tradCity.member.service.MemberService;
 import com.fireCloud.tradCity.popularize.service.PopularizeService;
-import com.fireCloud.tradCity.util.lucene.LuceneUtil;
+import com.fireCloud.tradCity.util.lucene.impl.CommodityLucene;
 import com.fireCloud.tradCity.util.lucene.impl.MemberLucene;
 
 /**
@@ -132,7 +132,7 @@ public class SysInit {
 		//添加商品索引
 		List<CommodityModel> list2 = commodityService.queryInitCommodity();
 		if (list2 != null && list2.size() > 0) {
-			LuceneUtil.getInstance().writerIndex(list2);
+			CommodityLucene.getInstance().writerIndex(list2);
 			commodityService.updateLuceneIndex();
 		}
 	}

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fireCloud.tradCity.commodity.mapper.CommdityMapper">
-	
-	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityModel" id="initMap">
+
+	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityModel"
+		id="initMap">
 		<id column="id" property="id" jdbcType="VARCHAR" />
-		<result column="commodityCategory1" property="commodityCategory1" jdbcType="VARCHAR" />
-		<result column="commodityCategory2" property="commodityCategory2" jdbcType="VARCHAR" />
-		<result column="commodityCategory3" property="commodityCategory3" jdbcType="VARCHAR" />
-		<result column="commodityName" property="commodityName" jdbcType="VARCHAR" />
+		<result column="commodityCategory1" property="commodityCategory1"
+			jdbcType="VARCHAR" />
+		<result column="commodityCategory2" property="commodityCategory2"
+			jdbcType="VARCHAR" />
+		<result column="commodityCategory3" property="commodityCategory3"
+			jdbcType="VARCHAR" />
+		<result column="commodityName" property="commodityName"
+			jdbcType="VARCHAR" />
 		<result column="brand" property="brand" jdbcType="VARCHAR" />
 		<result column="quantity" property="quantity" jdbcType="VARCHAR" />
 		<result column="uom" property="uom" jdbcType="VARCHAR" />
@@ -17,16 +22,23 @@
 		<result column="goodFlg" property="goodFlg" jdbcType="INTEGER" />
 		<result column="hotFlg" property="hotFlg" jdbcType="INTEGER" />
 		<result column="choiceFlg" property="choiceFlg" jdbcType="INTEGER" />
-		<result column="appreciateFlg" property="appreciateFlg" jdbcType="INTEGER" />
+		<result column="appreciateFlg" property="appreciateFlg"
+			jdbcType="INTEGER" />
 		<result column="memberId" property="memberId" jdbcType="INTEGER" />
+		<result column="isRel" property="isRel" jdbcType="INTEGER" />
 	</resultMap>
-	
-	<resultMap type="com.fireCloud.tradCity.commodity.model.CommoditySearchModel" id="baseMap">
+
+	<resultMap
+		type="com.fireCloud.tradCity.commodity.model.CommoditySearchModel" id="baseMap">
 		<id column="commodityId" property="commodityId" jdbcType="VARCHAR" />
-		<result column="commodityCategory1" property="commodityCategory1" jdbcType="VARCHAR" />
-		<result column="commodityCategory2" property="commodityCategory2" jdbcType="VARCHAR" />
-		<result column="commodityCategory3" property="commodityCategory3" jdbcType="VARCHAR" />
-		<result column="commodityName" property="commodityName" jdbcType="VARCHAR" />
+		<result column="commodityCategory1" property="commodityCategory1"
+			jdbcType="VARCHAR" />
+		<result column="commodityCategory2" property="commodityCategory2"
+			jdbcType="VARCHAR" />
+		<result column="commodityCategory3" property="commodityCategory3"
+			jdbcType="VARCHAR" />
+		<result column="commodityName" property="commodityName"
+			jdbcType="VARCHAR" />
 		<result column="brand" property="brand" jdbcType="VARCHAR" />
 		<result column="quantity" property="quantity" jdbcType="VARCHAR" />
 		<result column="uom" property="uom" jdbcType="VARCHAR" />
@@ -37,19 +49,25 @@
 		<result column="goodFlg" property="goodFlg" jdbcType="INTEGER" />
 		<result column="hotFlg" property="hotFlg" jdbcType="INTEGER" />
 		<result column="choiceFlg" property="choiceFlg" jdbcType="INTEGER" />
-		<result column="appreciateFlg" property="appreciateFlg" jdbcType="INTEGER" />
+		<result column="appreciateFlg" property="appreciateFlg"
+			jdbcType="INTEGER" />
 		<result column="picture1" property="picture1" jdbcType="VARCHAR" />
 		<result column="picture2" property="picture2" jdbcType="VARCHAR" />
 		<result column="picture3" property="picture3" jdbcType="VARCHAR" />
 		<result column="picture4" property="picture4" jdbcType="VARCHAR" />
 		<result column="picture5" property="picture5" jdbcType="VARCHAR" />
-		<result column="commodityShowId" property="commodityShowId" jdbcType="INTEGER" />
-		<result column="commodityIntroduction" property="commodityIntroduction" jdbcType="VARCHAR" />
-		<result column="packingSpecification" property="packingSpecification" jdbcType="VARCHAR" />
+		<result column="commodityShowId" property="commodityShowId"
+			jdbcType="INTEGER" />
+		<result column="commodityIntroduction" property="commodityIntroduction"
+			jdbcType="VARCHAR" />
+		<result column="packingSpecification" property="packingSpecification"
+			jdbcType="VARCHAR" />
 		<result column="instructions" property="instructions" jdbcType="VARCHAR" />
-		<result column="customerService" property="customerService" jdbcType="VARCHAR" />
+		<result column="customerService" property="customerService"
+			jdbcType="VARCHAR" />
 		<result column="showPagePath" property="showPagePath" jdbcType="VARCHAR" />
-		<result column="showPageSource" property="showPageSource" jdbcType="VARCHAR" />
+		<result column="showPageSource" property="showPageSource"
+			jdbcType="VARCHAR" />
 		<result column="memberId" property="memberId" jdbcType="INTEGER" />
 		<result column="memberName" property="memberName" jdbcType="VARCHAR" />
 		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
@@ -67,20 +85,26 @@
 		<result column="phone" property="phone" jdbcType="VARCHAR" />
 		<result column="fax" property="fax" jdbcType="VARCHAR" />
 		<result column="qq" property="qq" jdbcType="VARCHAR" />
-		<collection property="colorList" ofType = "com.fireCloud.tradCity.commodity.model.CommodityColorModel">
+		<collection property="colorList"
+			ofType="com.fireCloud.tradCity.commodity.model.CommodityColorModel">
 			<result column="colorList" property="color" jdbcType="VARCHAR" />
 		</collection>
-		<collection property="sizeList" ofType = "com.fireCloud.tradCity.commodity.model.CommoditySizeModel">
+		<collection property="sizeList"
+			ofType="com.fireCloud.tradCity.commodity.model.CommoditySizeModel">
 			<result column="sizeList" property="size" jdbcType="VARCHAR" />
 		</collection>
-		<collection property="priceList" ofType = "com.fireCloud.tradCity.commodity.model.CommodityPriceModel">
-			<result column="quantityStart" property="quantityStart" jdbcType="INTEGER" />
+		<collection property="priceList"
+			ofType="com.fireCloud.tradCity.commodity.model.CommodityPriceModel">
+			<result column="quantityStart" property="quantityStart"
+				jdbcType="INTEGER" />
 			<result column="quantityEnd" property="quantityEnd" jdbcType="INTEGER" />
 			<result column="priceList" property="price" jdbcType="DECIMAL" />
 		</collection>
 	</resultMap>
-	
-	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" id="commodityCategoryAMap">
+
+	<resultMap
+		type="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel"
+		id="commodityCategoryAMap">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
@@ -89,8 +113,10 @@
 		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
 		<result column="updateOpt" property="updateOpt" jdbcType="VARCHAR" />
 	</resultMap>
-	
-	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel" id="commodityCategoryBMap">
+
+	<resultMap
+		type="com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel"
+		id="commodityCategoryBMap">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="categoryAId" property="categoryAId" jdbcType="INTEGER" />
 		<result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
@@ -100,8 +126,10 @@
 		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
 		<result column="updateOpt" property="updateOpt" jdbcType="VARCHAR" />
 	</resultMap>
-	
-	<resultMap type="com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel" id="commodityCategoryCMap">
+
+	<resultMap
+		type="com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel"
+		id="commodityCategoryCMap">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="categoryBId" property="categoryBId" jdbcType="INTEGER" />
 		<result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
@@ -111,13 +139,17 @@
 		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
 		<result column="updateOpt" property="updateOpt" jdbcType="VARCHAR" />
 	</resultMap>
-	
-	<select id = "queryCommodityCount" resultType = "java.lang.Integer" parameterType="java.util.Map">
+
+	<select id="queryCommodityCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
 		select count(*)
 		from commodity a
-		left join commodityCategoryA ca on a.commodityCategory1 = ca.id
-		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
-		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
+		left join commodityCategoryA ca on
+		a.commodityCategory1 = ca.id
+		left join commodityCategoryB cb on
+		a.commodityCategory2 = cb.id
+		left join commodityCategoryC cc on
+		a.commodityCategory3 = cc.id
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
 			and a.id = #{commodity.id}
@@ -125,18 +157,23 @@
 		<if test="commodity.memberId != null and commodity.memberId != ''">
 			and a.memberId = #{commodity.memberId}
 		</if>
-		<if test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
+		<if
+			test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
 			and ca.categoryName = #{commodity.commodityCategory1}
 		</if>
-		<if test="commodity.commodityCategory2 != null and commodity.commodityCategory2 != ''">
+		<if
+			test="commodity.commodityCategory2 != null and commodity.commodityCategory2 != ''">
 			and cb.categoryName = #{commodity.commodityCategory2}
 		</if>
-		<if test="commodity.commodityCategory3 != null and commodity.commodityCategory3 != ''">
+		<if
+			test="commodity.commodityCategory3 != null and commodity.commodityCategory3 != ''">
 			and cc.categoryName = #{commodity.commodityCategory3}
 		</if>
-		<if test="commodity.commodityName != null and commodity.commodityName != ''">
-			and a.commodityName like concat('%',#{commodity.commodityName},'%')
-        </if>
+		<if
+			test="commodity.commodityName != null and commodity.commodityName != ''">
+			and a.commodityName like
+			concat('%',#{commodity.commodityName},'%')
+		</if>
 		<if test="commodity.brand != null and commodity.brand != ''">
 			and a.brand = #{commodity.brand}
 		</if>
@@ -148,10 +185,10 @@
 		</if>
 		<if test="commodity.priceMin != null and commodity.priceMin != ''">
 			and a.price &gt;= #{commodity.priceMin}
-        </if>
+		</if>
 		<if test="commodity.priceMax != null and commodity.priceMax != ''">
 			and a.price &lt;= #{commodity.priceMax}
-        </if>
+		</if>
 		<if test="commodity.saleState != null and commodity.saleState != ''">
 			and a.saleState = #{commodity.saleState}
 		</if>
@@ -164,7 +201,8 @@
 		<if test="commodity.choiceFlg != null and commodity.choiceFlg != ''">
 			and a.choiceFlg = #{commodity.choiceFlg}
 		</if>
-		<if test="commodity.appreciateFlg != null and commodity.appreciateFlg != ''">
+		<if
+			test="commodity.appreciateFlg != null and commodity.appreciateFlg != ''">
 			and a.appreciateFlg = #{commodity.appreciateFlg}
 		</if>
 		<if test="commodityId != null and commodityId != ''">
@@ -175,31 +213,31 @@
 		</if>
 		<if test="commodityCategory1 != null and commodityCategory1 != ''">
 			and ca.categoryName = #{commodityCategory1}
-        </if>
+		</if>
 		<if test="commodityCategory2 != null and commodityCategory2 != ''">
 			and cb.categoryName = #{commodityCategory2}
-        </if>
+		</if>
 		<if test="commodityCategory3 != null and commodityCategory3 != ''">
 			and cc.categoryName = #{commodityCategory3}
-        </if>
+		</if>
 		<if test="commodityName != null and commodityName != ''">
 			and a.commodityName like concat('%',#{commodityName},'%')
-        </if>
+		</if>
 		<if test="brand != null and brand != ''">
 			and a.brand = #{brand}
-        </if>
+		</if>
 		<if test="color != null and color != ''">
 			and a.color = #{color}
-        </if>
+		</if>
 		<if test="size != null and size != ''">
 			and a.size = #{size}
-        </if>
+		</if>
 		<if test="priceMin != null and priceMin != ''">
 			and a.price &gt;= #{priceMin}
-        </if>
+		</if>
 		<if test="priceMax != null and priceMax != ''">
 			and a.price &lt;= #{priceMax}
-        </if>
+		</if>
 		<if test="saleState != null and saleState != ''">
 			and a.saleState = #{saleState}
 		</if>
@@ -216,178 +254,199 @@
 			and a.appreciateFlg = #{appreciateFlg}
 		</if>
 	</select>
-	
+
 	<select id="queryCommodity" resultMap="baseMap" parameterType="java.util.Map">
-		select base.*,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
-		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price priceList,
+		select
+		base.*,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
+		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price
+		priceList,
 		e.color colorList,f.size sizeList
 		from (
-		select a.id commodityId,a.memberId,ca.categoryName commodityCategory1,
+		select a.id
+		commodityId,a.memberId,ca.categoryName commodityCategory1,
 		cb.categoryName commodityCategory2,cc.categoryName commodityCategory3,
 		a.commodityName,a.brand,a.price,a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,
 		a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,a.picture4,a.picture5
 		from commodity a
-		left join commodityCategoryA ca on a.commodityCategory1 = ca.id
-		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
-		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
+		left join commodityCategoryA ca on
+		a.commodityCategory1 = ca.id
+		left join commodityCategoryB cb on
+		a.commodityCategory2 = cb.id
+		left join commodityCategoryC cc on
+		a.commodityCategory3 = cc.id
 		where 1=1
 		<if test="commodity.id != null and commodity.id != ''">
-			and a.id = #{commodity.id} 
+			and a.id = #{commodity.id}
 		</if>
 		<if test="commodity.memberId != null and commodity.memberId != ''">
-			and a.memberId = #{commodity.memberId} 
+			and a.memberId = #{commodity.memberId}
 		</if>
-		<if test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
-			and ca.categoryName = #{commodity.commodityCategory1} 
+		<if
+			test="commodity.commodityCategory1 != null and commodity.commodityCategory1 != ''">
+			and ca.categoryName = #{commodity.commodityCategory1}
 		</if>
-		<if test="commodity.commodityCategory2 != null and commodity.commodityCategory2 != ''">
-			and cb.categoryName = #{commodity.commodityCategory2} 
+		<if
+			test="commodity.commodityCategory2 != null and commodity.commodityCategory2 != ''">
+			and cb.categoryName = #{commodity.commodityCategory2}
 		</if>
-		<if test="commodity.commodityCategory3 != null and commodity.commodityCategory3 != ''">
-			and cc.categoryName = #{commodity.commodityCategory3} 
+		<if
+			test="commodity.commodityCategory3 != null and commodity.commodityCategory3 != ''">
+			and cc.categoryName = #{commodity.commodityCategory3}
 		</if>
-		<if test="commodity.commodityName != null and commodity.commodityName != ''">
-			and a.commodityName like concat('%',#{commodity.commodityName},'%') 
-        </if>
+		<if
+			test="commodity.commodityName != null and commodity.commodityName != ''">
+			and a.commodityName like
+			concat('%',#{commodity.commodityName},'%')
+		</if>
 		<if test="commodity.brand != null and commodity.brand != ''">
-			and a.brand = #{commodity.brand} 
+			and a.brand = #{commodity.brand}
 		</if>
 		<if test="commodity.color != null and commodity.color != ''">
-			and a.color = #{commodity.color} 
+			and a.color = #{commodity.color}
 		</if>
 		<if test="commodity.size != null and commodity.size != ''">
-			and a.size = #{commodity.size} 
+			and a.size = #{commodity.size}
 		</if>
 		<if test="commodity.priceMin != null and commodity.priceMin != ''">
-			and a.price &gt;= #{commodity.priceMin} 
-        </if>
+			and a.price &gt;= #{commodity.priceMin}
+		</if>
 		<if test="commodity.priceMax != null and commodity.priceMax != ''">
-			and a.price &lt;= #{commodity.priceMax} 
-        </if>
+			and a.price &lt;= #{commodity.priceMax}
+		</if>
 		<if test="commodity.saleState != null and commodity.saleState != ''">
-			and a.saleState = #{commodity.saleState} 
+			and a.saleState = #{commodity.saleState}
 		</if>
 		<if test="commodity.goodFlg != null and commodity.goodFlg != ''">
-			and a.goodFlg = #{commodity.goodFlg} 
+			and a.goodFlg = #{commodity.goodFlg}
 		</if>
 		<if test="commodity.hotFlg != null and commodity.hotFlg != ''">
-			and a.hotFlg = #{commodity.hotFlg} 
+			and a.hotFlg = #{commodity.hotFlg}
 		</if>
 		<if test="commodity.choiceFlg != null and commodity.choiceFlg != ''">
-			and a.choiceFlg = #{commodity.choiceFlg} 
+			and a.choiceFlg = #{commodity.choiceFlg}
 		</if>
-		<if test="commodity.appreciateFlg != null and commodity.appreciateFlg != ''">
-			and a.appreciateFlg = #{commodity.appreciateFlg} 
+		<if
+			test="commodity.appreciateFlg != null and commodity.appreciateFlg != ''">
+			and a.appreciateFlg = #{commodity.appreciateFlg}
 		</if>
 		<if test="commodityId != null and commodityId != ''">
-			and a.id = #{commodityId} 
+			and a.id = #{commodityId}
 		</if>
 		<if test="memberId != null and memberId != ''">
-			and a.memberId = #{memberId} 
+			and a.memberId = #{memberId}
 		</if>
 		<if test="commodityCategory1 != null and commodityCategory1 != ''">
-			and ca.categoryName = #{commodityCategory1} 
-        </if>
+			and ca.categoryName = #{commodityCategory1}
+		</if>
 		<if test="commodityCategory2 != null and commodityCategory2 != ''">
-			and cb.categoryName = #{commodityCategory2} 
-        </if>
+			and cb.categoryName = #{commodityCategory2}
+		</if>
 		<if test="commodityCategory3 != null and commodityCategory3 != ''">
-			and cc.categoryName = #{commodityCategory3} 
-        </if>
+			and cc.categoryName = #{commodityCategory3}
+		</if>
 		<if test="commodityName != null and commodityName != ''">
-			and a.commodityName like concat('%',#{commodityName},'%') 
-        </if>
+			and a.commodityName like concat('%',#{commodityName},'%')
+		</if>
 		<if test="brand != null and brand != ''">
-			and a.brand = #{brand} 
-        </if>
+			and a.brand = #{brand}
+		</if>
 		<if test="color != null and color != ''">
-			and a.color = #{color} 
-        </if>
+			and a.color = #{color}
+		</if>
 		<if test="size != null and size != ''">
-			and a.size = #{size} 
-        </if>
+			and a.size = #{size}
+		</if>
 		<if test="priceMin != null and priceMin != ''">
-			and a.price &gt;= #{priceMin} 
-        </if>
+			and a.price &gt;= #{priceMin}
+		</if>
 		<if test="priceMax != null and priceMax != ''">
-			and a.price &lt;= #{priceMax} 
-        </if>
+			and a.price &lt;= #{priceMax}
+		</if>
 		<if test="saleState != null and saleState != ''">
-			and a.saleState = #{saleState} 
+			and a.saleState = #{saleState}
 		</if>
 		<if test="goodFlg != null and goodFlg != ''">
-			and a.goodFlg = #{goodFlg} 
+			and a.goodFlg = #{goodFlg}
 		</if>
 		<if test="hotFlg != null and hotFlg != ''">
-			and a.hotFlg = #{hotFlg} 
+			and a.hotFlg = #{hotFlg}
 		</if>
 		<if test="choiceFlg != null and choiceFlg != ''">
-			and a.choiceFlg = #{choiceFlg} 
+			and a.choiceFlg = #{choiceFlg}
 		</if>
 		<if test="appreciateFlg != null and appreciateFlg != ''">
-			and a.appreciateFlg = #{appreciateFlg} 
+			and a.appreciateFlg = #{appreciateFlg}
 		</if>
 		) base
 		left join commodity_show b on base.commodityId = b.commodityId
-		left join (select c.id,c.memberName,c.logoPath,c.topPicPath,c.reputation,c.guarantee,c.highQuality,
+		left join (select
+		c.id,c.memberName,c.logoPath,c.topPicPath,c.reputation,c.guarantee,c.highQuality,
 		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
 		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id
 		left join commodity_price d on base.commodityId = d.commodityId
-		left join commodity_color e on base.commodityId = e.commodityId
-		left join commodity_size f on base.commodityId = f.commodityId
-		order by  
-        <if test="commodity.hotUp != null and commodity.hotUp != ''">
+		left
+		join commodity_color e on base.commodityId = e.commodityId
+		left join
+		commodity_size f on base.commodityId = f.commodityId
+		order by
+		<if test="commodity.hotUp != null and commodity.hotUp != ''">
 			base.hotFlg asc,
-        </if>
-        <if test="commodity.hotDown != null and commodity.hotDown != ''">
+		</if>
+		<if test="commodity.hotDown != null and commodity.hotDown != ''">
 			base.hotFlg desc,
-        </if>
-        <if test="commodity.priceUp != null and commodity.priceUp != ''">
+		</if>
+		<if test="commodity.priceUp != null and commodity.priceUp != ''">
 			base.price asc,
-        </if>
-        <if test="commodity.priceDown != null and commodity.priceDown != ''">
+		</if>
+		<if test="commodity.priceDown != null and commodity.priceDown != ''">
 			base.price desc,
-        </if>
-        <if test="commodity.createTimeUp != null and commodity.createTimeUp != ''">
+		</if>
+		<if test="commodity.createTimeUp != null and commodity.createTimeUp != ''">
 			base.createTime asc,
-        </if>
-        <if test="commodity.createTimeDown != null and commodity.createTimeDown != ''">
+		</if>
+		<if
+			test="commodity.createTimeDown != null and commodity.createTimeDown != ''">
 			base.createTime desc,
-        </if>
-        <if test="hotUp != null and hotUp != ''">
+		</if>
+		<if test="hotUp != null and hotUp != ''">
 			base.hotFlg asc,
-        </if>
-        <if test="hotDown != null and hotDown != ''">
+		</if>
+		<if test="hotDown != null and hotDown != ''">
 			base.hotFlg desc,
-        </if>
-        <if test="priceUp != null and priceUp != ''">
+		</if>
+		<if test="priceUp != null and priceUp != ''">
 			base.price asc,
-        </if>
-        <if test="priceDown != null and priceDown != ''">
+		</if>
+		<if test="priceDown != null and priceDown != ''">
 			base.price desc,
-        </if>
-        <if test="createTimeUp != null and createTimeUp != ''">
+		</if>
+		<if test="createTimeUp != null and createTimeUp != ''">
 			base.createTime asc,
-        </if>
-        <if test="createTimeDown != null and createTimeDown != ''">
+		</if>
+		<if test="createTimeDown != null and createTimeDown != ''">
 			base.createTime desc,
-        </if>
+		</if>
 		basec.isRel desc, basec.reputation desc, base.commodityId desc
 		<if test="pagination != null and pagination != ''">
-        	limit #{pagination.startRow} , #{pagination.endRow}
-        </if>
+			limit #{pagination.startRow} , #{pagination.endRow}
+		</if>
 	</select>
-	
-	<insert id="insCommodityCategoryA" parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel" useGeneratedKeys="true">
-		<selectKey resultType="int" keyProperty="id" order="AFTER">  
-	        SELECT  
-	        LAST_INSERT_ID()  
-	    </selectKey>
-	    insert into commoditycategorya (categoryName,status,createTime,createOpt,updateTime,updateOpt)
-		values (#{categoryName},#{status},now(),#{createOpt},now(),#{updateOpt})
+
+	<insert id="insCommodityCategoryA"
+		parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel"
+		useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into commoditycategorya
+		(categoryName,status,createTime,createOpt,updateTime,updateOpt)
+		values
+		(#{categoryName},#{status},now(),#{createOpt},now(),#{updateOpt})
 	</insert>
-	
-	<select id="queryCommodityCategoryA" resultMap="commodityCategoryAMap" parameterType="java.util.Map">
+
+	<select id="queryCommodityCategoryA" resultMap="commodityCategoryAMap"
+		parameterType="java.util.Map">
 		select * from commoditycategorya
 		where 1=1
 		<if test="id != null and id != ''">
@@ -399,20 +458,25 @@
 		<if test="status != null and status != ''">
 			and status = #{status}
 		</if>
-        order by  
-        createTime
+		order by
+		createTime
 	</select>
-	
-	<insert id="insCommodityCategoryB" parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel" useGeneratedKeys="true">
-		<selectKey resultType="int" keyProperty="id" order="AFTER">  
-	        SELECT  
-	        LAST_INSERT_ID()  
-	    </selectKey>
-	    insert into commoditycategoryb (categoryAId,categoryName,status,createTime,createOpt,updateTime,updateOpt)
-		values (#{categoryAId},#{categoryName},#{status},now(),#{createOpt},now(),#{updateOpt})
+
+	<insert id="insCommodityCategoryB"
+		parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel"
+		useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into commoditycategoryb
+		(categoryAId,categoryName,status,createTime,createOpt,updateTime,updateOpt)
+		values
+		(#{categoryAId},#{categoryName},#{status},now(),#{createOpt},now(),#{updateOpt})
 	</insert>
-	
-	<select id="queryCommodityCategoryB" resultMap="commodityCategoryBMap" parameterType="java.util.Map">
+
+	<select id="queryCommodityCategoryB" resultMap="commodityCategoryBMap"
+		parameterType="java.util.Map">
 		select * from commoditycategoryb
 		where 1=1
 		<if test="id != null and id != ''">
@@ -427,20 +491,25 @@
 		<if test="status != null and status != ''">
 			and status = #{status}
 		</if>
-        order by  
-        createTime
+		order by
+		createTime
 	</select>
-	
-	<insert id="insCommodityCategoryC" parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel" useGeneratedKeys="true">
-		<selectKey resultType="int" keyProperty="id" order="AFTER">  
-	        SELECT  
-	        LAST_INSERT_ID()  
-	    </selectKey>
-	    insert into commoditycategoryc (categoryBId,categoryName,status,createTime,createOpt,updateTime,updateOpt)
-		values (#{categoryBId},#{categoryName},#{status},now(),#{createOpt},now(),#{updateOpt})
+
+	<insert id="insCommodityCategoryC"
+		parameterType="com.fireCloud.tradCity.commodity.model.CommodityCategoryCModel"
+		useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into commoditycategoryc
+		(categoryBId,categoryName,status,createTime,createOpt,updateTime,updateOpt)
+		values
+		(#{categoryBId},#{categoryName},#{status},now(),#{createOpt},now(),#{updateOpt})
 	</insert>
-	
-	<select id="queryCommodityCategoryC" resultMap="commodityCategoryCMap" parameterType="java.util.Map">
+
+	<select id="queryCommodityCategoryC" resultMap="commodityCategoryCMap"
+		parameterType="java.util.Map">
 		select * from commoditycategoryc
 		where 1=1
 		<if test="id != null and id != ''">
@@ -455,91 +524,121 @@
 		<if test="status != null and status != ''">
 			and status = #{status}
 		</if>
-        order by  
-        createTime
+		order by
+		createTime
 	</select>
-	
-	<insert id="insCommodity" parameterType="com.fireCloud.tradCity.commodity.model.CommodityModel" useGeneratedKeys="true">
-		<selectKey resultType="int" keyProperty="id" order="AFTER">  
-	        SELECT  
-	        LAST_INSERT_ID()  
-	    </selectKey>
-	    insert into commodity (memberId,commodityCategory1,commodityCategory2,commodityCategory3,commodityName,brand,price,quantity,color,size,saleState,picture1,picture2,picture3,picture4,picture5,createTime,createOpt,updateTime,updateOpt)
-		values (#{memberId},#{commodityCategory1},#{commodityCategory2},#{commodityCategory3},#{commodityName},#{brand},#{price},#{quantity},#{color},#{size},#{saleState},#{picture1},#{picture2},#{picture3},#{picture4},#{picture5},now(),#{createOpt},now(),#{updateOpt})
+
+	<insert id="insCommodity"
+		parameterType="com.fireCloud.tradCity.commodity.model.CommodityModel"
+		useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into commodity
+		(memberId,commodityCategory1,commodityCategory2,commodityCategory3,commodityName,brand,price,quantity,color,size,saleState,picture1,picture2,picture3,picture4,picture5,createTime,createOpt,updateTime,updateOpt)
+		values
+		(#{memberId},#{commodityCategory1},#{commodityCategory2},#{commodityCategory3},#{commodityName},#{brand},#{price},#{quantity},#{color},#{size},#{saleState},#{picture1},#{picture2},#{picture3},#{picture4},#{picture5},now(),#{createOpt},now(),#{updateOpt})
 	</insert>
-	
-	<insert id="insCommodityShow" parameterType="com.fireCloud.tradCity.commodity.model.CommodityShowModel" useGeneratedKeys="true">
-		<selectKey resultType="int" keyProperty="id" order="AFTER">  
-	        SELECT  
-	        LAST_INSERT_ID()  
-	    </selectKey>
-	    insert into commodity_show (commodityId,commodityIntroduction,packingSpecification,instructions,customerService,showPagePath,showPageSource,createTime,createOpt,updateTime,updateOpt)
-		values (#{commodityId},#{commodityIntroduction},#{packingSpecification},#{instructions},#{customerService},#{showPagePath},#{showPageSource},now(),#{createOpt},now(),#{updateOpt})
+
+	<insert id="insCommodityShow"
+		parameterType="com.fireCloud.tradCity.commodity.model.CommodityShowModel"
+		useGeneratedKeys="true">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into commodity_show
+		(commodityId,commodityIntroduction,packingSpecification,instructions,customerService,showPagePath,showPageSource,createTime,createOpt,updateTime,updateOpt)
+		values
+		(#{commodityId},#{commodityIntroduction},#{packingSpecification},#{instructions},#{customerService},#{showPagePath},#{showPageSource},now(),#{createOpt},now(),#{updateOpt})
 	</insert>
-	
-	<!-- 系统启动 查询没有创建lucene索引的信息-->
+
+	<!-- 系统启动 查询没有创建lucene索引的信息 -->
 	<select id="queryInitCommodity" resultMap="initMap">
-		select a.id,ca.categoryName commodityCategory1,
-		cb.categoryName commodityCategory2,cc.categoryName commodityCategory3,
-		a.commodityName,ifnull(a.brand,'') brand,a.quantity,ifnull(a.uom,'') uom,
+		select
+		a.id,ca.categoryName commodityCategory1,
+		cb.categoryName
+		commodityCategory2,cc.categoryName commodityCategory3,
+		a.commodityName,ifnull(a.brand,'') brand,a.quantity,ifnull(a.uom,'')
+		uom,
 		ifnull(a.color,'') color,ifnull(a.size,'') size,a.price,
-		a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.memberId
-		from commodity a
-		inner join commodityCategoryA ca on a.commodityCategory1 = ca.id
-		inner join commodityCategoryB cb on a.commodityCategory2 = cb.id
-		inner join commodityCategoryC cc on a.commodityCategory3 = cc.id
-		where a.index_status = '0'
+		a.goodFlg,a.hotFlg,a.choiceFlg,a.appreciateFlg,a.memberId,b.isRel
+		from
+		commodity a
+		inner join member b on a.memberId = b.id
+		inner join
+		commodityCategoryA ca on a.commodityCategory1 = ca.id
+		inner join
+		commodityCategoryB cb on a.commodityCategory2 = cb.id
+		inner join
+		commodityCategoryC cc on a.commodityCategory3 = cc.id
+		where
+		a.index_status = '0'
 	</select>
-	
+
 	<!-- 更新已经创建lucene索引的数据状态 -->
-	<update id="updateLuceneIndex" >
-		update commodity a set a.index_status = '1' where a.index_status = '0'
+	<update id="updateLuceneIndex">
+		update commodity a set
+		a.index_status = '1' where a.index_status = '0'
 	</update>
-	
-	<select id="queryCommodityModel" resultMap="baseMap" parameterType="java.util.Map">
-		select base.*,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
-		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price priceList,
+
+	<select id="queryCommodityModel" resultMap="baseMap"
+		parameterType="java.util.Map">
+		select
+		base.*,b.commodityIntroduction,b.packingSpecification,b.instructions,b.customerService,
+		b.showPagePath,b.showPageSource,basec.*,d.quantityStart,d.quantityEnd,d.price
+		priceList,
 		e.color colorList,f.size sizeList
 		from (
-		select a.id commodityId,a.memberId,ca.categoryName commodityCategory1,
+		select a.id
+		commodityId,a.memberId,ca.categoryName commodityCategory1,
 		cb.categoryName commodityCategory2,cc.categoryName commodityCategory3,
 		a.commodityName,a.brand,a.price,a.quantity,a.uom,a.color,a.size,a.saleState,a.goodFlg,a.hotFlg,
 		a.choiceFlg,a.appreciateFlg,a.picture1,a.picture2,a.picture3,a.picture4,a.picture5
 		from commodity a
-		left join commodityCategoryA ca on a.commodityCategory1 = ca.id
-		left join commodityCategoryB cb on a.commodityCategory2 = cb.id
-		left join commodityCategoryC cc on a.commodityCategory3 = cc.id
-		where 1=1 and a.id in 
-		<foreach item="id" index="index" collection="id" open="(" separator="," close=")">
+		left join commodityCategoryA ca on
+		a.commodityCategory1 = ca.id
+		left join commodityCategoryB cb on
+		a.commodityCategory2 = cb.id
+		left join commodityCategoryC cc on
+		a.commodityCategory3 = cc.id
+		where 1=1 and a.id in
+		<foreach item="id" index="index" collection="id" open="("
+			separator="," close=")">
 			#{id}
 		</foreach>
 		) base
 		left join commodity_show b on base.commodityId = b.commodityId
-		left join (select c.id,c.memberName,c.logoPath,c.topPicPath,c.reputation,c.guarantee,c.highQuality,
+		left join (select
+		c.id,c.memberName,c.logoPath,c.topPicPath,c.reputation,c.guarantee,c.highQuality,
 		c.sincerity,returnGoods,c.province,c.city,c.area,c.address,c.mobile,c.phone,c.email,
 		c.fax,c.qq,c.isRel from member c) basec on base.memberId = basec.id
 		left join commodity_price d on base.commodityId = d.commodityId
-		left join commodity_color e on base.commodityId = e.commodityId
-		left join commodity_size f on base.commodityId = f.commodityId
+		left
+		join commodity_color e on base.commodityId = e.commodityId
+		left join
+		commodity_size f on base.commodityId = f.commodityId
 		order by
 		<if test="commodity.hotUp != null and commodity.hotUp != ''">
 			base.hotFlg asc,
-        </if>
-        <if test="commodity.hotDown != null and commodity.hotDown != ''">
+		</if>
+		<if test="commodity.hotDown != null and commodity.hotDown != ''">
 			base.hotFlg desc,
-        </if>
-        <if test="commodity.priceUp != null and commodity.priceUp != ''">
+		</if>
+		<if test="commodity.priceUp != null and commodity.priceUp != ''">
 			base.price asc,
-        </if>
-        <if test="commodity.priceDown != null and commodity.priceDown != ''">
+		</if>
+		<if test="commodity.priceDown != null and commodity.priceDown != ''">
 			base.price desc,
-        </if>
-        <if test="commodity.createTimeUp != null and commodity.createTimeUp != ''">
+		</if>
+		<if test="commodity.createTimeUp != null and commodity.createTimeUp != ''">
 			base.createTime asc,
-        </if>
-        <if test="commodity.createTimeDown != null and commodity.createTimeDown != ''">
+		</if>
+		<if
+			test="commodity.createTimeDown != null and commodity.createTimeDown != ''">
 			base.createTime desc,
-        </if>
+		</if>
 		basec.isRel desc, basec.reputation desc, base.commodityId desc
 	</select>
 </mapper>

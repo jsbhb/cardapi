@@ -75,6 +75,16 @@ public class CommodityModel {
 	private String createTimeUp;
 	
 	private String createTimeDown;
+	
+	private Integer isRel;
+
+	public Integer getIsRel() {
+		return isRel;
+	}
+
+	public void setIsRel(Integer isRel) {
+		this.isRel = isRel;
+	}
 
 	public String getId() {
 		return id;

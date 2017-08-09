@@ -14,13 +14,11 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.BooleanFilter;
-import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
@@ -103,13 +101,12 @@ public abstract class AbstractLucene {
 
 		List<String> keyWordsList = new ArrayList<String>();
 		List<String> filedsList = new ArrayList<String>();
-		List<BooleanClause.Occur> occurList = new ArrayList<BooleanClause.Occur>();
 		Map<String, String> accuratePara = new HashMap<String, String>();
 
 		getIndexSearch();
-		
+
 		// 封装查询参数
-		renderParameter(keyWordsList, filedsList, occurList, accuratePara, obj);
+		renderParameter(keyWordsList, filedsList, accuratePara, obj);
 
 		if (keyWordsList.size() == 0 && accuratePara.size() == 0) {
 
@@ -117,7 +114,7 @@ public abstract class AbstractLucene {
 
 		} else {
 
-			result = queryWithPara(pagination, sortList, keyWordsList, filedsList, occurList, accuratePara);
+			result = queryWithPara(pagination, sortList, keyWordsList, filedsList, accuratePara);
 		}
 
 		return result;
@@ -241,7 +238,7 @@ public abstract class AbstractLucene {
 	 * @since JDK 1.7
 	 */
 	public abstract void renderParameter(List<String> keyWordsList, List<String> filedsList,
-			List<BooleanClause.Occur> occurList, Map<String, String> accuratePara, Object obj);
+			Map<String, String> accuratePara, Object obj);
 
 	/**
 	 * 
@@ -253,6 +250,32 @@ public abstract class AbstractLucene {
 	 * @since JDK 1.7
 	 */
 	public abstract Sort renderSortParameter(SortModelList sortList);
+	
+	/**
+	 * 
+	 * packageQuery:封装query. <br/>
+	 * 
+	 * @author wqy
+	 * @param keyWordsList
+	 * @param filedsList
+	 * @return BooleanQuery
+	 * @since JDK 1.7
+	 */
+	public abstract BooleanQuery packageQuery(List<String> keyWordsList, List<String> filedsList) throws IOException ;
+	
+
+	/**
+	 * 
+	 * accurateQuery:过滤器,精确查找. <br/>
+	 * 
+	 * @author wqy
+	 * @param accuratePara
+	 * @param query
+	 * @param booleanFilter
+	 * @return
+	 * @since JDK 1.7
+	 */
+	public abstract BooleanFilter accurateQuery(Map<String, String> accuratePara, BooleanQuery query); 
 
 	/**
 	 * 
@@ -277,19 +300,12 @@ public abstract class AbstractLucene {
 	 * @since JDK 1.7
 	 */
 	private Map<String, Object> queryWithPara(Pagination pagination, SortModelList sortList, List<String> keyWordsList,
-			List<String> filedsList, List<BooleanClause.Occur> occurList, Map<String, String> accuratePara)
+			List<String> filedsList, Map<String, String> accuratePara)
 					throws IOException, InvalidTokenOffsetsException {
 
 		Map<String, Object> result = new HashMap<String, Object>(16);
 
-		BooleanQuery query = new BooleanQuery();
-		for (int i = 0; i < keyWordsList.size(); i++) {
-
-			Term tm = new Term(filedsList.get(i), keyWordsList.get(i));
-
-			TermQuery parser1 = new TermQuery(tm);
-			query.add(parser1, BooleanClause.Occur.SHOULD);
-		}
+		BooleanQuery query = packageQuery(keyWordsList, filedsList);
 
 		// 封装排序参数
 		Sort sort = renderSortParameter(sortList);
@@ -311,29 +327,7 @@ public abstract class AbstractLucene {
 		return result;
 	}
 
-	/**
-	 * 
-	 * accurateQuery:过滤器. <br/>
-	 * 
-	 * @author wqy
-	 * @param accuratePara
-	 * @param query
-	 * @param booleanFilter
-	 * @return
-	 * @since JDK 1.7
-	 */
-	private BooleanFilter accurateQuery(Map<String, String> accuratePara, BooleanQuery query) {
-		if (accuratePara.size() > 0) {
-			LuceneFilter luceneFilter = new LuceneFilter();
-			for (Map.Entry<String, String> entry : accuratePara.entrySet()) {
-				luceneFilter.addFilter(entry.getKey(), entry.getValue());
-			}
-			BooleanFilter booleanFilter = luceneFilter.getFilterQuery(query);// 结果过滤
-			return booleanFilter;
-		}
-		return null;
-	}
-
+	
 	/**
 	 * 
 	 * queryWithOutPara:查询所有. <br/>
@@ -384,7 +378,7 @@ public abstract class AbstractLucene {
 
 	/**
 	 * 
-	 * getLastScoreDoc:(这里用一句话描述这个方法的作用). <br/>
+	 * getLastScoreDoc:分页查询获取上一页的最大索引ID. <br/>
 	 * 
 	 * @author wqy
 	 * @param pageIndex

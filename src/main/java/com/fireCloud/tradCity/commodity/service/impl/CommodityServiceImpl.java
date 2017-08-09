@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.fireCloud.tradCity.basic.model.Pagination;
+import com.fireCloud.tradCity.basic.model.SortModel;
 import com.fireCloud.tradCity.basic.model.SortModelList;
 import com.fireCloud.tradCity.commodity.mapper.CommdityMapper;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
@@ -22,7 +23,7 @@ import com.fireCloud.tradCity.commodity.service.CommodityService;
 import com.fireCloud.tradCity.constants.Constants;
 import com.fireCloud.tradCity.constants.LoggerConstants;
 import com.fireCloud.tradCity.log.SysLogger;
-import com.fireCloud.tradCity.util.lucene.LuceneUtil;
+import com.fireCloud.tradCity.util.lucene.impl.CommodityLucene;
 
 @Service
 public class CommodityServiceImpl implements CommodityService {
@@ -118,9 +119,50 @@ public class CommodityServiceImpl implements CommodityService {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> luceneMap = new HashMap<String, Object>();
 		Map<String, Object> searchMap = new HashMap<String, Object>();
-
+		
+		SortModel sm = null;
+		List<SortModel> list = new ArrayList<SortModel>();
+		if(commodity.getHotDown() != null && !"".equals(commodity.getHotDown())){
+			sm = new SortModel();
+			sm.setSortField("hotFlg");
+			sm.setSortRule("desc");
+			list.add(sm);
+		}
+		if(commodity.getHotUp() != null && !"".equals(commodity.getHotUp())){
+			sm = new SortModel();
+			sm.setSortField("hotFlg");
+			sm.setSortRule("asc");
+			list.add(sm);
+		}
+		if(commodity.getPriceDown() != null && !"".equals(commodity.getPriceDown())){
+			sm = new SortModel();
+			sm.setSortField("price");
+			sm.setSortRule("desc");
+			list.add(sm);
+		}
+		if(commodity.getPriceUp() != null && !"".equals(commodity.getPriceUp())){
+			sm = new SortModel();
+			sm.setSortField("price");
+			sm.setSortRule("asc");
+			list.add(sm);
+		}
+		if(commodity.getCreateTimeDown() != null && !"".equals(commodity.getCreateTimeDown())){
+			sm = new SortModel();
+			sm.setSortField("createTime");
+			sm.setSortRule("desc");
+			list.add(sm);
+		}
+		sortList.setSortList(list);
+		if(commodity.getCreateTimeDown() != null && !"".equals(commodity.getCreateTimeDown())){
+			sm = new SortModel();
+			sm.setSortField("createTime");
+			sm.setSortRule("asc");
+			list.add(sm);
+		}
+		
+		
 		try {
-			luceneMap = LuceneUtil.getInstance().search(commodity, pagination, sortList);
+			luceneMap = CommodityLucene.getInstance().search(commodity, pagination, sortList);
 		} catch (Exception e) {
 			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "lucene搜索出错:", e);
 		}
@@ -278,7 +320,7 @@ public class CommodityServiceImpl implements CommodityService {
 		Map<String, Object> searchMap = new HashMap<String, Object>();
 
 		try {
-			luceneMap = LuceneUtil.getInstance().search(commodity, pagination, sortList);
+			luceneMap = CommodityLucene.getInstance().search(commodity, pagination, sortList);
 		} catch (Exception e) {
 			sysLogger.error(LoggerConstants.SEARCH_MEMBER, "lucene搜索出错:", e);
 		}

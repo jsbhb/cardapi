@@ -1,7 +1,9 @@
 package com.fireCloud.tradCity.commodity.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fireCloud.tradCity.basic.model.CallBackModel;
 import com.fireCloud.tradCity.basic.model.Pagination;
+import com.fireCloud.tradCity.basic.model.SortModel;
 import com.fireCloud.tradCity.basic.model.SortModelList;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryAModel;
 import com.fireCloud.tradCity.commodity.model.CommodityCategoryBModel;
@@ -59,6 +62,7 @@ public class CommodityController {
 				
 				//将查询条件放入map
 				searchItems.put("commodity", commodity);
+				
 				
 				//封装查询结果
 				//Map<String, Object> resultMap = commodityService.getCommodityBySearch(searchItems, pagination);
