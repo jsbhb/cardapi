@@ -108,8 +108,8 @@
 			separator="," close=")">
 			#{id}
 		</foreach>
-		<if test="sortList != null and sortList != ''">
 		order by isRel desc, popularize desc
+		<if test="sortList != null and sortList != ''">
 			<foreach item="sort" index="index" collection="sortList" open=""
 				separator="," close="">
 				, ${sort.sortField} ${sort.sortRule} 
